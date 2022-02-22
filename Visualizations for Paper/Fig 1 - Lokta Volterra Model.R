@@ -6,10 +6,8 @@
 library("ggplot2")
 library("reshape")
 library("tidyverse")
-library("ggpubr")
 library("deSolve")
-library("gridExtra")
-library("ggthemes")
+library("patchwork")
 
 source("/Users/abisesi/Desktop/PhD/Projects/Host-Ecology-and-Host-Range/Visualizations for Paper/custom-theme.R")
 
