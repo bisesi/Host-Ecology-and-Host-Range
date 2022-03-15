@@ -9,7 +9,7 @@ library("tidyverse")
 library("deSolve")
 library("patchwork")
 
-source("/Users/abisesi/Desktop/PhD/Projects/Host-Ecology-and-Host-Range/Visualizations for Paper/custom-theme.R")
+source(here::here("Visualizations for Paper", "custom-theme.R"))
 
 #Cooperative parameters
 parameters_coop = c(alpha1 = 5, 

@@ -8,8 +8,8 @@ library("patchwork")
 library("tidyverse")
 
 #sources
-source("/Users/abisesi/Desktop/PhD/Projects/Host-Ecology-and-Host-Range/Computational Models/Baranyi-Functions.r")
-setwd("/Users/abisesi/Desktop/PhD/Projects/Host-Ecology-and-Host-Range/Experimental Data/17Sept2021 Tecan")
+source(here::here("Visualizations for Paper", "custom-theme.R"))
+setwd(here::here("Experimental Data", "17Sept2021 Tecan"))
 OD_path = "17sept.csv"
 
 #Import and Clean Data

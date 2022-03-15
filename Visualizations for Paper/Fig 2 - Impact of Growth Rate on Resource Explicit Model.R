@@ -9,7 +9,7 @@ library("deSolve")
 library("patchwork")
 
 #load source
-source("/Users/abisesi/Desktop/PhD/Projects/Host-Ecology-and-Host-Range/Visualizations for Paper/custom-theme.R")
+source(here::here("Visualizations for Paper", "custom-theme.R"))
 
 #Mathematical models
 Coop <- function(t,n,parms){
