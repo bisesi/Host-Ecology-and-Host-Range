@@ -1,0 +1,44 @@
+gene name,% match,gene type,matched to,function,Expression
+D14,100,CDS,T5,Protein D14,early
+T5 promoter,100,promoter,T5,"bacteriophage T5 promoter for E. coli RNA polymerase, with embedded lac operator",
+D5,99.6,CDS,T5,Putative transcription factor D5,late
+ENDO1_BPT5,98.7,CDS,T5,endonuclease,late
+DPOL_BPT5,98.6,CDS,T5,DNA polymerase,early
+PRO_BPT5,98.1,CDS,T5,serine protease,late
+ENDON_BPT5,97.9,CDS,T5,endonuclease,late
+D15,97.6,CDS,T5,Flap endonuclease,early
+D13,96.9,CDS,T5,Probable exonuclease subunit 2,early
+PORTL_BPT5,96.8,CDS,T5,Portal protein,late
+lys,96.4,CDS,T5,L-alanyl-D-glutamate peptidase,early
+TERL_BPT5,96.1,CDS,T5,"terminase, large subunit",late
+D12,96,CDS,T5,"
+Probable exonuclease subunit 1",early
+D10,95.3,CDS,T5,Probable helicase D10,early
+TTTP_BPT5,95,CDS,T5,Tail tube terminator protein,late
+TERS_BPT5,95,CDS,T5,"Probable terminase, small subunit",late
+frd,94.9,CDS,T5,Dihydrofolate reductase,early
+DUT,94.6,CDS,T5,Deoxyuridine 5'-triphosphate nucleotidohydrolase,early
+COMPL_BPT5,93.7,CDS,T5,Tail completion protein,late
+obp,92.4,CDS,T5,Putative replication origin binding protein,early
+C1,91.8,CDS,T5,Holin,early
+hegA,90.7,CDS,T5,H-N-H endonuclease F-TflIV,early
+dmp,90.6,CDS,T5,5'-deoxynucleotidase,early
+D20,90,CDS,T5,Major capsid protein,late
+A1,89.9,CDS,T5,Protein A1,Early
+N4,86.8,CDS,T5,Tail tube protein,late
+HCP_BPT5,86.5,CDS,T5,head completion protein,late
+D11,86,CDS,T5,Probable ssDNA-binding protein,early
+A2,84.8,CDS,T5,Protein A2,early
+D16,84.4,CDS,T5,Probable baseplate hub protein,late
+D16,84.3,CDS,T5,Distal tail protein,late
+dnk,81.3,CDS,T5,Deoxynucleoside-5'-monophosphate kinase,early
+Y9KD_BPBF2,78,CDS,BF23,Uncharacterized 9.2 kDa protein,unknown
+D17,76.2,CDS,T5,Probable central straight fiber,late
+TAIL1_BPT5,74.8,CDS,T5,Minor tail protein,late
+grcA,74.3,CDS,E coli K12,Autonomous glycyl radical cofactor,induced by acid stress
+FIBL2_BPT5,72.9,CDS,T5,L-shaped tail fiber protein p132,late
+thyA,67.6,CDS,Shewanella HAW-EB3,Thymidylate synthase,unknown
+FIB11_BPE32,64.3,CDS,phieco32,Probable tail fiber protein,late
+D18-19,64.1,CDS,T5,Probable tape measure protein,late
+N5,60.9,CDS,T5,Decoration protein,late
+nrdD,54.2,CDS,E coli K12,Anaerobic ribonucleoside-triphosphate reductase,induced by hydroxyurea

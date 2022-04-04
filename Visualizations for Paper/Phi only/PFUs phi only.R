@@ -8,18 +8,19 @@ library("patchwork")
 library("readxl")
 
 #Set directory and import data
+path = "28March2022 Phi Only"
 source(here::here("Visualizations for Paper", "custom-theme.R"))
-setwd(here::here("Experimental Data", "7March2022 Phi Only"))
-sheetnames <- excel_sheets("tidydata.xlsx")
-datalist <- lapply(sheetnames, read_excel, path = "tidydata.xlsx")
-names(datalist) <- c("Computations", "PFU_raw", "CFU_raw", "PFU_stat", "CFU_stat")
+setwd(here::here("Experimental Data", path))
+sheetnames <- excel_sheets("48hourtidy.xlsx")
+datalist <- lapply(sheetnames, read_excel, path = "48hourtidy.xlsx")
+names(datalist) <- c("PFU_raw", "CFU_raw", "PFU_stat", "CFU_stat")
 list2env(datalist, .GlobalEnv)
 rm(Computations)
 
 #EDA, raw data
 Epfu <- PFU_raw %>%
   mutate(Rep = as.factor(Rep)) %>%
-  filter(Plate == "E" & Condition != "Start1" & Condition != "Start2" & Condition != "Start3") %>%
+  filter(Plate == "E" & Condition != "Start1") %>%
   ggplot(aes(x=Day, y = log10(Value), color = Rep))+
   geom_point()+
   xlim(1, 3)+
@@ -51,8 +52,7 @@ Scfu <- CFU_raw %>%
   xlim(1, 3)+
   facet_wrap(~Condition, ncol = 4, nrow = 3)
 
-
-#EDA stats
+#EDA stats, log10
 logPFU <- PFU_raw %>% 
   mutate(logtrans = log10(Value)) %>% 
   mutate_if(is.numeric, function(x) ifelse(is.infinite(x), 0, x)) %>%
@@ -90,6 +90,32 @@ cfustatplot <- logCFU %>%
   facet_wrap(~Condition)+
   geom_errorbar(aes(ymin=logavg-logsd, ymax=logavg+logsd), width=25, position = position_dodge(0.01))+
   ylab("Triplicate Average CFU (log10)")
+
+#EDA stats, not log10
+cfustatraw <- CFU_stat %>%
+  filter(Condition != "Start") %>%
+  ggplot(aes(x=Day, y = Average, color = Plate))+
+  geom_point()+
+  geom_line()+
+  xlim(1, 3)+
+  facet_wrap(~Condition, nrow = 4)+
+  geom_errorbar(aes(ymin=Average-STDEV, ymax=Average+STDEV), width=25, position = position_dodge(0.01))
+
+pfustatraw <- PFU_stat %>%
+  filter(Condition != "Start") %>%
+  ggplot(aes(x=Day, y = Average, color = Plate))+
+  geom_point()+
+  geom_line()+
+  xlim(1, 3)+
+  facet_wrap(~Condition, nrow = 4)+
+  geom_errorbar(aes(ymin=Average-STDEV, ymax=Average+STDEV), width=25, position = position_dodge(0.01))
+
+eopbar <- PFU_stat %>%
+  filter(Condition != "Start") %>%
+  ggplot(aes(x=Day, y = log10(EOP)))+
+  geom_bar(stat = "identity", position = "dodge")+
+  geom_hline(yintercept=c(0), color = "red", linetype = "dashed", size = 0.5)+
+  facet_wrap(~Condition, nrow = 4)
 
 #CFU PFU comparison
 EOP <- PFU_stat %>% filter(!is.na(EOP)) %>%
@@ -141,3 +167,116 @@ allraw <- rawcompare %>%
   geom_errorbar(aes(ymin=logavg-logsd, ymax=logavg+logsd), width=0.05, position = position_dodge(0.01))+
   scale_color_manual(values=c("#E1BE6A", "#40B0A6", "#000000", "#E66100"))+
   ylab("Triplicate Average CFU or PFU (log10)")
+
+
+#specialist vs generalist data
+rm(list = ls())
+
+#Set directory and import data
+source(here::here("Visualizations for Paper", "custom-theme.R"))
+setwd(here::here("Experimental Data", "7March2022 Phi Only"))
+sheetnames <- excel_sheets("evolved_fitness.xlsx")
+datalist <- lapply(sheetnames, read_excel, path = "evolved_fitness.xlsx")
+names(datalist) <- c("Computations", "PFU_raw", "CFU_raw", "PFU_stat", "CFU_stat")
+list2env(datalist, .GlobalEnv)
+rm(Computations)
+
+#condition ranges
+cooprange <- c(LETTERS[1:9], LETTERS[19])
+comprange <- c(LETTERS[10:18], LETTERS[20])
+
+#cooperation               
+cfustatrawcoop <- CFU_stat %>%
+  filter(Condition %in% cooprange) %>%
+  mutate(Condition = case_when(Condition == "A" ~ "Phi E 1",
+                               Condition == "B" ~ "Phi E 2",
+                               Condition == "C" ~ "Phi E 3",
+                               Condition == "D" ~ "Phi S 1",
+                               Condition == "E" ~ "Phi S 2",
+                               Condition == "F" ~ "Phi S 3",
+                               Condition == "G" ~ "Phi Gen 1",
+                               Condition == "H" ~ "Phi Gen 2",
+                               Condition == "I" ~ "Phi Gen 3",
+                               Condition == "S" ~ "Control",
+                               TRUE ~ Condition))%>%
+  ggplot(aes(x=Condition, y = Average, fill = Plate))+
+  geom_bar(stat="identity", color="black",
+           position=position_dodge())+
+  geom_errorbar(aes(ymin=Average-STDEV, ymax=Average+STDEV), width=0.01, position = position_dodge(0.9))
+
+pfustatrawcoop <- PFU_stat %>%
+  filter(Condition %in% cooprange) %>%
+  mutate(Condition = case_when(Condition == "A" ~ "Phi E 1",
+                               Condition == "B" ~ "Phi E 2",
+                               Condition == "C" ~ "Phi E 3",
+                               Condition == "D" ~ "Phi S 1",
+                               Condition == "E" ~ "Phi S 2",
+                               Condition == "F" ~ "Phi S 3",
+                               Condition == "G" ~ "Phi Gen 1",
+                               Condition == "H" ~ "Phi Gen 2",
+                               Condition == "I" ~ "Phi Gen 3",
+                               TRUE ~ Condition))%>%
+  ggplot(aes(x=Condition, y = Average, fill = Plate))+
+  geom_bar(stat="identity", color="black",
+           position=position_dodge())+
+  geom_errorbar(aes(ymin=Average-STDEV, ymax=Average+STDEV), width=0.01, position = position_dodge(0.9))
+
+#competition             
+cfustatrawcomp <- CFU_stat %>%
+  filter(Condition %in% comprange) %>%
+  mutate(Condition = case_when(Condition == "J" ~ "Phi E 1",
+                               Condition == "K" ~ "Phi E 2",
+                               Condition == "L" ~ "Phi E 3",
+                               Condition == "M" ~ "Phi S 1",
+                               Condition == "N" ~ "Phi S 2",
+                               Condition == "O" ~ "Phi S 3",
+                               Condition == "P" ~ "Phi Gen 1",
+                               Condition == "Q" ~ "Phi Gen 2",
+                               Condition == "R" ~ "Phi Gen 3",
+                               Condition == "T" ~ "Control",
+                               TRUE ~ Condition))%>%
+  ggplot(aes(x=Condition, y = Average, fill = Plate))+
+  geom_bar(stat="identity", color="black",
+             position=position_dodge())+
+  geom_errorbar(aes(ymin=Average-STDEV, ymax=Average+STDEV), width=0.01, position = position_dodge(0.9))
+
+pfustatrawcomp <- PFU_stat %>%
+  filter(Condition %in% comprange) %>%
+  mutate(Condition = case_when(Condition == "J" ~ "Phi E 1",
+                               Condition == "K" ~ "Phi E 2",
+                               Condition == "L" ~ "Phi E 3",
+                               Condition == "M" ~ "Phi S 1",
+                               Condition == "N" ~ "Phi S 2",
+                               Condition == "O" ~ "Phi S 3",
+                               Condition == "P" ~ "Phi Gen 1",
+                               Condition == "Q" ~ "Phi Gen 2",
+                               Condition == "R" ~ "Phi Gen 3",
+                               TRUE ~ Condition)) %>%
+  ggplot(aes(x=Condition, y = Average, fill = Plate))+
+  geom_bar(stat="identity", color="black",
+           position=position_dodge())+
+  geom_errorbar(aes(ymin=Average-STDEV, ymax=Average+STDEV), width=0.01, position = position_dodge(0.9))
+
+#compare
+compareCFUcoop <- CFU_stat %>%
+  mutate(type = case_when(Plate == "E" ~ "CFU on E",
+                          Plate == "S" ~ "CFU on S",
+                          TRUE ~ Plate)) %>%
+  filter(Condition %in% cooprange)
+
+comparePFUcoop <- PFU_stat %>%
+  mutate(type = case_when(Plate == "E" ~ "PFU on E",
+                          Plate == "S" ~ "PFU on S",
+                          TRUE ~ Plate)) %>%
+  filter(Condition %in% cooprange)
+
+comparecoop <- rbind(compareCFUcoop %>% select(Condition, Average, STDEV, type), comparePFUcoop %>% select(Condition, Average, STDEV, type))
+
+plotcomparecoop <- comparecoop %>%
+  ggplot(aes(x=Condition, y = Average,fill = type))+
+  geom_bar(stat="identity", color="black",
+           position=position_dodge())
+
+
+
+

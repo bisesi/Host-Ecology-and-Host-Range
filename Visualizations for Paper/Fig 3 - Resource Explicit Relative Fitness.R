@@ -192,7 +192,7 @@ Neutral <- function(t,n,parms){
 time = seq(from = 0 , to = 1e5, by = 10)
 start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0,
                   lcts = 1e-3, met = 1e-12, ac = 0)
-burst_sp <- c(0:50)
+burst_sp <- c(0:25)
 burst_Coop = parameters_Coop
 burst_coop = data.frame()
 total_fitness_burstcoop = data.frame()
