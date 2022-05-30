@@ -9,7 +9,7 @@ library("patchwork")
 library("deSolve")
 
 #load source
-source(here::here("Visualizations for Paper", "custom-theme.R"))
+#source(here::here("Visualizations for Paper", "custom-theme.R"))
 
 #Set parameters with equal growth rates
 parameters_Coop = c(mu_e = 0.5,
