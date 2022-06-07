@@ -16,7 +16,7 @@ parameters_coop <- c(
   beta2 = .9,
   
   #intrinsic growth rate
-  rate_e = .5,
+  rate_e = 0.5,
   rate_s = .5,
   
   #phage productivity constants
@@ -40,8 +40,8 @@ parameters_comp <- c(
   beta2 = .9,
   
   #intrinsic growth rate
-  rate_e = .5,
-  rate_s = .5,
+  rate_e = 0.5,
+  rate_s = 0.5,
   
   #phage productivity constants
   gamma_gen = 2e-2,
@@ -141,7 +141,13 @@ generalLV_none <- function(t,n,parms){
 LVgeneralismcost <- function(model, parameters, modelname, startingdensity, timerange, maxcost){
   time = timerange
   start_density = startingdensity
-  gamma_range <- seq(from = 0, to = parameters['gamma_sp'] * maxcost, by = 0.01)
+  if (modelname == "Cooperation"){
+    gamma_range <- seq(from = 0, to = parameters['gamma_sp'] * maxcost, by = 0.01)
+    gamma_range <- gamma_range[gamma_range < 0.19]
+  }
+  else {
+    gamma_range <- seq(from = 0, to = parameters['gamma_sp'] * maxcost, by = 0.01)
+  }
   parameters_gamma = parameters
   parameters_c = parameters
   gamma = data.frame()
