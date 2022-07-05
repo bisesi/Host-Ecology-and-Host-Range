@@ -11,10 +11,6 @@ parameters_coop <- c(
   alpha1 = 1, 
   alpha2 = 1, 
   
-  #competition coefficients
-  beta1 = .9,
-  beta2 = .9,
-  
   #intrinsic growth rate
   rate_e = 0.5,
   rate_s = .5,
@@ -85,8 +81,8 @@ generalLV_coop <- function(t,n,parms){
     }
     
     #Coop    
-    dE = rate_e * E * (S/(S + k_e)) * (1-E) - c_gen*gen*E - dilution*E
-    dS = rate_s * S * (E/(E + k_s)) * (1-S) - c_sp*sp*S - c_gen*gen*S - dilution*S
+    dE = rate_e * E * (alpha1*S/(alpha1*S + k_e)) * (1-E) - c_gen*gen*E - dilution*E
+    dS = rate_s * S * (alpha2*E/(alpha2*E + k_s)) * (1-S) - c_sp*sp*S - c_gen*gen*S - dilution*S
     
     dgen = gamma_gen*gen*S + gamma_gen*gen*E - dilution*gen
     dsp = gamma_sp*sp*S - dilution*sp
