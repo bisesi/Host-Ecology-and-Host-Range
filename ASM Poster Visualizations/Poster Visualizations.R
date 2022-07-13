@@ -121,6 +121,7 @@ datasetbasegencostrate <- ratecompletedatacost %>%
   select(-c(variable))
 
 relativefitnessbasegencostrate <- datasetbasegencostrate %>%
+  filter(Interaction == "Cooperation") %>%
   #rbind(., c(10.0, "Cooperation", "Gamma", Inf)) %>%
   filter(type != "Consumption Rate") %>%
   mutate(log10 = log10(as.numeric(value))) %>%
