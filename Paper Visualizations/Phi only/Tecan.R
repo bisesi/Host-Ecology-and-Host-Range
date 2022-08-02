@@ -6,7 +6,7 @@
 source(here::here("Computational Models", "Baranyi-Functions.R"))
 setwd(here::here("Experimental Data", "Tecan 2022"))
 
-OD_path = "od600_7july2022.csv"
+OD_path = "od600_23july2022.csv"
 
 #conditions
 smono = c("B2", "B3", "B4", "B5", "B6")
@@ -21,6 +21,9 @@ facp22 = c("F2", "F3", "F4", "F5", "F6")
 sp22phi = c("F7", "F8", "F9", "F10", "F11")
 compp22phi = c("G2", "G3", "G4", "G5", "G6")
 facp22phi = c("G7", "G8", "G9", "G10", "G11")
+none = c("A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8", "A9", "A10", "A11", "A12",
+         "B1", "B12", "C1", "C12", "D1", "D12", "E1", "E12", "F1", "F12", "G1", "G12",
+         "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "H11", "H12")
 
 #Import and Clean Data
 OD = read.table(OD_path, sep = ",", as.is = TRUE, row.names = 1)
@@ -65,6 +68,9 @@ growth_rate = OD %>%
 
 #OD600 plots
 allplot <- OD %>%
+  filter(well %in% smono) %>%
+  filter(!well %in% none) %>%
+  drop_na() %>%
   ggplot(aes(x = hour, y = OD, colour = well)) +
   geom_smooth(span = 0.1) +
   facet_wrap(~condition) +
@@ -85,6 +91,7 @@ allplot <- OD %>%
         legend.title=element_text(size=12))
 
 growth <- growth_rate %>%
+  filter(!well %in% none) %>%
   filter(fit_variable == "growth_rate") %>%
   ggplot(aes(x = well, y = model_fit)) +
   geom_point() +
@@ -108,7 +115,7 @@ growth <- growth_rate %>%
   xlab("Replicate")
 
 #CFP
-CFP_path = "cfp_7july2022.csv"
+CFP_path = "cfp_23july2022.csv"
 
 #Import and Clean Data
 CFP = read.table(CFP_path, sep = ",", as.is = TRUE, row.names = 1)
@@ -135,8 +142,10 @@ CFP = CFP %>%
 
 #CFP plots
 CFPplot <- CFP %>%
+  filter(!well %in% none) %>%
+  drop_na() %>%
   mutate(normalized_CFP = CFP - min(CFP)) %>%
-  ggplot(aes(x = hour, y = normalized_CFP, colour = well)) +
+  ggplot(aes(x = hour, y = CFP, colour = well)) +
   geom_smooth(span = 0.1) +
   facet_wrap(~condition) +
   theme_fivethirtyeight()+
@@ -156,7 +165,7 @@ CFPplot <- CFP %>%
         legend.title=element_text(size=12))
 
 #YFP
-YFP_path = "yfp_7july2022.csv"
+YFP_path = "yfp_23july2022.csv"
 
 #Import and Clean Data
 YFP = read.table(YFP_path, sep = ",", as.is = TRUE, row.names = 1)
@@ -183,8 +192,10 @@ YFP = YFP %>%
 
 #CFP plots
 YFPplot <- YFP %>%
+  filter(!well %in% none) %>%
+  drop_na() %>%
   mutate(normalized_YFP = YFP - min(YFP)) %>%
-  ggplot(aes(x = hour, y = normalized_YFP, colour = well)) +
+  ggplot(aes(x = hour, y = YFP, colour = well)) +
   geom_smooth(span = 0.1) +
   facet_wrap(~condition) +
   theme_fivethirtyeight()+

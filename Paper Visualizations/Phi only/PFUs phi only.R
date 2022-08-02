@@ -75,9 +75,7 @@ CFU_averaged_17 <- CFU_raw_17 %>%
   mutate(date = "June17")
 
 PFU_averaged_17 <- PFU_raw_17 %>%
-  group_by(Condition, Rep) %>%
-  pivot_wider(., names_from = Plate, values_from = PFU) %>%
-  mutate(perchange = E / (E + S))
+  group_by(Condition, Plate) %>%
   summarize(Average_PFU = mean(PFU, na.rm = TRUE), sd_PFU = sd(PFU, na.rm = TRUE))%>%
   mutate(date = "June17")
 
@@ -300,5 +298,92 @@ doublingsplot <- doublings %>%
   ylab("Number of Phage Doublings")+
   xlab("Replicate")
 
+
+#mixed models / stats
+PFU_raw_17_new <- PFU_raw_17 %>% 
+  filter(Condition != "Start") %>%
+  mutate(date = "June17") %>%
+  rename(Techrep = Rep) %>%
+  mutate(Interaction = case_when(grepl("Comp", Condition) ~ "Competition",
+                                 grepl("Coop", Condition) ~ "Cooperation",
+                                 grepl("Fac", Condition) ~ "Facilitation",
+                                 grepl("S", Condition) ~ "S Monoculture",
+                                 TRUE ~ Condition)) %>%
+  mutate(Phage = case_when(grepl("E", Plate) ~ "PhiC",
+                           grepl("S", Plate) ~ "P22",
+                           TRUE ~ Plate)) %>%
+  mutate(Replicate = case_when(grepl("1", Condition) ~ "1",
+                               grepl("2", Condition) ~ "2",
+                               grepl("3", Condition) ~ "3",
+                               TRUE ~ Condition)) 
+
+PFU_raw_23_new <- PFU_raw_23 %>% 
+  filter(Condition != "Start") %>%
+  mutate(date = "June23") %>%
+  rename(Techrep = Rep) %>%
+  mutate(Interaction = case_when(grepl("Comp", Condition) ~ "Competition",
+                                 grepl("Coop", Condition) ~ "Cooperation",
+                                 grepl("Fac", Condition) ~ "Facilitation",
+                                 grepl("S", Condition) ~ "S Monoculture",
+                                 TRUE ~ Condition)) %>%
+  mutate(Phage = case_when(grepl("E", Plate) ~ "PhiC",
+                           grepl("S", Plate) ~ "P22",
+                           TRUE ~ Plate)) %>%
+  mutate(Replicate = case_when(grepl("1", Condition) ~ "1",
+                               grepl("2", Condition) ~ "2",
+                               grepl("3", Condition) ~ "3",
+                               TRUE ~ Condition)) 
+
+PFU_raw_17_Enew <- PFU_raw_17_new %>% filter(Plate == "E")
+PFU_raw_17_Snew <- PFU_raw_17_new %>% filter(Plate == "S")
+sd_changeinpercentgen_17 <- PFU_raw_17_Enew %>%
+  inner_join(., PFU_raw_17_Snew, by = c("Condition", "Techrep")) %>%
+  mutate(pergen = PFU.x / (PFU.y + PFU.x)) %>%
+  mutate(changeinpercentgen = ((pergen * (1 - 0.901)) / (0.901 * (1 - pergen)))) 
+
+PFU_raw_23_Enew <- PFU_raw_23_new %>% filter(Plate == "E")
+PFU_raw_23_Snew <- PFU_raw_23_new %>% filter(Plate == "S")
+sd_changeinpercentgen_23 <- PFU_raw_23_Enew %>%
+  inner_join(., PFU_raw_23_Snew, by = c("Condition", "Techrep")) %>%
+  mutate(pergen = PFU.x / (PFU.y + PFU.x)) %>%
+  mutate(changeinpercentgen = ((pergen * (1 - 0.528)) / (0.528 * (1 - pergen)))) 
+
+stats <- rbind(sd_changeinpercentgen_17, sd_changeinpercentgen_23) 
+stats_subset <- stats %>%
+  select(c(changeinpercentgen, Interaction.y, date.y, Replicate.y, Techrep))
+stats_subset$Techrep <- as.factor(stats_subset$Techrep)
+stats_subset$Interaction.y <- as.factor(stats_subset$Interaction.y)
+stats_subset$Replicate.y <- as.factor(stats_subset$Replicate.y)
+stats_subset$date.y<- as.factor(stats_subset$date.y)
+
+lmm <- lmer(changeinpercentgen ~ Interaction.y + (1 | date.y) + (1 | Replicate.y / Techrep), data = stats_subset,
+            REML = FALSE)
+lmm17 <- lmer(changeinpercentgen ~ Interaction.y + (1 | Replicate.y / Techrep), data = stats_subset %>% filter(date.y == "June17"),
+            REML = FALSE)
+lmm23 <- lmer(changeinpercentgen ~ Interaction.y + (1 | Replicate.y / Techrep), data = stats_subset %>% filter(date.y == "June23"),
+              REML = FALSE)
+
+stats_subset %>% 
+  rename(Interaction = Interaction.y, Replicate = Replicate.y, Date = date.y) %>%
+  ggplot(aes(x = Interaction, y = log10(changeinpercentgen), color = Replicate)) + 
+  geom_jitter(height = 0.1, width = 0.1) + 
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed") + 
+  facet_wrap(~Date)+
+  theme_fivethirtyeight()+
+  theme(axis.title = element_text(), 
+        panel.background = element_rect(fill = "white"), 
+        plot.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.background = element_blank(),
+        strip.background = element_blank(),
+        axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+        axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
+        axis.title.x  = element_text(size=18,face="bold"),
+        axis.title.y  = element_text(size=18,face="bold"),
+        axis.text.y = element_text(size = 12),
+        axis.text.x = element_text(size = 12),
+        legend.title=element_text(size=12))+
+  ylab("Change in Frequency of Generalist")+
+  xlab("Interaction")
 
 
