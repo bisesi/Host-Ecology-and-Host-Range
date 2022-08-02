@@ -1,0 +1,217 @@
+---
+title: "Testing Relative Fitness Across Cost of Generalism and Growth Rates"
+output: html_notebook
+---
+
+```{r load-source}
+#import functions
+library("tidyverse")
+library("deSolve")
+library("reshape2")
+source(here::here("Computational Models", "Resource Explicit Model.R"))
+source(here::here("Visualizations for Paper", "custom-theme.R"))
+```
+
+Calculate changes in the relative fitness of the specialist predator as cost of generalism increases for all interaction types.
+
+```{r cost-of-generalism-both}
+time = seq(from = 0 , to = 1e5, by = 10)
+
+start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, lcts = 1e-3, met = 1e-12, ac = 0)
+costofgeneralismcoop <- generalismcost(Coop, parameters_Coop, "Cooperation", start_density, time, 25)
+
+start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, lcts = 1e-3)
+costofgeneralismcomp <- generalismcost(Comp, parameters_Comp, "Competition", start_density, time, 25)
+
+start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, glucose = 1e-3, met = 0)
+costofgeneralismfacilitation <- generalismcost(Facilitation, parameters_Facilitation, "Facilitation", start_density, time, 25)
+
+start_density = c(Es = 0, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, lcts = 1e-3, ac = 1e-3)
+costofgeneralismmonoculture <- generalismcost(Neutral, parameters_Neutral, "S Monoculture", start_density, time, 25)
+
+completedatacost <- rbind(costofgeneralismcoop[[1]], costofgeneralismcomp[[1]], costofgeneralismmonoculture[[1]], costofgeneralismfacilitation[[1]])
+
+datasetbasegencost <- completedatacost %>%
+  select(-c(repro_generalist, repro_specialist, generalist, specialist)) %>%
+  melt(id = c("cost", "label", "type")) %>%
+  select(-c(variable))
+
+relativefitnessbasegencost <- datasetbasegencost %>%
+  filter(label != "S Monoculture") %>%
+  ggplot(aes(x=cost, y = value))+
+  geom_line(size = 2)+
+  facet_grid(label~type)+
+  theme_bisesi()+
+  geom_hline(yintercept=c(1), color = "red", linetype = "dashed", size = 0.5)+
+  scale_color_manual(values=c("#E1BE6A", "#40B0A6"))+
+  ylab("Relative Fitness of Specialist")+
+  xlab("Fold-Increase in Specialist Infectivity")
+```
+
+Calculate changes in the relative fitness of the specialist predator as E coli growth rate and cost of generalism increases. No interactions between hosts.
+
+```{r growth-rates}
+time = seq(from = 0 , to = 1e5, by = 10)
+
+start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, lcts = 1e-3, ac = 1e-3)
+
+bursts <- c(0:25)
+adsorps <- c(0:25) * 2e-9
+
+cycled_burst <- data.frame()
+for (i in 1:length(bursts)){
+  parameters_Neutral['burst_sp']=bursts[i]
+  output <- growthrate(Neutral, parameters_Neutral, "No Interactions", start_density, time, 5)
+  generalism_cost = bursts[i] / 5
+  output=data.frame(output) %>%
+      mutate(generalism_cost = generalism_cost) %>%
+      mutate(cost_type = "Burst Size")
+  cycled_burst = rbind(cycled_burst, output)
+}
+
+start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, lcts = 1e-3, ac = 1e-3)
+
+cycled_adsorp <- data.frame()
+for (i in 1:length(bursts)){
+  parameters_Neutral['burst_sp']=bursts[i]
+  output <- growthrate(Neutral, parameters_Neutral, "No Interactions", start_density, time, 5)
+  generalism_cost = bursts[i] / 5
+  output=data.frame(output) %>%
+      mutate(generalism_cost = generalism_cost) %>%
+      mutate(cost_type = "Adsorption Rate")
+  cycled_adsorp = rbind(cycled_adsorp, output)
+}
+
+alldata <- rbind(cycled_burst, cycled_adsorp)
+
+selection <- c(0.6, 1, 1.2, 1.4, 1.6, 1.8, 2, 5)
+
+datasetbasegenrate <- alldata %>%
+  select(-c(repro_generalist, repro_specialist, generalist, specialist)) %>%
+  filter(generalism_cost %in% selection) %>%
+  melt(id = c("rate_cost", "generalism_cost", "label", "type", "cost_type")) %>%
+  select(-c(variable))
+
+relativefitnessbasegenrate <- datasetbasegenrate %>%
+  ggplot(aes(x=rate_cost, y = log10(value)))+
+  geom_line(size = 2)+
+  facet_grid(cost_type~generalism_cost)+
+  theme_bisesi()+
+  geom_hline(yintercept=c(0), color = "red", linetype = "dashed", size = 0.5)+
+  geom_vline(xintercept=c(1), color = "red", linetype = "dashed", size = 0.5)+
+  scale_color_manual(values=c("#E1BE6A", "#40B0A6"))+
+  ylab("Relative Fitness of Specialist")+
+  xlab("Fold-Increase in E coli Growth Rate")
+```
+
+Calculate changes in the relative fitness of the specialist predator as E coli growth rate and cost of generalism increases. Cooperation between hosts.
+
+```{r growth-rates-cooperation}
+time = seq(from = 0 , to = 1e5, by = 10)
+
+start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, lcts = 1e-3, met = 1e-12, ac = 0)
+
+bursts <- c(0:25)
+adsorps <- c(0:25) * 2e-9
+
+cycled_burst <- data.frame()
+for (i in 1:length(bursts)){
+  parameters_Coop['burst_sp']=bursts[i]
+  output <- growthrate(Coop, parameters_Coop, "Cooperation", start_density, time, 5)
+  generalism_cost = bursts[i] / 5
+  output=data.frame(output) %>%
+      mutate(generalism_cost = generalism_cost) %>%
+      mutate(cost_type = "Burst Size")
+  cycled_burst = rbind(cycled_burst, output)
+}
+
+start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, lcts = 1e-3, met = 1e-12, ac = 0)
+
+cycled_adsorp <- data.frame()
+for (i in 1:length(bursts)){
+  parameters_Coop['burst_sp']=bursts[i]
+  output <- growthrate(Coop, parameters_Coop, "Cooperation", start_density, time, 5)
+  generalism_cost = bursts[i] / 5
+  output=data.frame(output) %>%
+      mutate(generalism_cost = generalism_cost) %>%
+      mutate(cost_type = "Adsorption Rate")
+  cycled_adsorp = rbind(cycled_adsorp, output)
+}
+
+alldata <- rbind(cycled_burst, cycled_adsorp)
+
+selection <- c(0.6, 1, 2, 2.2, 2.4, 2.6, 2.8, 3, 5)
+
+datasetbasegenrate <- alldata %>%
+  select(-c(repro_generalist, repro_specialist, generalist, specialist)) %>%
+  filter(generalism_cost %in% selection) %>%
+  melt(id = c("rate_cost", "generalism_cost", "label", "type", "cost_type")) %>%
+  select(-c(variable))
+
+relativefitnessbasegenrate <- datasetbasegenrate %>%
+  ggplot(aes(x=rate_cost, y = log10(value)))+
+  geom_line(size = 2)+
+  facet_grid(cost_type~generalism_cost)+
+  theme_bisesi()+
+  geom_hline(yintercept=c(0), color = "red", linetype = "dashed", size = 0.5)+
+  geom_vline(xintercept=c(1), color = "red", linetype = "dashed", size = 0.5)+
+  scale_color_manual(values=c("#E1BE6A", "#40B0A6"))+
+  ylab("Relative Fitness of Specialist")+
+  xlab("Fold-Increase in E coli Growth Rate")
+```
+
+Calculate changes in the relative fitness of the specialist predator as E coli growth rate and cost of generalism increases. Competition between hosts.
+
+```{r growth-rates-competition}
+time = seq(from = 0 , to = 1e5, by = 10)
+
+start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, lcts = 1e-3)
+
+bursts <- c(0:25)
+adsorps <- c(0:25) * 2e-9
+
+cycled_burst <- data.frame()
+for (i in 1:length(bursts)){
+  parameters_Comp['burst_sp']=bursts[i]
+  output <- growthrate(Comp, parameters_Comp, "Competition", start_density, time, 5)
+  generalism_cost = bursts[i] / 5
+  output=data.frame(output) %>%
+      mutate(generalism_cost = generalism_cost) %>%
+      mutate(cost_type = "Burst Size")
+  cycled_burst = rbind(cycled_burst, output)
+}
+
+start_density = c(Es = 1e4, Er = 0, Ss = 1e4, Sr = 0, gen = 1, sp = 1, sp2 = 0, Edead = 0, Sdead = 0, lcts = 1e-3)
+
+cycled_adsorp <- data.frame()
+for (i in 1:length(bursts)){
+  parameters_Comp['burst_sp']=bursts[i]
+  output <- growthrate(Comp, parameters_Comp, "Competition", start_density, time, 5)
+  generalism_cost = bursts[i] / 5
+  output=data.frame(output) %>%
+      mutate(generalism_cost = generalism_cost) %>%
+      mutate(cost_type = "Adsorption Rate")
+  cycled_adsorp = rbind(cycled_adsorp, output)
+}
+
+alldata <- rbind(cycled_burst, cycled_adsorp)
+
+selection <- c(0.6, 1, 2,3,4,5)
+
+datasetbasegenrate <- alldata %>%
+  select(-c(repro_generalist, repro_specialist, generalist, specialist)) %>%
+  filter(generalism_cost %in% selection) %>%
+  melt(id = c("rate_cost", "generalism_cost", "label", "type", "cost_type")) %>%
+  select(-c(variable))
+
+relativefitnessbasegenrate <- datasetbasegenrate %>%
+  ggplot(aes(x=rate_cost, y = log10(value)))+
+  geom_line(size = 2)+
+  facet_grid(cost_type~generalism_cost)+
+  theme_bisesi()+
+  geom_hline(yintercept=c(0), color = "red", linetype = "dashed", size = 0.5)+
+  geom_vline(xintercept=c(1), color = "red", linetype = "dashed", size = 0.5)+
+  scale_color_manual(values=c("#E1BE6A", "#40B0A6"))+
+  ylab("Relative Fitness of Specialist")+
+  xlab("Fold-Increase in E coli Growth Rate")
+```
