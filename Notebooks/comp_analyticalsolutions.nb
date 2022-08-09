@@ -1,0 +1,1335 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 13.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     49443,       1327]
+NotebookOptionsPosition[     45539,       1261]
+NotebookOutlinePosition[     45932,       1277]
+CellTagsIndexPosition[     45889,       1274]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Solve", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"gammasgen", "*", "gen", "*", "Se"}], " ", "+", " ", 
+        RowBox[{"gammaegen", "*", "gen", "*", "Ec"}], " ", "-", " ", 
+        RowBox[{"deltagen", "*", "gen"}]}], " ", "==", " ", "0"}], ",", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"gammasps", "*", "sp", "*", "Se"}], " ", "-", " ", 
+        RowBox[{"deltasp", " ", "*", "sp"}]}], " ", "==", " ", "0"}], ",", 
+      " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"mue", "*", "Ec", "*", 
+         RowBox[{"(", 
+          RowBox[{"R", "-", "Ec", "-", 
+           RowBox[{"(", 
+            RowBox[{"betaes", "*", "Se"}], ")"}]}], ")"}]}], "-", 
+        RowBox[{"zetaegen", "*", "gen", "*", "Ec"}], "-", 
+        RowBox[{"deltae", "*", "Ec"}]}], " ", "==", "0"}], ",", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"mus", "*", "Se", "*", 
+         RowBox[{"(", 
+          RowBox[{"R", "-", "Se", "-", 
+           RowBox[{"(", 
+            RowBox[{"betase", "*", "Ec"}], ")"}]}], ")"}]}], "-", 
+        RowBox[{"zetassp", "*", "sp", "*", "Se"}], " ", "-", " ", 
+        RowBox[{"zetasgen", "*", "gen", "*", "Se"}], " ", "-", " ", 
+        RowBox[{"deltas", "*", "Se"}]}], " ", "==", " ", "0"}]}], "}"}], ",", 
+    " ", 
+    RowBox[{"{", 
+     RowBox[{"gen", ",", " ", "sp", ",", " ", "Ec", ",", " ", "Se"}], "}"}]}],
+    "]"}], " ", "//", "Simplify"}]], "Input",
+ CellLabel->"In[2]:=",ExpressionUUID->"1d4be45d-4deb-4121-9d30-ae97ba68b2cc"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{
+         RowBox[{"deltas", " ", "gammasgen"}], "+", 
+         RowBox[{"deltagen", " ", "mus"}], "-", 
+         RowBox[{"gammasgen", " ", "mus", " ", "R"}]}], 
+        RowBox[{"gammasgen", " ", "zetasgen"}]]}]}], ",", 
+     RowBox[{"sp", "\[Rule]", "0"}], ",", 
+     RowBox[{"Ec", "\[Rule]", "0"}], ",", 
+     RowBox[{"Se", "\[Rule]", 
+      FractionBox["deltagen", "gammasgen"]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"deltas", " ", "gammasgen", " ", "mue"}], "+", 
+         RowBox[{"deltae", " ", 
+          RowBox[{"(", 
+           RowBox[{"gammaegen", "-", 
+            RowBox[{"betase", " ", "gammasgen"}]}], ")"}], " ", "mus"}], "+", 
+         
+         RowBox[{"mue", " ", "mus", " ", 
+          RowBox[{"(", 
+           RowBox[{"deltagen", "-", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{"gammaegen", "+", "gammasgen", "-", 
+               RowBox[{"betase", " ", "gammasgen"}]}], ")"}], " ", "R"}]}], 
+           ")"}]}], "-", 
+         RowBox[{"betaes", " ", "mue", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"deltas", " ", "gammaegen"}], "+", 
+            RowBox[{"betase", " ", "deltagen", " ", "mus"}], "-", 
+            RowBox[{"gammaegen", " ", "mus", " ", "R"}]}], ")"}]}]}], ")"}], 
+       "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "gammaegen"}], " ", "mus", " ", "zetaegen"}], "+", 
+         RowBox[{"betase", " ", "gammasgen", " ", "mus", " ", "zetaegen"}], 
+         "+", 
+         RowBox[{"betaes", " ", "gammaegen", " ", "mue", " ", "zetasgen"}], 
+         "-", 
+         RowBox[{"gammasgen", " ", "mue", " ", "zetasgen"}]}], ")"}]}]}], ",", 
+     RowBox[{"sp", "\[Rule]", "0"}], ",", 
+     RowBox[{"Ec", "\[Rule]", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"deltas", " ", "gammasgen", " ", "zetaegen"}], "+", 
+         RowBox[{"deltagen", " ", "mus", " ", "zetaegen"}], "-", 
+         RowBox[{"gammasgen", " ", "mus", " ", "R", " ", "zetaegen"}], "-", 
+         RowBox[{"deltae", " ", "gammasgen", " ", "zetasgen"}], "-", 
+         RowBox[{"betaes", " ", "deltagen", " ", "mue", " ", "zetasgen"}], 
+         "+", 
+         RowBox[{"gammasgen", " ", "mue", " ", "R", " ", "zetasgen"}]}], 
+        ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"gammaegen", " ", "mus", " ", "zetaegen"}], "-", 
+         RowBox[{"betase", " ", "gammasgen", " ", "mus", " ", "zetaegen"}], 
+         "-", 
+         RowBox[{"betaes", " ", "gammaegen", " ", "mue", " ", "zetasgen"}], 
+         "+", 
+         RowBox[{"gammasgen", " ", "mue", " ", "zetasgen"}]}], ")"}]}]}], ",", 
+     RowBox[{"Se", "\[Rule]", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"deltas", " ", "gammaegen", " ", "zetaegen"}], "+", 
+         RowBox[{"betase", " ", "deltagen", " ", "mus", " ", "zetaegen"}], 
+         "-", 
+         RowBox[{"gammaegen", " ", "mus", " ", "R", " ", "zetaegen"}], "-", 
+         RowBox[{"deltae", " ", "gammaegen", " ", "zetasgen"}], "-", 
+         RowBox[{"deltagen", " ", "mue", " ", "zetasgen"}], "+", 
+         RowBox[{"gammaegen", " ", "mue", " ", "R", " ", "zetasgen"}]}], 
+        ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "gammaegen"}], " ", "mus", " ", "zetaegen"}], "+", 
+         RowBox[{"betase", " ", "gammasgen", " ", "mus", " ", "zetaegen"}], 
+         "+", 
+         RowBox[{"betaes", " ", "gammaegen", " ", "mue", " ", "zetasgen"}], 
+         "-", 
+         RowBox[{"gammasgen", " ", "mue", " ", "zetasgen"}]}], ")"}]}]}]}], 
+    "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", "0"}], ",", 
+     RowBox[{"sp", "\[Rule]", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{
+         RowBox[{"deltas", " ", "gammasps"}], "+", 
+         RowBox[{"deltasp", " ", "mus"}], "-", 
+         RowBox[{"gammasps", " ", "mus", " ", "R"}]}], 
+        RowBox[{"gammasps", " ", "zetassp"}]]}]}], ",", 
+     RowBox[{"Ec", "\[Rule]", "0"}], ",", 
+     RowBox[{"Se", "\[Rule]", 
+      FractionBox["deltasp", "gammasps"]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", "0"}], ",", 
+     RowBox[{"sp", "\[Rule]", "0"}], ",", 
+     RowBox[{"Ec", "\[Rule]", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["deltae", "mue"]}], "+", "R"}]}], ",", 
+     RowBox[{"Se", "\[Rule]", "0"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", "0"}], ",", 
+     RowBox[{"sp", "\[Rule]", 
+      RowBox[{
+       FractionBox["1", 
+        RowBox[{"gammasps", " ", "mue", " ", "zetassp"}]], 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "deltas"}], " ", "gammasps", " ", "mue"}], "+", 
+         RowBox[{"mus", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", "deltasp"}], " ", "mue"}], "+", 
+            RowBox[{"gammasps", " ", "mue", " ", "R"}], "+", 
+            RowBox[{"betase", " ", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"deltae", " ", "gammasps"}], "+", 
+               RowBox[{"betaes", " ", "deltasp", " ", "mue"}], "-", 
+               RowBox[{"gammasps", " ", "mue", " ", "R"}]}], ")"}]}]}], 
+           ")"}]}]}], ")"}]}]}], ",", 
+     RowBox[{"Ec", "\[Rule]", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox[
+         RowBox[{"betaes", " ", "deltasp"}], "gammasps"]}], "-", 
+       FractionBox["deltae", "mue"], "+", "R"}]}], ",", 
+     RowBox[{"Se", "\[Rule]", 
+      FractionBox["deltasp", "gammasps"]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", "0"}], ",", 
+     RowBox[{"sp", "\[Rule]", "0"}], ",", 
+     RowBox[{"Ec", "\[Rule]", "0"}], ",", 
+     RowBox[{"Se", "\[Rule]", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox["deltas", "mus"]}], "+", "R"}]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", "0"}], ",", 
+     RowBox[{"sp", "\[Rule]", "0"}], ",", 
+     RowBox[{"Ec", "\[Rule]", 
+      FractionBox[
+       RowBox[{
+        RowBox[{"betaes", " ", "deltas", " ", "mue"}], "-", 
+        RowBox[{"deltae", " ", "mus"}], "+", 
+        RowBox[{"mue", " ", "mus", " ", "R"}], "-", 
+        RowBox[{"betaes", " ", "mue", " ", "mus", " ", "R"}]}], 
+       RowBox[{
+        RowBox[{"mue", " ", "mus"}], "-", 
+        RowBox[{"betaes", " ", "betase", " ", "mue", " ", "mus"}]}]]}], ",", 
+     RowBox[{"Se", "\[Rule]", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{
+         RowBox[{"deltas", " ", "mue"}], "-", 
+         RowBox[{"betase", " ", "deltae", " ", "mus"}], "-", 
+         RowBox[{"mue", " ", "mus", " ", "R"}], "+", 
+         RowBox[{"betase", " ", "mue", " ", "mus", " ", "R"}]}], 
+        RowBox[{
+         RowBox[{"mue", " ", "mus"}], "-", 
+         RowBox[{"betaes", " ", "betase", " ", "mue", " ", "mus"}]}]]}]}]}], 
+    "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{
+         RowBox[{"deltae", " ", "gammaegen"}], "+", 
+         RowBox[{"deltagen", " ", "mue"}], "-", 
+         RowBox[{"gammaegen", " ", "mue", " ", "R"}]}], 
+        RowBox[{"gammaegen", " ", "zetaegen"}]]}]}], ",", 
+     RowBox[{"sp", "\[Rule]", "0"}], ",", 
+     RowBox[{"Ec", "\[Rule]", 
+      FractionBox["deltagen", "gammaegen"]}], ",", 
+     RowBox[{"Se", "\[Rule]", "0"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "deltae"}], " ", "gammaegen", " ", "gammasps"}], "+", 
+         RowBox[{"mue", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", "betaes"}], " ", "deltasp", " ", "gammaegen"}], "+", 
+            RowBox[{"deltasp", " ", "gammasgen"}], "-", 
+            RowBox[{"deltagen", " ", "gammasps"}], "+", 
+            RowBox[{"gammaegen", " ", "gammasps", " ", "R"}]}], ")"}]}]}], 
+        ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen"}], ")"}]}]}], 
+     ",", 
+     RowBox[{"sp", "\[Rule]", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "deltas"}], " ", "gammaegen", " ", "gammasps", " ", 
+          "zetaegen"}], "+", 
+         RowBox[{"deltasp", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", "gammaegen"}], " ", "mus", " ", "zetaegen"}], "+", 
+            RowBox[{"betase", " ", "gammasgen", " ", "mus", " ", "zetaegen"}],
+             "+", 
+            RowBox[{"betaes", " ", "gammaegen", " ", "mue", " ", "zetasgen"}],
+             "-", 
+            RowBox[{"gammasgen", " ", "mue", " ", "zetasgen"}]}], ")"}]}], 
+         "+", 
+         RowBox[{"gammasps", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", "betase"}], " ", "deltagen", " ", "mus", " ", 
+             "zetaegen"}], "+", 
+            RowBox[{"gammaegen", " ", "mus", " ", "R", " ", "zetaegen"}], "+", 
+            RowBox[{"deltae", " ", "gammaegen", " ", "zetasgen"}], "+", 
+            RowBox[{"deltagen", " ", "mue", " ", "zetasgen"}], "-", 
+            RowBox[{"gammaegen", " ", "mue", " ", "R", " ", "zetasgen"}]}], 
+           ")"}]}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{
+        "gammaegen", " ", "gammasps", " ", "zetaegen", " ", "zetassp"}], 
+        ")"}]}]}], ",", 
+     RowBox[{"Ec", "\[Rule]", 
+      FractionBox[
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "deltasp"}], " ", "gammasgen"}], "+", 
+        RowBox[{"deltagen", " ", "gammasps"}]}], 
+       RowBox[{"gammaegen", " ", "gammasps"}]]}], ",", 
+     RowBox[{"Se", "\[Rule]", 
+      FractionBox["deltasp", "gammasps"]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"gen", "\[Rule]", "0"}], ",", 
+     RowBox[{"sp", "\[Rule]", "0"}], ",", 
+     RowBox[{"Ec", "\[Rule]", "0"}], ",", 
+     RowBox[{"Se", "\[Rule]", "0"}]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.869065281755425*^9},
+ CellLabel->"Out[2]=",ExpressionUUID->"68823323-6f03-42f8-a814-81dcd4d56553"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"a", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"gammasps", "*", "sp", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"deltasp", " ", "*", "sp"}]}], ",", " ", "Ec"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"b", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"gammasps", "*", "sp", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"deltasp", " ", "*", "sp"}]}], ",", " ", "Se"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"c", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"gammasps", "*", "sp", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"deltasp", " ", "*", "sp"}]}], ",", " ", "sp"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"d", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"gammasps", "*", "sp", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"deltasp", " ", "*", "sp"}]}], ",", " ", "gen"}], 
+   "]"}]}]}], "Input",
+ CellLabel->"In[3]:=",ExpressionUUID->"5a02e532-49f2-41e7-b0c2-fee1f95a7604"],
+
+Cell[BoxData["0"], "Output",
+ CellChangeTimes->{3.8690652857777147`*^9},
+ CellLabel->"Out[3]=",ExpressionUUID->"d59a0763-6cee-4a43-8cbb-e4ced574b446"],
+
+Cell[BoxData[
+ RowBox[{"gammasps", " ", "sp"}]], "Output",
+ CellChangeTimes->{3.869065285783204*^9},
+ CellLabel->"Out[4]=",ExpressionUUID->"05ff7e03-0bfd-4443-afca-4d63765eed09"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "deltasp"}], "+", 
+  RowBox[{"gammasps", " ", "Se"}]}]], "Output",
+ CellChangeTimes->{3.86906528578681*^9},
+ CellLabel->"Out[5]=",ExpressionUUID->"fafa259a-d629-48d6-9ed3-00e4f89bf326"],
+
+Cell[BoxData["0"], "Output",
+ CellChangeTimes->{3.869065285790359*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"11650d5b-04d4-4001-902b-4176126cbf86"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"e", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"gammasgen", "*", "gen", "*", "Se"}], " ", "+", " ", 
+     RowBox[{"gammaegen", "*", "gen", "*", "Ec"}], " ", "-", " ", 
+     RowBox[{"deltagen", "*", "gen"}]}], ",", " ", "Ec"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"f", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"gammasgen", "*", "gen", "*", "Se"}], " ", "+", " ", 
+     RowBox[{"gammaegen", "*", "gen", "*", "Ec"}], " ", "-", " ", 
+     RowBox[{"deltagen", "*", "gen"}]}], ",", " ", "Se"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"g", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"gammasgen", "*", "gen", "*", "Se"}], " ", "+", " ", 
+     RowBox[{"gammaegen", "*", "gen", "*", "Ec"}], " ", "-", " ", 
+     RowBox[{"deltagen", "*", "gen"}]}], ",", " ", "sp"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"h", " ", "=", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"gammasgen", "*", "gen", "*", "Se"}], " ", "+", " ", 
+     RowBox[{"gammaegen", "*", "gen", "*", "Ec"}], " ", "-", " ", 
+     RowBox[{"deltagen", "*", "gen"}]}], ",", " ", "gen"}], "]"}]}]}], "Input",\
+
+ CellLabel->"In[7]:=",ExpressionUUID->"98be82bd-1bd8-4cc4-a578-0f8157a2e636"],
+
+Cell[BoxData[
+ RowBox[{"gammaegen", " ", "gen"}]], "Output",
+ CellChangeTimes->{3.869065287728011*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"5c956311-d099-4934-a0b1-8051eef3f105"],
+
+Cell[BoxData[
+ RowBox[{"gammasgen", " ", "gen"}]], "Output",
+ CellChangeTimes->{3.869065287731613*^9},
+ CellLabel->"Out[8]=",ExpressionUUID->"769ddba4-665e-4a82-976f-a23bc17b2f06"],
+
+Cell[BoxData["0"], "Output",
+ CellChangeTimes->{3.869065287734865*^9},
+ CellLabel->"Out[9]=",ExpressionUUID->"67daa25a-3784-4066-901b-d52c4118030f"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "deltagen"}], "+", 
+  RowBox[{"Ec", " ", "gammaegen"}], "+", 
+  RowBox[{"gammasgen", " ", "Se"}]}]], "Output",
+ CellChangeTimes->{3.86906528773812*^9},
+ CellLabel->"Out[10]=",ExpressionUUID->"82a6c89f-5365-4284-af66-65acb295af08"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"i", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"mue", "*", "Ec", "*", 
+      RowBox[{"(", 
+       RowBox[{"R", "-", "Ec", "-", 
+        RowBox[{"(", 
+         RowBox[{"betaes", "*", "Se"}], ")"}]}], ")"}]}], "-", 
+     RowBox[{"zetaegen", "*", "gen", "*", "Ec"}], "-", 
+     RowBox[{"deltae", "*", "Ec"}]}], ",", " ", "Ec"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"j", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"mue", "*", "Ec", "*", 
+      RowBox[{"(", 
+       RowBox[{"R", "-", "Ec", "-", 
+        RowBox[{"(", 
+         RowBox[{"betaes", "*", "Se"}], ")"}]}], ")"}]}], "-", 
+     RowBox[{"zetaegen", "*", "gen", "*", "Ec"}], "-", 
+     RowBox[{"deltae", "*", "Ec"}]}], ",", " ", "Se"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"k", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"mue", "*", "Ec", "*", 
+      RowBox[{"(", 
+       RowBox[{"R", "-", "Ec", "-", 
+        RowBox[{"(", 
+         RowBox[{"betaes", "*", "Se"}], ")"}]}], ")"}]}], "-", 
+     RowBox[{"zetaegen", "*", "gen", "*", "Ec"}], "-", 
+     RowBox[{"deltae", "*", "Ec"}]}], ",", " ", "sp"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"l", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"mue", "*", "Ec", "*", 
+      RowBox[{"(", 
+       RowBox[{"R", "-", "Ec", "-", 
+        RowBox[{"(", 
+         RowBox[{"betaes", "*", "Se"}], ")"}]}], ")"}]}], "-", 
+     RowBox[{"zetaegen", "*", "gen", "*", "Ec"}], "-", 
+     RowBox[{"deltae", "*", "Ec"}]}], ",", " ", "gen"}], "]"}]}]}], "Input",
+ CellLabel->"In[11]:=",ExpressionUUID->"04924c78-44b5-46b0-b7de-ecaf179b9d22"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "deltae"}], "-", 
+  RowBox[{"Ec", " ", "mue"}], "+", 
+  RowBox[{"mue", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "Ec"}], "+", "R", "-", 
+     RowBox[{"betaes", " ", "Se"}]}], ")"}]}], "-", 
+  RowBox[{"gen", " ", "zetaegen"}]}]], "Output",
+ CellChangeTimes->{3.869065289971109*^9},
+ CellLabel->"Out[11]=",ExpressionUUID->"b5d8d3b0-ddbe-4e92-964e-ca7a20849cb0"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "betaes"}], " ", "Ec", " ", "mue"}]], "Output",
+ CellChangeTimes->{3.8690652899746923`*^9},
+ CellLabel->"Out[12]=",ExpressionUUID->"e5c25965-93f8-4d54-ae54-67c51bc82ed0"],
+
+Cell[BoxData["0"], "Output",
+ CellChangeTimes->{3.8690652899779043`*^9},
+ CellLabel->"Out[13]=",ExpressionUUID->"22a26581-e1f4-469c-ac82-cb287971c59d"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "Ec"}], " ", "zetaegen"}]], "Output",
+ CellChangeTimes->{3.869065289981181*^9},
+ CellLabel->"Out[14]=",ExpressionUUID->"61f81ac5-3121-407a-97df-bed5062471ac"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"m", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"mus", "*", "Se", "*", 
+      RowBox[{"(", 
+       RowBox[{"R", "-", "Se", "-", 
+        RowBox[{"(", 
+         RowBox[{"betase", "*", "Ec"}], ")"}]}], ")"}]}], "-", 
+     RowBox[{"zetassp", "*", "sp", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"zetasgen", "*", "gen", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"deltas", "*", "Se"}]}], ",", " ", "Ec"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"n", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"mus", "*", "Se", "*", 
+      RowBox[{"(", 
+       RowBox[{"R", "-", "Se", "-", 
+        RowBox[{"(", 
+         RowBox[{"betase", "*", "Ec"}], ")"}]}], ")"}]}], "-", 
+     RowBox[{"zetassp", "*", "sp", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"zetasgen", "*", "gen", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"deltas", "*", "Se"}]}], ",", " ", "Se"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"o", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"mus", "*", "Se", "*", 
+      RowBox[{"(", 
+       RowBox[{"R", "-", "Se", "-", 
+        RowBox[{"(", 
+         RowBox[{"betase", "*", "Ec"}], ")"}]}], ")"}]}], "-", 
+     RowBox[{"zetassp", "*", "sp", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"zetasgen", "*", "gen", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"deltas", "*", "Se"}]}], ",", " ", "sp"}], 
+   "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{"p", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"mus", "*", "Se", "*", 
+      RowBox[{"(", 
+       RowBox[{"R", "-", "Se", "-", 
+        RowBox[{"(", 
+         RowBox[{"betase", "*", "Ec"}], ")"}]}], ")"}]}], "-", 
+     RowBox[{"zetassp", "*", "sp", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"zetasgen", "*", "gen", "*", "Se"}], " ", "-", " ", 
+     RowBox[{"deltas", "*", "Se"}]}], ",", " ", "gen"}], "]"}]}]}], "Input",
+ CellLabel->"In[15]:=",ExpressionUUID->"2143db31-d686-4cc3-aef1-2793c243fa7e"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "betase"}], " ", "mus", " ", "Se"}]], "Output",
+ CellChangeTimes->{3.869065291973029*^9},
+ CellLabel->"Out[15]=",ExpressionUUID->"71e11f5c-0e75-4d78-ac1a-3b845cdd5ba6"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "deltas"}], "+", 
+  RowBox[{"mus", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "betase"}], " ", "Ec"}], "+", "R", "-", "Se"}], ")"}]}], 
+  "-", 
+  RowBox[{"mus", " ", "Se"}], "-", 
+  RowBox[{"gen", " ", "zetasgen"}], "-", 
+  RowBox[{"sp", " ", "zetassp"}]}]], "Output",
+ CellChangeTimes->{3.869065291977825*^9},
+ CellLabel->"Out[16]=",ExpressionUUID->"8c653bfb-4e83-4f36-a4cb-49dd6e72b9d1"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "Se"}], " ", "zetassp"}]], "Output",
+ CellChangeTimes->{3.869065291981145*^9},
+ CellLabel->"Out[17]=",ExpressionUUID->"dde6d98a-834b-4411-b1df-b71a6c187997"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", "Se"}], " ", "zetasgen"}]], "Output",
+ CellChangeTimes->{3.86906529198437*^9},
+ CellLabel->"Out[18]=",ExpressionUUID->"1c77e75e-8199-488d-87aa-40419e01ae0a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"gen", "=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "deltae"}], " ", "gammaegen", " ", "gammasps"}], "+", 
+     RowBox[{"mue", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "betaes"}], " ", "deltasp", " ", "gammaegen"}], "+", 
+        RowBox[{"deltasp", " ", "gammasgen"}], "-", 
+        RowBox[{"deltagen", " ", "gammasps"}], "+", 
+        RowBox[{"gammaegen", " ", "gammasps", " ", "R"}]}], ")"}]}]}], ")"}], 
+   "/", 
+   RowBox[{"(", 
+    RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen"}], 
+    ")"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"sp", "=", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "deltas"}], " ", "gammaegen", " ", "gammasps", " ", 
+      "zetaegen"}], "+", 
+     RowBox[{"deltasp", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "gammaegen"}], " ", "mus", " ", "zetaegen"}], "+", 
+        RowBox[{"betase", " ", "gammasgen", " ", "mus", " ", "zetaegen"}], 
+        "+", 
+        RowBox[{"betaes", " ", "gammaegen", " ", "mue", " ", "zetasgen"}], 
+        "-", 
+        RowBox[{"gammasgen", " ", "mue", " ", "zetasgen"}]}], ")"}]}], "+", 
+     RowBox[{"gammasps", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "betase"}], " ", "deltagen", " ", "mus", " ", 
+         "zetaegen"}], "+", 
+        RowBox[{"gammaegen", " ", "mus", " ", "R", " ", "zetaegen"}], "+", 
+        RowBox[{"deltae", " ", "gammaegen", " ", "zetasgen"}], "+", 
+        RowBox[{"deltagen", " ", "mue", " ", "zetasgen"}], "-", 
+        RowBox[{"gammaegen", " ", "mue", " ", "R", " ", "zetasgen"}]}], 
+       ")"}]}]}], ")"}], "/", 
+   RowBox[{"(", 
+    RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen", " ", "zetassp"}], 
+    ")"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{"Ec", "=", 
+  FractionBox[
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "deltasp"}], " ", "gammasgen"}], "+", 
+    RowBox[{"deltagen", " ", "gammasps"}]}], 
+   RowBox[{"gammaegen", " ", "gammasps"}]]}], "\[IndentingNewLine]", 
+ RowBox[{"Se", "=", 
+  FractionBox["deltasp", "gammasps"]}]}], "Input",
+ CellChangeTimes->{{3.869064334794174*^9, 3.8690643602070312`*^9}},
+ CellLabel->"In[19]:=",ExpressionUUID->"fa79688d-0b23-4709-b17e-f36ed2ce09fb"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "deltae"}], " ", "gammaegen", " ", "gammasps"}], "+", 
+    RowBox[{"mue", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "betaes"}], " ", "deltasp", " ", "gammaegen"}], "+", 
+       RowBox[{"deltasp", " ", "gammasgen"}], "-", 
+       RowBox[{"deltagen", " ", "gammasps"}], "+", 
+       RowBox[{"gammaegen", " ", "gammasps", " ", "R"}]}], ")"}]}]}], ")"}], 
+  "/", 
+  RowBox[{"(", 
+   RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen"}], ")"}]}]], "Output",\
+
+ CellChangeTimes->{3.869065297145308*^9},
+ CellLabel->"Out[19]=",ExpressionUUID->"47a380da-5de1-41a4-80a1-12bdfaeb7ee8"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "deltas"}], " ", "gammaegen", " ", "gammasps", " ", 
+     "zetaegen"}], "+", 
+    RowBox[{"deltasp", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "gammaegen"}], " ", "mus", " ", "zetaegen"}], "+", 
+       RowBox[{"betase", " ", "gammasgen", " ", "mus", " ", "zetaegen"}], "+", 
+       RowBox[{"betaes", " ", "gammaegen", " ", "mue", " ", "zetasgen"}], "-", 
+       RowBox[{"gammasgen", " ", "mue", " ", "zetasgen"}]}], ")"}]}], "+", 
+    RowBox[{"gammasps", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "betase"}], " ", "deltagen", " ", "mus", " ", 
+        "zetaegen"}], "+", 
+       RowBox[{"gammaegen", " ", "mus", " ", "R", " ", "zetaegen"}], "+", 
+       RowBox[{"deltae", " ", "gammaegen", " ", "zetasgen"}], "+", 
+       RowBox[{"deltagen", " ", "mue", " ", "zetasgen"}], "-", 
+       RowBox[{"gammaegen", " ", "mue", " ", "R", " ", "zetasgen"}]}], 
+      ")"}]}]}], ")"}], "/", 
+  RowBox[{"(", 
+   RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen", " ", "zetassp"}], 
+   ")"}]}]], "Output",
+ CellChangeTimes->{3.869065297150313*^9},
+ CellLabel->"Out[20]=",ExpressionUUID->"6701d76f-036a-4580-95a8-7f9a8e3aedea"],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", "deltasp"}], " ", "gammasgen"}], "+", 
+   RowBox[{"deltagen", " ", "gammasps"}]}], 
+  RowBox[{"gammaegen", " ", "gammasps"}]]], "Output",
+ CellChangeTimes->{3.869065297154222*^9},
+ CellLabel->"Out[21]=",ExpressionUUID->"91cecaed-a9fc-4430-a0a9-a527c63b8989"],
+
+Cell[BoxData[
+ FractionBox["deltasp", "gammasps"]], "Output",
+ CellChangeTimes->{3.8690652971572857`*^9},
+ CellLabel->"Out[22]=",ExpressionUUID->"56d42686-1663-4567-a38c-b8ab1ffc7b94"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"comp", " ", "=", " ", 
+  RowBox[{"(", 
+   RowBox[{"mat", " ", "=", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"i", ",", "j", ",", "k", ",", "l"}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"m", ",", "n", ",", "o", ",", "p"}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"a", ",", "b", ",", "c", ",", "d"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"e", ",", "f", ",", "g", ",", "h"}], "}"}]}], "}"}]}], 
+   ")"}]}]], "Input",
+ CellChangeTimes->{
+  3.869064595309947*^9, {3.8690649212735243`*^9, 3.869064933128212*^9}, {
+   3.869065815714314*^9, 3.86906582342209*^9}},
+ CellLabel->"In[26]:=",ExpressionUUID->"20242538-9075-4e99-9d57-ba5cc0e6c113"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "deltae"}], "-", 
+      FractionBox[
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "deltasp"}], " ", "gammasgen"}], "+", 
+          RowBox[{"deltagen", " ", "gammasps"}]}], ")"}], " ", "mue"}], 
+       RowBox[{"gammaegen", " ", "gammasps"}]], "+", 
+      RowBox[{"mue", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", 
+          FractionBox[
+           RowBox[{"betaes", " ", "deltasp"}], "gammasps"]}], "-", 
+         FractionBox[
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "deltasp"}], " ", "gammasgen"}], "+", 
+           RowBox[{"deltagen", " ", "gammasps"}]}], 
+          RowBox[{"gammaegen", " ", "gammasps"}]], "+", "R"}], ")"}]}], "-", 
+      RowBox[{
+       FractionBox["1", 
+        RowBox[{"gammaegen", " ", "gammasps"}]], 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "deltae"}], " ", "gammaegen", " ", "gammasps"}], "+", 
+         RowBox[{"mue", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", "betaes"}], " ", "deltasp", " ", "gammaegen"}], "+", 
+            RowBox[{"deltasp", " ", "gammasgen"}], "-", 
+            RowBox[{"deltagen", " ", "gammasps"}], "+", 
+            RowBox[{"gammaegen", " ", "gammasps", " ", "R"}]}], ")"}]}]}], 
+        ")"}]}]}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"betaes", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "deltasp"}], " ", "gammasgen"}], "+", 
+          RowBox[{"deltagen", " ", "gammasps"}]}], ")"}], " ", "mue"}], 
+       RowBox[{"gammaegen", " ", "gammasps"}]]}], ",", "0", ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "deltasp"}], " ", "gammasgen"}], "+", 
+          RowBox[{"deltagen", " ", "gammasps"}]}], ")"}], " ", "zetaegen"}], 
+       RowBox[{"gammaegen", " ", "gammasps"}]]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"betase", " ", "deltasp", " ", "mus"}], "gammasps"]}], ",", 
+     RowBox[{
+      RowBox[{"-", "deltas"}], "-", 
+      FractionBox[
+       RowBox[{"deltasp", " ", "mus"}], "gammasps"], "+", 
+      RowBox[{"mus", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"-", 
+          FractionBox["deltasp", "gammasps"]}], "-", 
+         FractionBox[
+          RowBox[{"betase", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "deltasp"}], " ", "gammasgen"}], "+", 
+             RowBox[{"deltagen", " ", "gammasps"}]}], ")"}]}], 
+          RowBox[{"gammaegen", " ", "gammasps"}]], "+", "R"}], ")"}]}], "-", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "deltae"}], " ", "gammaegen", " ", "gammasps"}], "+", 
+           RowBox[{"mue", " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", "betaes"}], " ", "deltasp", " ", "gammaegen"}], 
+              "+", 
+              RowBox[{"deltasp", " ", "gammasgen"}], "-", 
+              RowBox[{"deltagen", " ", "gammasps"}], "+", 
+              RowBox[{"gammaegen", " ", "gammasps", " ", "R"}]}], ")"}]}]}], 
+          ")"}], " ", "zetasgen"}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen"}], ")"}]}], "-", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "deltas"}], " ", "gammaegen", " ", "gammasps", " ", 
+          "zetaegen"}], "+", 
+         RowBox[{"deltasp", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", "gammaegen"}], " ", "mus", " ", "zetaegen"}], "+", 
+            RowBox[{"betase", " ", "gammasgen", " ", "mus", " ", "zetaegen"}],
+             "+", 
+            RowBox[{"betaes", " ", "gammaegen", " ", "mue", " ", "zetasgen"}],
+             "-", 
+            RowBox[{"gammasgen", " ", "mue", " ", "zetasgen"}]}], ")"}]}], 
+         "+", 
+         RowBox[{"gammasps", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", "betase"}], " ", "deltagen", " ", "mus", " ", 
+             "zetaegen"}], "+", 
+            RowBox[{"gammaegen", " ", "mus", " ", "R", " ", "zetaegen"}], "+", 
+            RowBox[{"deltae", " ", "gammaegen", " ", "zetasgen"}], "+", 
+            RowBox[{"deltagen", " ", "mue", " ", "zetasgen"}], "-", 
+            RowBox[{"gammaegen", " ", "mue", " ", "R", " ", "zetasgen"}]}], 
+           ")"}]}]}], ")"}], "/", 
+       RowBox[{"(", 
+        RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen"}], ")"}]}]}], 
+     ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"deltasp", " ", "zetassp"}], "gammasps"]}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"deltasp", " ", "zetasgen"}], "gammasps"]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "deltas"}], " ", "gammaegen", " ", "gammasps", " ", 
+         "zetaegen"}], "+", 
+        RowBox[{"deltasp", " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "gammaegen"}], " ", "mus", " ", "zetaegen"}], "+", 
+           RowBox[{"betase", " ", "gammasgen", " ", "mus", " ", "zetaegen"}], 
+           "+", 
+           RowBox[{"betaes", " ", "gammaegen", " ", "mue", " ", "zetasgen"}], 
+           "-", 
+           RowBox[{"gammasgen", " ", "mue", " ", "zetasgen"}]}], ")"}]}], "+", 
+        RowBox[{"gammasps", " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "betase"}], " ", "deltagen", " ", "mus", " ", 
+            "zetaegen"}], "+", 
+           RowBox[{"gammaegen", " ", "mus", " ", "R", " ", "zetaegen"}], "+", 
+           
+           RowBox[{"deltae", " ", "gammaegen", " ", "zetasgen"}], "+", 
+           RowBox[{"deltagen", " ", "mue", " ", "zetasgen"}], "-", 
+           RowBox[{"gammaegen", " ", "mue", " ", "R", " ", "zetasgen"}]}], 
+          ")"}]}]}], ")"}], "/", 
+      RowBox[{"(", 
+       RowBox[{"gammaegen", " ", "zetaegen", " ", "zetassp"}], ")"}]}], ",", 
+     "0", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      FractionBox["1", 
+       RowBox[{"gammasps", " ", "zetaegen"}]], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "deltae"}], " ", "gammaegen", " ", "gammasps"}], "+", 
+        RowBox[{"mue", " ", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "betaes"}], " ", "deltasp", " ", "gammaegen"}], "+", 
+           
+           RowBox[{"deltasp", " ", "gammasgen"}], "-", 
+           RowBox[{"deltagen", " ", "gammasps"}], "+", 
+           RowBox[{"gammaegen", " ", "gammasps", " ", "R"}]}], ")"}]}]}], 
+       ")"}]}], ",", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"gammasgen", " ", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"-", "deltae"}], " ", "gammaegen", " ", "gammasps"}], "+", 
+          
+          RowBox[{"mue", " ", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"-", "betaes"}], " ", "deltasp", " ", "gammaegen"}], 
+             "+", 
+             RowBox[{"deltasp", " ", "gammasgen"}], "-", 
+             RowBox[{"deltagen", " ", "gammasps"}], "+", 
+             RowBox[{"gammaegen", " ", "gammasps", " ", "R"}]}], ")"}]}]}], 
+         ")"}]}], ")"}], "/", 
+      RowBox[{"(", 
+       RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen"}], ")"}]}], ",", 
+     "0", ",", 
+     RowBox[{
+      RowBox[{"-", "deltagen"}], "+", 
+      FractionBox[
+       RowBox[{"deltasp", " ", "gammasgen"}], "gammasps"], "+", 
+      FractionBox[
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "deltasp"}], " ", "gammasgen"}], "+", 
+        RowBox[{"deltagen", " ", "gammasps"}]}], "gammasps"]}]}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.869065299974371*^9, 3.869065824457157*^9},
+ CellLabel->"Out[26]=",ExpressionUUID->"eb50f474-e159-4ed8-96ed-dfcc9ab0cf97"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"Eigenvalues", "[", "comp", "]"}]], "Input",
+ CellChangeTimes->{{3.869064709408978*^9, 3.869064710158712*^9}, {
+  3.86906501000054*^9, 3.8690650424526653`*^9}, {3.869065196894127*^9, 
+  3.8690651979405403`*^9}, {3.8690658295538683`*^9, 3.869065835013318*^9}, {
+  3.869066223522139*^9, 3.869066224995264*^9}, {3.869066264942794*^9, 
+  3.8690663118214903`*^9}},ExpressionUUID->"c768371b-8486-47a1-96e4-\
+306b3e80c823"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{"simplified", " ", "=", " ", 
+  RowBox[{"(", 
+   RowBox[{"mat", " ", "=", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "1"}], ",", 
+        RowBox[{"-", "1"}], ",", 
+        RowBox[{"-", "1"}], ",", 
+        RowBox[{"-", "1"}]}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "1"}], ",", 
+        RowBox[{"-", "1"}], ",", "0", ",", 
+        RowBox[{"-", "1"}]}], "}"}], ",", " ", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", "1", ",", "0", ",", "0"}], "}"}]}], "}"}]}], 
+   ")"}]}], "\[IndentingNewLine]", 
+ RowBox[{"Eigenvalues", "[", "simplified", "]"}]}], "Input",
+ CellChangeTimes->{{3.869069799901785*^9, 3.869069805445385*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"6af0340f-7f3f-43d4-b104-8b963c836cc3"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "1"}], ",", 
+     RowBox[{"-", "1"}], ",", 
+     RowBox[{"-", "1"}], ",", 
+     RowBox[{"-", "1"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", "1"}], ",", 
+     RowBox[{"-", "1"}], ",", "0", ",", 
+     RowBox[{"-", "1"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "0", ",", "0", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "1", ",", "0", ",", "0"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.869069810983774*^9},
+ CellLabel->"Out[5]=",ExpressionUUID->"9ed1b1df-8b70-4ba5-b3b4-25ee5624f93a"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   InterpretationBox[
+    TemplateBox[{"Root", 
+      RowBox[{
+        InterpretationBox[
+         StyleBox[
+          TemplateBox[{"\"-0.957\"", 
+            DynamicBox[
+             FEPrivate`FrontEndResource[
+             "FEExpressions", "NumericalApproximationElider"]]}, 
+           "RowDefault"], ShowStringCharacters -> 
+          False], -0.95668456956468372887059103959472849965`15.\
+893855518015842, Editable -> False], "+", 
+        RowBox[{
+          InterpretationBox[
+           StyleBox[
+            TemplateBox[{"\"1.23\"", 
+              DynamicBox[
+               FEPrivate`FrontEndResource[
+               "FEExpressions", "NumericalApproximationElider"]]}, 
+             "RowDefault"], ShowStringCharacters -> False], 
+           1.22718563822452675360352714051259681582`16.001997012842715, 
+           Editable -> False], " ", "\[ImaginaryI]"}]}], 
+      TagBox[
+       RowBox[{"Root", "[", 
+         RowBox[{
+           RowBox[{
+             RowBox[{"1", "+", "#1", "+", 
+               RowBox[{"3", " ", 
+                 SuperscriptBox["#1", "2"]}], "+", 
+               RowBox[{"2", " ", 
+                 SuperscriptBox["#1", "3"]}], "+", 
+               SuperscriptBox["#1", "4"]}], "&"}], ",", "2"}], "]"}], 
+       Short[#, 7]& ], 
+      Complex[-0.9566845695646837, 1.2271856382245268`]},
+     "NumericalApproximation"],
+    Root[1 + # + 3 #^2 + 2 #^3 + #^4& , 2, 0]], ",", 
+   InterpretationBox[
+    TemplateBox[{"Root", 
+      RowBox[{
+        InterpretationBox[
+         StyleBox[
+          TemplateBox[{"\"-0.957\"", 
+            DynamicBox[
+             FEPrivate`FrontEndResource[
+             "FEExpressions", "NumericalApproximationElider"]]}, 
+           "RowDefault"], ShowStringCharacters -> 
+          False], -0.95668456956468372887059103959472849965`15.\
+893855518015842, Editable -> False], "-", 
+        RowBox[{
+          InterpretationBox[
+           StyleBox[
+            TemplateBox[{"\"1.23\"", 
+              DynamicBox[
+               FEPrivate`FrontEndResource[
+               "FEExpressions", "NumericalApproximationElider"]]}, 
+             "RowDefault"], ShowStringCharacters -> False], 
+           1.22718563822452675360352714051259681582`16.001997012842715, 
+           Editable -> False], " ", "\[ImaginaryI]"}]}], 
+      TagBox[
+       RowBox[{"Root", "[", 
+         RowBox[{
+           RowBox[{
+             RowBox[{"1", "+", "#1", "+", 
+               RowBox[{"3", " ", 
+                 SuperscriptBox["#1", "2"]}], "+", 
+               RowBox[{"2", " ", 
+                 SuperscriptBox["#1", "3"]}], "+", 
+               SuperscriptBox["#1", "4"]}], "&"}], ",", "1"}], "]"}], 
+       Short[#, 7]& ], 
+      Complex[-0.9566845695646837, -1.2271856382245268`]},
+     "NumericalApproximation"],
+    Root[1 + # + 3 #^2 + 2 #^3 + #^4& , 1, 0]], ",", 
+   InterpretationBox[
+    TemplateBox[{"Root", 
+      RowBox[{
+        InterpretationBox[
+         StyleBox[
+          TemplateBox[{"\"-0.0433\"", 
+            DynamicBox[
+             FEPrivate`FrontEndResource[
+             "FEExpressions", "NumericalApproximationElider"]]}, 
+           "RowDefault"], ShowStringCharacters -> 
+          False], -0.04331543043531629888498457603418501094`14.\
+933765421721661, Editable -> False], "+", 
+        RowBox[{
+          InterpretationBox[
+           StyleBox[
+            TemplateBox[{"\"0.641\"", 
+              DynamicBox[
+               FEPrivate`FrontEndResource[
+               "FEExpressions", "NumericalApproximationElider"]]}, 
+             "RowDefault"], ShowStringCharacters -> False], 
+           0.64119965805700629424279668455710634589`16.1041160693607, 
+           Editable -> False], " ", "\[ImaginaryI]"}]}], 
+      TagBox[
+       RowBox[{"Root", "[", 
+         RowBox[{
+           RowBox[{
+             RowBox[{"1", "+", "#1", "+", 
+               RowBox[{"3", " ", 
+                 SuperscriptBox["#1", "2"]}], "+", 
+               RowBox[{"2", " ", 
+                 SuperscriptBox["#1", "3"]}], "+", 
+               SuperscriptBox["#1", "4"]}], "&"}], ",", "4"}], "]"}], 
+       Short[#, 7]& ], 
+      Complex[-0.0433154304353163, 0.6411996580570063]},
+     "NumericalApproximation"],
+    Root[1 + # + 3 #^2 + 2 #^3 + #^4& , 4, 0]], ",", 
+   InterpretationBox[
+    TemplateBox[{"Root", 
+      RowBox[{
+        InterpretationBox[
+         StyleBox[
+          TemplateBox[{"\"-0.0433\"", 
+            DynamicBox[
+             FEPrivate`FrontEndResource[
+             "FEExpressions", "NumericalApproximationElider"]]}, 
+           "RowDefault"], ShowStringCharacters -> 
+          False], -0.04331543043531629888498457603418501094`14.\
+933765421721661, Editable -> False], "-", 
+        RowBox[{
+          InterpretationBox[
+           StyleBox[
+            TemplateBox[{"\"0.641\"", 
+              DynamicBox[
+               FEPrivate`FrontEndResource[
+               "FEExpressions", "NumericalApproximationElider"]]}, 
+             "RowDefault"], ShowStringCharacters -> False], 
+           0.64119965805700629424279668455710634589`16.1041160693607, 
+           Editable -> False], " ", "\[ImaginaryI]"}]}], 
+      TagBox[
+       RowBox[{"Root", "[", 
+         RowBox[{
+           RowBox[{
+             RowBox[{"1", "+", "#1", "+", 
+               RowBox[{"3", " ", 
+                 SuperscriptBox["#1", "2"]}], "+", 
+               RowBox[{"2", " ", 
+                 SuperscriptBox["#1", "3"]}], "+", 
+               SuperscriptBox["#1", "4"]}], "&"}], ",", "3"}], "]"}], 
+       Short[#, 7]& ], 
+      Complex[-0.0433154304353163, -0.6411996580570063]},
+     "NumericalApproximation"],
+    Root[1 + # + 3 #^2 + 2 #^3 + #^4& , 3, 0]]}], "}"}]], "Output",
+ CellChangeTimes->{3.8690698109896812`*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"4a3a2865-e085-4c28-bc54-6b9e6cd95f0f"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Simplify", "[", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", "delta"}], " ", "gammaegen", " ", "gammasps"}], "+", 
+     RowBox[{"mue", " ", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "betaes"}], " ", "delta", " ", "gammaegen"}], "+", 
+        RowBox[{"delta", " ", "gammasgen"}], "-", 
+        RowBox[{"delta", " ", "gammasps"}], "+", 
+        RowBox[{"gammaegen", " ", "gammasps", " ", "R"}]}], ")"}]}]}], ")"}], 
+   "/", 
+   RowBox[{"(", 
+    RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen"}], ")"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.869072302122504*^9, 3.86907231020243*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"164d03c6-97dd-42e2-80c1-67ae89999349"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "delta"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"-", "gammasgen"}], "+", "gammasps"}], ")"}], " ", "mue"}], 
+       "+", 
+       RowBox[{"gammaegen", " ", 
+        RowBox[{"(", 
+         RowBox[{"gammasps", "+", 
+          RowBox[{"betaes", " ", "mue"}]}], ")"}]}]}], ")"}]}], "+", 
+    RowBox[{"gammaegen", " ", "gammasps", " ", "mue", " ", "R"}]}], ")"}], 
+  "/", 
+  RowBox[{"(", 
+   RowBox[{"gammaegen", " ", "gammasps", " ", "zetaegen"}], ")"}]}]], "Output",\
+
+ CellChangeTimes->{3.869072315337541*^9},
+ CellLabel->"Out[4]=",ExpressionUUID->"1b35eaa3-f71e-466d-bbc8-6a03bfee02b2"]
+}, Open  ]]
+},
+WindowSize->{735, 669},
+WindowMargins->{{-33, Automatic}, {Automatic, 0}},
+FrontEndVersion->"13.1 for Mac OS X x86 (64-bit) (June 16, 2022)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"ee223005-e0df-4875-85e1-17173211dbeb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 1555, 39, 115, "Input",ExpressionUUID->"1d4be45d-4deb-4121-9d30-ae97ba68b2cc"],
+Cell[2138, 63, 10405, 269, 1155, "Output",ExpressionUUID->"68823323-6f03-42f8-a814-81dcd4d56553"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12580, 337, 1040, 29, 94, "Input",ExpressionUUID->"5a02e532-49f2-41e7-b0c2-fee1f95a7604"],
+Cell[13623, 368, 150, 2, 34, "Output",ExpressionUUID->"d59a0763-6cee-4a43-8cbb-e4ced574b446"],
+Cell[13776, 372, 178, 3, 34, "Output",ExpressionUUID->"05ff7e03-0bfd-4443-afca-4d63765eed09"],
+Cell[13957, 377, 224, 5, 34, "Output",ExpressionUUID->"fafa259a-d629-48d6-9ed3-00e4f89bf326"],
+Cell[14184, 384, 148, 2, 34, "Output",ExpressionUUID->"11650d5b-04d4-4001-902b-4176126cbf86"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14369, 391, 1297, 33, 94, "Input",ExpressionUUID->"98be82bd-1bd8-4cc4-a578-0f8157a2e636"],
+Cell[15669, 426, 180, 3, 34, "Output",ExpressionUUID->"5c956311-d099-4934-a0b1-8051eef3f105"],
+Cell[15852, 431, 180, 3, 34, "Output",ExpressionUUID->"769ddba4-665e-4a82-976f-a23bc17b2f06"],
+Cell[16035, 436, 148, 2, 34, "Output",ExpressionUUID->"67daa25a-3784-4066-901b-d52c4118030f"],
+Cell[16186, 440, 269, 6, 34, "Output",ExpressionUUID->"82a6c89f-5365-4284-af66-65acb295af08"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16492, 451, 1697, 48, 94, "Input",ExpressionUUID->"04924c78-44b5-46b0-b7de-ecaf179b9d22"],
+Cell[18192, 501, 410, 11, 34, "Output",ExpressionUUID->"b5d8d3b0-ddbe-4e92-964e-ca7a20849cb0"],
+Cell[18605, 514, 209, 4, 34, "Output",ExpressionUUID->"e5c25965-93f8-4d54-ae54-67c51bc82ed0"],
+Cell[18817, 520, 151, 2, 34, "Output",ExpressionUUID->"22a26581-e1f4-469c-ac82-cb287971c59d"],
+Cell[18971, 524, 197, 4, 34, "Output",ExpressionUUID->"61f81ac5-3121-407a-97df-bed5062471ac"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[19205, 533, 1993, 52, 178, "Input",ExpressionUUID->"2143db31-d686-4cc3-aef1-2793c243fa7e"],
+Cell[21201, 587, 207, 4, 34, "Output",ExpressionUUID->"71e11f5c-0e75-4d78-ac1a-3b845cdd5ba6"],
+Cell[21411, 593, 454, 13, 34, "Output",ExpressionUUID->"8c653bfb-4e83-4f36-a4cb-49dd6e72b9d1"],
+Cell[21868, 608, 196, 4, 34, "Output",ExpressionUUID->"dde6d98a-834b-4411-b1df-b71a6c187997"],
+Cell[22067, 614, 196, 4, 34, "Output",ExpressionUUID->"1c77e75e-8199-488d-87aa-40419e01ae0a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[22300, 623, 2303, 60, 330, "Input",ExpressionUUID->"fa79688d-0b23-4709-b17e-f36ed2ce09fb"],
+Cell[24606, 685, 696, 19, 79, "Output",ExpressionUUID->"47a380da-5de1-41a4-80a1-12bdfaeb7ee8"],
+Cell[25305, 706, 1270, 30, 141, "Output",ExpressionUUID->"6701d76f-036a-4580-95a8-7f9a8e3aedea"],
+Cell[26578, 738, 326, 8, 53, "Output",ExpressionUUID->"91cecaed-a9fc-4430-a0a9-a527c63b8989"],
+Cell[26907, 748, 184, 3, 53, "Output",ExpressionUUID->"56d42686-1663-4567-a38c-b8ab1ffc7b94"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[27128, 756, 727, 18, 30, "Input",ExpressionUUID->"20242538-9075-4e99-9d57-ba5cc0e6c113"],
+Cell[27858, 776, 8301, 223, 845, "Output",ExpressionUUID->"eb50f474-e159-4ed8-96ed-dfcc9ab0cf97"]
+}, Open  ]],
+Cell[36174, 1002, 439, 7, 30, "Input",ExpressionUUID->"c768371b-8486-47a1-96e4-306b3e80c823"],
+Cell[CellGroupData[{
+Cell[36638, 1013, 900, 24, 73, "Input",ExpressionUUID->"6af0340f-7f3f-43d4-b104-8b963c836cc3"],
+Cell[37541, 1039, 636, 19, 34, "Output",ExpressionUUID->"9ed1b1df-8b70-4ba5-b3b4-25ee5624f93a"],
+Cell[38180, 1060, 5799, 148, 70, "Output",ExpressionUUID->"4a3a2865-e085-4c28-bc54-6b9e6cd95f0f"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[44016, 1213, 760, 20, 94, "Input",ExpressionUUID->"164d03c6-97dd-42e2-80c1-67ae89999349"],
+Cell[44779, 1235, 744, 23, 81, "Output",ExpressionUUID->"1b35eaa3-f71e-466d-bbc8-6a03bfee02b2"]
+}, Open  ]]
+}
+]
+*)
+

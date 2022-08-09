@@ -1,0 +1,27 @@
+---
+title: "Fig-2-equations"
+author: "Ave Bisesi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Cooperation
+\begin{gather*} 
+	  E^{*} = \frac{\delta \times (\gamma_{s,2} + \gamma_{s,1})}{\gamma_{s,1} \times \gamma_{e,2}} \\
+    S^{*} = \frac{\delta_p}{\gamma_{s,1}}\\
+    gen^{*} = \frac{(-\delta \times \gamma_{e,2} \times \gamma_{s,1}) + (1 + \kappa_e) \times \mu_e \times (\delta \times (\gamma_{s,2} - \gamma_{s,1}) + (\gamma_{e,2} \times \gamma_{s,1} \times R))}{\gamma_{e,2} \times \gamma_{s,1} \times \zeta_{e,2}} \\
+    sp^{*} = \\
+    \frac{(\gamma_{e,2} \times \gamma_{s,1} \times R \times ((1 + \kappa_s) \times \mu_s \times \zeta_{e,2} - (1 + \kappa_e) \times \mu_e \times \zeta_{s,2}) - \delta \times (\gamma_{e,2} \times (1 + \kappa_s) \times \mu_s \times \zeta_{e,2} + \gamma_{e,2} \times \gamma_{s,1} \times (\zeta_{e,2} - \zeta_{s,2}) + (\gamma_{s,2} - \gamma_{s,1}) \times (1 + \kappa_e) \times \mu_e \times \zeta_{s,2}))}{\gamma_{e,2} \times \gamma_{s,1} \times \zeta_{e,2}\times \zeta_{s,1}} \\
+	\end{gather*}
+
+Competition
+\begin{gather*} 
+     E^{*} = \frac{\delta \times (\gamma_{s,2} + \gamma_{s,1})}{\gamma_{s,1} \times \gamma_{e,2}} \\
+    S^{*} = \frac{\delta_p}{\gamma_{s,1}}\\
+    \frac{dsp}{dt} = (\gamma_{s,1} \times sp \times S) - (\delta_p * sp) \\
+    gen^{*} = \frac{(-\delta \times (( - \gamma_{s,2} + \gamma_{s,1}) \times (\mu_e + \gamma_{e,2} \times (\gamma_{s,1} + \beta_{e,s} \times \mu_e)) + (\gamma_{e,2} \times \gamma_{s,1} \times \mu_e \times R))}{\gamma_{e,2} \times \gamma_{s,1} \times \zeta_{e,2}} \\
+	\end{gather*}

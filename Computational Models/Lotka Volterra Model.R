@@ -1,6 +1,6 @@
 #ATB
 #Generalized Lotka Volterra model for 4 species system
-#One generalist predation, one specialist predator
+#One generalist predator, one specialist predator
 
 #load packages
 library("deSolve")
@@ -13,14 +13,16 @@ parameters_coop <- c(
   
   #intrinsic growth rate
   rate_e = 0.5,
-  rate_s = .5,
+  rate_s = 0.5,
   
   #phage productivity constants
-  gamma_gen = 2e-2,
+  gamma_genE = 2e-2,
+  gamma_genS = 2e-2,
   gamma_sp = 2e-2,
   
   #phage rate of consumption constants
-  c_gen = 1e-3,
+  c_genE = 1e-3,
+  c_genS = 1e-3,
   c_sp = 1e-3,
   
   #additional constants
@@ -40,11 +42,13 @@ parameters_comp <- c(
   rate_s = 0.5,
   
   #phage productivity constants
-  gamma_gen = 2e-2,
+  gamma_genE = 2e-2,
+  gamma_genS = 2e-2,
   gamma_sp = 2e-2,
   
   #phage rate of consumption constants
-  c_gen = 1e-3,
+  c_genE = 1e-3,
+  c_genS = 1e-3,
   c_sp = 1e-3,
   
   #additional constants
@@ -58,11 +62,13 @@ parameters_none <- c(
   rate_s = .5,
   
   #phage productivity constants
-  gamma_gen = 2e-2,
+  gamma_genE = 2e-2,
+  gamma_genS = 2e-2,
   gamma_sp = 2e-2,
   
   #phage rate of consumption constants
-  c_gen = 1e-3,
+  c_genE = 1e-3,
+  c_genS = 1e-3,
   c_sp = 1e-3,
   
   #additional constants
@@ -81,10 +87,10 @@ generalLV_coop <- function(t,n,parms){
     }
     
     #Coop    
-    dE = rate_e * E * (alpha1*S/(alpha1*S + k_e)) * (1-E) - c_gen*gen*E - dilution*E
-    dS = rate_s * S * (alpha2*E/(alpha2*E + k_s)) * (1-S) - c_sp*sp*S - c_gen*gen*S - dilution*S
+    dE = rate_e * E * (alpha1*S/(alpha1*S + k_e)) * (1-E) - c_genE*gen*E - dilution*E
+    dS = rate_s * S * (alpha2*E/(alpha2*E + k_s)) * (1-S) - c_sp*sp*S - c_genS*gen*S - dilution*S
     
-    dgen = gamma_gen*gen*S + gamma_gen*gen*E - dilution*gen
+    dgen = gamma_genS*gen*S + gamma_genE*gen*E - dilution*gen
     dsp = gamma_sp*sp*S - dilution*sp
     
     return(list(c(dE, dS, dgen, dsp)))
@@ -102,10 +108,10 @@ generalLV_comp <- function(t,n,parms){
     }
     
     #Comp
-    dE = rate_e * E * (2-E-(beta1*S)) - c_gen*gen*E - dilution*E
-    dS = rate_s * S * (2-S-(beta2*E)) - c_sp*sp*S - c_gen*gen*S - dilution*S
+    dE = rate_e * E * (2-E-(beta1*S)) - c_genE*gen*E - dilution*E
+    dS = rate_s * S * (2-S-(beta2*E)) - c_sp*sp*S - c_genS*gen*S - dilution*S
     
-    dgen = gamma_gen*gen*S + gamma_gen*gen*E - dilution*gen
+    dgen = gamma_genS*gen*S + gamma_genE*gen*E - dilution*gen
     dsp = gamma_sp*sp*S - dilution*sp
     
     return(list(c(dE, dS, dgen, dsp)))
@@ -123,10 +129,10 @@ generalLV_none <- function(t,n,parms){
     }
     
     #Independent
-    dE = rate_e * E * (1.8-E) - c_gen*gen*E - dilution*E
-    dS = rate_s * S * (1.8-S) - c_sp*sp*S - c_gen*gen*S - dilution*S
+    dE = rate_e * E * (1.8-E) - c_genE*gen*E - dilution*E
+    dS = rate_s * S * (1.8-S) - c_sp*sp*S - c_genS*gen*S - dilution*S
     
-    dgen = gamma_gen*gen*S + gamma_gen*gen*E - dilution*gen
+    dgen = gamma_genS*gen*S + gamma_genE*gen*E - dilution*gen
     dsp = gamma_sp*sp*S - dilution*sp
     
     return(list(c(dE, dS, dgen, dsp)))
@@ -134,44 +140,72 @@ generalLV_none <- function(t,n,parms){
 }
 
 #Function to cycle through changing cost of generalism with relative fitness
-LVgeneralismcost <- function(model, parameters, modelname, startingdensity, timerange, maxcost){
+LVgeneralismcost <- function(model, parameters, modelname, startingdensity, timerange, maxcost, type){
   time = timerange
   start_density = startingdensity
-  if (modelname == "Cooperation"){
+  if (type == "gamma"){
     gamma_range <- seq(from = 0, to = parameters['gamma_sp'] * maxcost, by = 0.01)
-    gamma_range <- gamma_range[gamma_range < 0.19]
-  }
+    parameters_gamma = parameters
+    gamma = data.frame()
+    total_fitness_gamma = data.frame()
+    for (i in 1:length(gamma_range)){
+      parameters_gamma['gamma_sp']=gamma_range[i]
+      out=ode(y=start_density,
+              times=time,
+              func=model,
+              parms = parameters_gamma,
+              atol = 1e-14)
+      cost_type = gamma_range[i] / parameters['gamma_sp']
+      out=data.frame(out) %>%
+        mutate(cost = cost_type) 
+      total_fitness_gamma = rbind(total_fitness_gamma, cbind(repro_generalist = ((max(out$gen) - out$gen[1]) / out$gen[1]), repro_specialist = ((max(out$sp) - out$sp[1]) / out$sp[1]), cost = cost_type))
+      gamma = rbind(gamma, out)
+    }
+    total_fitness_gamma <- total_fitness_gamma %>% 
+      mutate(generalist = ifelse(repro_generalist > repro_specialist, repro_generalist / repro_generalist, 
+                                 ifelse(repro_specialist > repro_generalist, repro_generalist / repro_specialist, 
+                                        ifelse(repro_specialist == repro_generalist, 1, NA)))) %>%
+      mutate(specialist = ifelse(repro_generalist > repro_specialist, repro_specialist / repro_generalist, 
+                                 ifelse(repro_specialist > repro_generalist, repro_specialist / repro_specialist, 
+                                        ifelse(repro_specialist == repro_generalist, 1, NA))))%>%
+      mutate(label = modelname)%>%
+      mutate(basefitness = repro_specialist / repro_generalist) %>%
+      mutate(type = "Gamma")
+    return(total_fitness_gamma)
+  } 
+  if (type == "consumption"){
+    c_range <- seq(from = 0, to = parameters['c_sp'] * maxcost, by = 0.0001)
+    parameters_c = parameters
+    c = data.frame()
+    total_fitness_c = data.frame()
+    for (i in 1:length(c_range)){
+      parameters_c['c_sp']=c_range[i]
+      out=ode(y=start_density,
+              times=time,
+              func=model,
+              parms = parameters_c,
+              atol = 1e-14)
+      cost_type = c_range[i] / parameters['c_sp']
+      out=data.frame(out) %>%
+        mutate(cost = cost_type) 
+      total_fitness_c = rbind(total_fitness_c, cbind(repro_generalist = ((max(out$gen) - out$gen[1]) / out$gen[1]), repro_specialist = ((max(out$sp) - out$sp[1]) / out$sp[1]), cost = cost_type))
+      c = rbind(c, out)
+    }
+    total_fitness_c <- total_fitness_c %>% 
+      mutate(generalist = ifelse(repro_generalist > repro_specialist, repro_generalist / repro_generalist, 
+                                 ifelse(repro_specialist > repro_generalist, repro_generalist / repro_specialist, 
+                                        ifelse(repro_specialist == repro_generalist, 1, NA)))) %>%
+      mutate(specialist = ifelse(repro_generalist > repro_specialist, repro_specialist / repro_generalist, 
+                                 ifelse(repro_specialist > repro_generalist, repro_specialist / repro_specialist, 
+                                        ifelse(repro_specialist == repro_generalist, 1, NA))))%>%
+      mutate(label = modelname)%>%
+      mutate(basefitness = repro_specialist / repro_generalist) %>%
+      mutate(type = "Consumption Rate")
+    return(total_fitness_c)
+  } 
   else {
-    gamma_range <- seq(from = 0, to = parameters['gamma_sp'] * maxcost, by = 0.01)
+    return(print("Invalid cost type!"))
   }
-  parameters_gamma = parameters
-  parameters_c = parameters
-  gamma = data.frame()
-  total_fitness_gamma = data.frame()
-  for (i in 1:length(gamma_range)){
-    parameters_gamma['gamma_sp']=gamma_range[i]
-    out=ode(y=start_density,
-            times=time,
-            func=model,
-            parms = parameters_gamma,
-            atol = 1e-14)
-    cost_type = gamma_range[i] / 2e-2
-    out=data.frame(out) %>%
-      mutate(cost = cost_type)
-    total_fitness_gamma = rbind(total_fitness_gamma, cbind(repro_generalist = ((max(out$gen) - out$gen[1]) / out$gen[1]), repro_specialist = ((max(out$sp) - out$sp[1]) / out$sp[1]), cost = cost_type))
-    gamma = rbind(gamma, out)
-  }
-  total_fitness_gamma <- total_fitness_gamma %>% 
-    mutate(generalist = ifelse(repro_generalist > repro_specialist, repro_generalist / repro_generalist, 
-                               ifelse(repro_specialist > repro_generalist, repro_generalist / repro_specialist, 
-                                      ifelse(repro_specialist == repro_generalist, 1, NA)))) %>%
-    mutate(specialist = ifelse(repro_generalist > repro_specialist, repro_specialist / repro_generalist, 
-                               ifelse(repro_specialist > repro_generalist, repro_specialist / repro_specialist, 
-                                      ifelse(repro_specialist == repro_generalist, 1, NA))))%>%
-    mutate(label = modelname)%>%
-    mutate(basefitness = repro_specialist / repro_generalist) %>%
-    mutate(type = "Gamma")
-  return(total_fitness_gamma)
 }
 
 #Function to cycle through changing growth rates with relative fitness
@@ -193,8 +227,7 @@ LVgrowthrate <- function(model, parameters, modelname, startingdensity, timerang
     out=ode(y=start_density,
             times=time,
             func=model,
-            parms = parameters_e,
-            atol = 1e-14)
+            parms = parameters_e)
     rate_cost = e_growthrange[i] / parameters_e['rate_s']
     out=data.frame(out) %>%
       mutate(rate_cost = rate_cost)
