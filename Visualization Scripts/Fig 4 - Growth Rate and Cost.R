@@ -76,7 +76,7 @@ plot_coop <- cleaned_coop %>%
                        high= "#27647B",
                        midpoint = 0.5,
                        limits = c(0,1))+
-  theme_fivethirtyeight() +
+  theme_bw() +
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -86,11 +86,11 @@ plot_coop <- cleaned_coop %>%
         strip.background = element_blank(),
         axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
         axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-        axis.title.x  = element_text(size=24,face="bold"),
-        axis.title.y  = element_text(size=24,face="bold"),
-        axis.text.y = element_text(size = 18),
-        axis.text.x = element_text(size = 18),
-        legend.title=element_text(size=20))+
+        axis.title.x  = element_text(size=14,face="bold"),
+        axis.title.y  = element_text(size=14,face="bold"),
+        axis.text.y = element_text(size = 12),
+        axis.text.x = element_text(size = 12),
+        legend.title=element_text(size=14))+
   labs(fill = "Specialist Phage Relative Fitness") +
   ylab("Relative E. coli Growth Rate")+
   xlab("Benefit of Specialism") +
@@ -116,7 +116,7 @@ plot_comp <- cleaned_comp %>%
                        high= "#27647B",
                        midpoint = 0.5,
                        limits = c(0,1))+
-  theme_fivethirtyeight() +
+  theme_bw() +
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -126,16 +126,16 @@ plot_comp <- cleaned_comp %>%
         strip.background = element_blank(),
         axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
         axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'),
-        axis.title.x  = element_text(size=24,face="bold"),
-        axis.title.y  = element_text(size=24,face="bold"),
-        axis.text.y = element_text(size = 18),
-        axis.text.x = element_text(size = 18),
-        legend.title=element_text(size=18))+
+        axis.title.x  = element_text(size=14,face="bold"),
+        axis.title.y  = element_text(size=14,face="bold"),
+        axis.text.y = element_text(size = 12),
+        axis.text.x = element_text(size = 12),
+        legend.title=element_text(size=14))+
   labs(fill = "Specialist Phage Relative Fitness") +
   ylab("Relative E. coli Growth Rate")+
   xlab("Benefit of Specialism")+
   geom_hline(yintercept=c(6), color = "black", linetype = "dashed", size = 1)+
   geom_vline(xintercept=c(3), color = "black", linetype = "dashed", size = 1)
 
-fig4 <- plot_coop + plot_comp + plot_layout(guides = "collect") & theme(legend.position = 'bottom', legend.title = element_text(size = 18))
+fig4 <- plot_coop + plot_comp + plot_layout(guides = "collect") & theme(legend.position = 'bottom', legend.title = element_text(size = 14))
 

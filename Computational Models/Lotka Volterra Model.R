@@ -140,11 +140,12 @@ generalLV_none <- function(t,n,parms){
 }
 
 #Function to cycle through changing cost of generalism with relative fitness
-LVgeneralismcost <- function(model, parameters, modelname, startingdensity, timerange, maxcost, type){
+LVgeneralismcost <- function(model, parameters, modelname, startingdensity, timerange, maxcost, type, skip = gamma_range){
   time = timerange
   start_density = startingdensity
   if (type == "gamma"){
-    gamma_range <- seq(from = 0, to = parameters['gamma_sp'] * maxcost, by = 0.01)
+    gamma_range <- seq(from = 0, to = parameters['gamma_sp'] * maxcost, by = parameters['gamma_sp'] / 2)
+    gamma_range <- gamma_range[-skip]
     parameters_gamma = parameters
     gamma = data.frame()
     total_fitness_gamma = data.frame()

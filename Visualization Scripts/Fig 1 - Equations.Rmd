@@ -17,18 +17,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Cooperation
 \begin{gather*} 
-	  \frac{dE}{dt} = \mu_e \times E \times \frac{\alpha_{e,s} \times S}{(\alpha_{e,s} \times S) + \kappa_e} \times (R - E) - (\zeta_{e,2} \times gen \times E) - (\delta_e * E) \\
-    \frac{dS}{dt} = \mu_s  \times S \times \frac{\alpha_{s,e} \times E}{(\alpha_{s,e} \times E) + \kappa_s} \times (R - S) - (\zeta_{s,1} \times sp \times S) - (\zeta_{s,2} \times gen \times S) - (\delta_s * S) \\
-    \frac{dgen}{dt} = (\gamma_{s,2} \times gen \times S ) + (\gamma_{e,2} \times gen \times E) - (\delta_g * gen) \\
-    \frac{dsp}{dt} = (\gamma_{s,1} \times sp \times S ) - (\delta_p * sp) \\
+	  \frac{dE}{dt} = \mu_e \times E \times \frac{\alpha_{e,s} \times S}{(\alpha_{e,s} \times S) + \kappa_e} \times (R - E) - (\zeta_{e,2} \times gen \times E) - (\delta_e \times E) \\
+    \frac{dS}{dt} = \mu_s  \times S \times \frac{\alpha_{s,e} \times E}{(\alpha_{s,e} \times E) + \kappa_s} \times (R - S) - (\zeta_{s,1} \times sp \times S) - (\zeta_{s,2} \times gen \times S) - (\delta_s \times S) \\
+    \frac{dgen}{dt} = (\gamma_{s,2} \times gen \times S ) + (\gamma_{e,2} \times gen \times E) - (\delta_g \times gen) \\
+    \frac{dsp}{dt} = (\gamma_{s,1} \times sp \times S ) - (\delta_p \times sp) \\
 	\end{gather*}
 
 Competition
 \begin{gather*} 
-    \frac{dE}{dt} = \mu_e \times E \times (R - E - (\beta_{e,s} \times S)) - (\zeta_{e,2} \times gen \times E) - (\delta_e * E) \\
-    \frac{dS}{dt} = \mu_s  \times S \times (R - S - (\beta_{s,e} \times E)) - (\zeta_{s,1} \times sp \times S) - (\zeta_{s,2} \times gen \times S) - (\delta_s * S) \\
-    \frac{dgen}{dt} = (\gamma_{s,2} \times gen \times S) + (\gamma_{e,2} \times gen \times E) - (\delta_g * gen) \\
-    \frac{dsp}{dt} = (\gamma_{s,1} \times sp \times S) - (\delta_p * sp) \\
+    \frac{dE}{dt} = \mu_e \times E \times (R - E - (\beta_{e,s} \times S)) - (\zeta_{e,2} \times gen \times E) - (\delta_e \times E) \\
+    \frac{dS}{dt} = \mu_s  \times S \times (R - S - (\beta_{s,e} \times E)) - (\zeta_{s,1} \times sp \times S) - (\zeta_{s,2} \times gen \times S) - (\delta_s \times S) \\
+    \frac{dgen}{dt} = (\gamma_{s,2} \times gen \times S) + (\gamma_{e,2} \times gen \times E) - (\delta_g \times gen) \\
+    \frac{dsp}{dt} = (\gamma_{s,1} \times sp \times S) - (\delta_p \times sp) \\
 	\end{gather*}
 
 \begin{tabular}{ p{2cm} p{2cm} p{11cm}  }
@@ -46,14 +46,14 @@ R &  1.0 (coop) or 2.0 (comp) &   System carrying capacity \\
     \bottomrule
 \end{tabular}
 
-\begin{tabular}{ p{4cm} p{2cm} p{9cm}  }
+\begin{tabular}{ p{4cm} p{4cm} p{7cm}  }
     \toprule
 \mcc{Trade-off}& \mcc{Parameter Combinations}& \mcc{Significance}  \\
     \midrule
-None &  $\gamma_\mathrm{i,2}=\gamma_\mathrm{i,1}$ and\ $\zeta_\mathrm{i,2}=\zeta_\mathrm{i,1}$ &   Generalist and specialist predators are parametrically identical \\
-Benefit of specialism &  $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ or\ $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$ &  Predators differ in their ability to kill hosts \\
+None &  $\gamma_\mathrm{i,2}=\gamma_\mathrm{i,1}$ and $\zeta_\mathrm{i,2}=\zeta_\mathrm{i,1}$ &   Generalist and specialist predators are parametrically identical \\
+Benefit of specialism &  $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ or $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$ &  Specialist and generalist predators differ in their ability to kill hosts \\
 Host rate &  $\mu_\mathrm{i} \neq \mu_\mathrm{j}$  &  Host species coexistence in the absence of predators is biased or impossible \\
-Generalist preference  &  $\gamma_\mathrm{i,2} \neq \gamma_\mathrm{j,2}$ or\ $\zeta_\mathrm{i,2} \neq \zeta_\mathrm{j,2}$ &   Generalist predators are better at killing one host than another \\
+Generalist preference  &  $\gamma_\mathrm{i,2} \neq \gamma_\mathrm{j,2}$ or $\zeta_\mathrm{i,2} \neq \zeta_\mathrm{j,2}$ &   Generalist predators are better at killing one host than another \\
     \bottomrule
 \end{tabular}
     
