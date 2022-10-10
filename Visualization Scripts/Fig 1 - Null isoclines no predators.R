@@ -1,6 +1,6 @@
 #ATB
-#Modeling host range paper
-#Fig 2 - ZNGI 
+#Fig 1
+#Null isoclines
 
 #load packages and data
 library("tidyverse")
@@ -41,7 +41,7 @@ data.LV.coop <-as.data.frame(lsoda(c(E=0.1,S=0.1),seq(1,250,by=0.5), model.coop,
 data.LV.comp <-as.data.frame(lsoda(c(E=0.1,S=0.1),seq(1,250,by=0.5), model.comp, params.comp))
 
 # plot the trajectories of the system
-par(mfrow =c(2,1), mar = c(4,4,4,4))
+par(mfrow =c(1,2), mar = c(2.5,2.5,2.5,2.5))
 plot(NULL, xlim=c(0,1),ylim=c(0,1), type = "l",xlab = "E. coli Density", ylab = "S. enterica Density", main = "Cooperation")
 nullclines(model.coop, xlim=c(0,1),ylim=c(0,1), parameters=params.coop, system="two.dim",  col = c("black", "black"), add=TRUE, add.legend=FALSE)
 text(x = 0.833, y = 0.275,                # Add text element
@@ -54,4 +54,3 @@ text(x = 1.65, y = 0.02,                # Add text element
      "dE/dt")
 text(x = 0.25, y = 1.5,                # Add text element
      "dS/dt")
-
