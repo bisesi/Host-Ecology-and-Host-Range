@@ -10328,7 +10328,7 @@ Coop solutions for generalist preference with specialist advantage\
 6927e40bb20e"]
 },
 WindowSize->{1138, 766},
-WindowMargins->{{Automatic, -13}, {Automatic, 0}},
+WindowMargins->{{Automatic, 109}, {Automatic, 0}},
 TaggingRules-><|"TryRealOnly" -> False|>,
 FrontEndVersion->"13.1 for Mac OS X x86 (64-bit) (June 16, 2022)",
 StyleDefinitions->"Default.nb",
