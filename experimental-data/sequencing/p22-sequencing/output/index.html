@@ -1,0 +1,155 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html>
+<head>
+<title>BRESEQ :: Mutation Predictions</title>
+<style type = "text/css">
+body {font-family: sans-serif; font-size: 11pt;}
+th {background-color: rgb(0,0,0); color: rgb(255,255,255);}
+table {background-color: rgb(1,0,0); color: rgb(0,0,0);}
+tr {background-color: rgb(255,255,255);}
+.mutation_in_codon {color:red; text-decoration : underline;}
+.snp_type_synonymous{color:green;}
+.snp_type_nonsynonymous{color:blue;}
+.snp_type_nonsense{color:red;}
+.mutation_header_row {background-color: rgb(0,130,0);}
+.read_alignment_header_row {background-color: rgb(255,0,0);}
+.missing_coverage_header_row {background-color: rgb(0,100,100);}
+.new_junction_header_row {background-color: rgb(0,0,155);}
+.copy_number_header_row {background-color: rgb(153,102,0);}
+.alternate_table_row_0 {background-color: rgb(255,255,255);}
+.alternate_table_row_1 {background-color: rgb(235,235,235);}
+.gray_table_row {background-color: rgb(230,230,245);}
+.polymorphism_table_row {background-color: rgb(160,255,160);}
+.highlight_table_row {background-color: rgb(192,255,255);}
+.reject_table_row {background-color: rgb(255,200,165);}
+.user_defined_table_row {background-color: rgb(255,255,0);}
+.information_table_row {background-color: rgb(200,255,255);}
+.junction_repeat {background-color: rgb(255,165,0)}
+.junction_gene {}
+.hidden { display: none; }
+.unhidden { display: block; }
+
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<script type="text/javascript">
+  function hideTog(divID) {
+    var item = document.getElementById(divID);
+    if (item) {
+      item.className=(item.className=='hidden')?'unhidden':'hidden';
+    }
+  }
+  function showTog(butID) {
+    var button = document.getElementById(butID);
+    if (button) {
+      button.value=(button.value=='Show')?'Hide':'Show';
+    }
+  }
+</script>
+
+</head>
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+<tr>
+<td><a href="http://barricklab.org/breseq"><img src="evidence/breseq_small.png" /></a></td>
+<td width="100%">
+<b><i>breseq</i></b>&nbsp;&nbsp;version 0.28.0&nbsp;&nbsp;
+<br><a href="index.html">mutation predictions</a> | 
+<a href="marginal.html">marginal predictions</a> | 
+<a href="summary.html">summary statistics</a> | 
+<a href="output.gd">genome diff</a> | 
+<a href="log.txt">command line log</a>
+</td></tr></table>
+
+<p>
+<!--Mutation Predictions -->
+<p>
+<!--Output Html_Mutation_Table_String-->
+<table border="0" cellspacing="1" cellpadding="3">
+<tr><th colspan="7" align="left" class="mutation_header_row">Predicted mutations</th></tr><tr>
+<th>evidence</th>
+<th>position</th>
+<th>mutation</th>
+<th>freq</th>
+<th>annotation</th>
+<th>gene</th>
+<th width="100%">description</th>
+</tr>
+
+<!-- Item Lines -->
+
+<!-- Print The Table Row -->
+<tr class="normal_table_row">
+<td align="center"><a href="evidence/SNP_1.html">RA</a></td><!-- Evidence -->
+<td align="right">17,743</td><!-- Position -->
+<td align="center">G&rarr;A</td><!-- Cell Mutation -->
+<td align="right">100%</td>
+<td align="center"><font class="snp_type_nonsynonymous">G514S</font>&nbsp;(<font class="mutation_in_codon">G</font>GT&rarr;<font class="mutation_in_codon">A</font>GT)&nbsp;</td>
+<td align="center"><i>9</i>&nbsp;&rarr;</td>
+<td align="left">tailspike protein</td>
+</tr>
+<!-- End Table Row -->
+
+<!-- Print The Table Row -->
+<tr class="polymorphism_table_row">
+<td align="center"><a href="evidence/SNP_2.html">RA</a></td><!-- Evidence -->
+<td align="right">28,455</td><!-- Position -->
+<td align="center">C&rarr;A</td><!-- Cell Mutation -->
+<td align="right">6.0%</td>
+<td align="center"><font class="snp_type_nonsense">E91*</font>&nbsp;(<font class="mutation_in_codon">G</font>AA&rarr;<font class="mutation_in_codon">T</font>AA)&nbsp;</td>
+<td align="center"><i>17</i>&nbsp;&larr;</td>
+<td align="left">unknown</td>
+</tr>
+<!-- End Table Row -->
+
+<!-- Print The Table Row -->
+<tr class="normal_table_row">
+<td align="center"><a href="evidence/SNP_3.html">RA</a></td><!-- Evidence -->
+<td align="right">30,899</td><!-- Position -->
+<td align="center">G&rarr;T</td><!-- Cell Mutation -->
+<td align="right">100%</td>
+<td align="center">intergenic&nbsp;(&#8209;240/+114)</td>
+<td align="center"><i>24</i>&nbsp;&larr;&nbsp;/&nbsp;&larr;&nbsp;<i>c2</i></td>
+<td align="left">unknown/prophage repressor</td>
+</tr>
+<!-- End Table Row -->
+
+<!-- Print The Table Row -->
+<tr class="normal_table_row">
+<td align="center"><a href="evidence/SNP_4.html">RA</a></td><!-- Evidence -->
+<td align="right">31,700</td><!-- Position -->
+<td align="center">C&rarr;G</td><!-- Cell Mutation -->
+<td align="right">100%</td>
+<td align="center">intergenic&nbsp;(&#8209;37/&#8209;44)</td>
+<td align="center"><i>c2</i>&nbsp;&larr;&nbsp;/&nbsp;&rarr;&nbsp;<i>cro</i></td>
+<td align="left">prophage repressor/repressor</td>
+</tr>
+<!-- End Table Row -->
+
+<!-- Print The Table Row -->
+<tr class="normal_table_row">
+<td align="center"><a href="evidence/SNP_5.html">RA</a></td><!-- Evidence -->
+<td align="right">31,716</td><!-- Position -->
+<td align="center">A&rarr;G</td><!-- Cell Mutation -->
+<td align="right">100%</td>
+<td align="center">intergenic&nbsp;(&#8209;53/&#8209;28)</td>
+<td align="center"><i>c2</i>&nbsp;&larr;&nbsp;/&nbsp;&rarr;&nbsp;<i>cro</i></td>
+<td align="left">prophage repressor/repressor</td>
+</tr>
+<!-- End Table Row -->
+
+<!-- Print The Table Row -->
+<tr class="normal_table_row">
+<td align="center"><a href="evidence/SNP_6.html">RA</a></td><!-- Evidence -->
+<td align="right">35,023</td><!-- Position -->
+<td align="center">C&rarr;A</td><!-- Cell Mutation -->
+<td align="right">100%</td>
+<td align="center"><font class="snp_type_nonsynonymous">H92N</font>&nbsp;(<font class="mutation_in_codon">C</font>AT&rarr;<font class="mutation_in_codon">A</font>AT)&nbsp;</td>
+<td align="center"><i>ninB</i>&nbsp;&rarr;</td>
+<td align="left">NinB</td>
+</tr>
+<!-- End Table Row -->
+</table>
+</body></html>

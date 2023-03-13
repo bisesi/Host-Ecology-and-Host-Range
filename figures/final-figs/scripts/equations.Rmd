@@ -1,0 +1,48 @@
+---
+title: "equations"
+author: "Ave Bisesi"
+date: "`r Sys.Date()`"
+output: pdf_document
+tables: true
+classoption: landscape
+header-includes:
+- \usepackage{caption}
+- \usepackage{wrapfig}
+- \captionsetup{labelfont=bf, font=footnotesize}
+- \captionsetup[figure]{font=footnotesize,labelfont=bf}
+- \setlength{\footnotesep}{0.5cm}
+- \NewExpandableDocumentCommand\mcc{m}{\multicolumn{1}{c}{#1}}
+- \usepackage[utf8]{inputenc}
+- \usepackage{amsmath}
+---
+
+# LV Model
+\begin{eqnarray} 
+    \frac{dE}{dt} & = & \mu_e \times E \times \frac{\alpha_{e,s} \times S}{(\alpha_{e,s} \times S) + \kappa_e} \times (R - E - (\beta_{e,s} \times S)) - (\zeta_{e,2} \times gen \times E) - (\delta_e \times E) \\
+    \frac{dS}{dt} & = & \mu_s  \times S \times \frac{\alpha_{s,e} \times E}{(\alpha_{s,e} \times E) + \kappa_s} \times (R - S - (\beta_{s,e} \times E)) - (\zeta_{s,1} \times sp \times S) - (\zeta_{s,2} \times gen \times S) - (\delta_s \times S) \\
+    \frac{dgen}{dt} & = & (\gamma_{s,2} \times \zeta_{s,2} \times gen \times S ) + (\gamma_{e,2} \times \zeta_{e,2} \times gen \times E) - (\delta_g \times gen) \\
+    \frac{dsp}{dt} & = & (\gamma_{s,1} \times \zeta_{s,1} \times sp \times S ) - (\delta_p \times sp)
+	\end{eqnarray}
+	
+# Simple predictive inequality
+\begin{eqnarray} 
+   S^{*}_{gen} & = & \frac{\delta - \gamma_{g}\zeta_{g} E}{\gamma_{g} \zeta_{g}}  \\
+   S^{*}_{sp} & = & \frac{\delta}{\gamma_{p}\zeta_{p}} \\
+   S^{*}_{sp} & < & S^{*}_{gen} \\
+    \frac{\delta}{\gamma_{p} \zeta_{p}} & < & \frac{\delta - \gamma_{g}\zeta_{g} E}{\gamma_{g} \zeta_{g}} \\
+    \frac{\gamma_{g}\zeta_{g}}{\gamma_{p}\zeta_{p}} & < & 1 - \frac{\gamma_{g}\zeta_{g} E}{\delta}
+\end{eqnarray}
+
+# Jmut values 
+## Specialist to generalist
+\begin{eqnarray} 
+  Jmut_{coop} & = & I_{gen}^{E} R + \delta(-1 + \frac{I_{gen}^{S}}{I_{sp}^{S}} - \frac{I_{gen}^{E}}{\mu_e + \kappa_e \mu_e}) \\
+  Jmut_{comp} & = & I_{gen}^{E} R + \frac{(\beta_{e,s} \mu_e I_{gen}^{E} - \mu_e I_{gen}^{S} + (\mu_e + I_{gen}^{E}) I_{sp}^{S}) \delta}{\mu_e I_{sp}^{S}}
+\end{eqnarray}
+
+## Generalist to specialist
+\begin{eqnarray} 
+  Jmut_{coop} & = & - \delta + \frac{\gamma_{s,1} \zeta_{s,1} ((1 + \kappa_s) mu_s R \gamma_{e,2} {\zeta_{e,2}}^2 - (1 + \kappa_e)\mu_e \zeta{s,2} (R \gamma_{e,2} \zeta_{e,2} - \delta) + \gamma_{e,2}  \zeta_{e,2}(-\zeta{e,2} + \zeta_{s,2})\delta}{(1 + \kappa_s) \mu_s \gamma_{e,2} {\zeta_{e,2}}^2 + (1 + \kappa_e) \mu_e \gamma_{s,2} {\zeta_{s,2}}^2}  \\
+  Jmut_{comp} & = & - \delta + \frac{\gamma_{s,1} \zeta_{s,1} (\gamma_{e,2} \zeta_{e,2}(- \zeta_{e,2} + \zeta_{s,2} )\delta + \mu_e \zeta_{s,2}(-R \gamma_{e,2} \zeta_{e,2} - \delta) + \gamma_{e,2} \zeta_{e,2}(- \zeta_{e,2} + \zeta_{s,2})\delta)}{\mu_e \zeta_{s,2} (- \beta_{e,s} \gamma_{e,2} \zeta_{e,2} + \gamma_{s,2} \zeta_{s,2}) + \mu_s \zeta_{e,2}(\gamma_{e,2} \zeta_{e,2} - \beta_{s,e} \gamma_{s,2} \zeta_{s,2})} 
+\end{eqnarray}
+  
