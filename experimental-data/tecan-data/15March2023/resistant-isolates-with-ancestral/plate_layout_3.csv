@@ -1,0 +1,97 @@
+﻿well,interaction,phage,media
+A1,none,none,glucose
+A2,none,none,glucose
+A3,none,none,glucose
+A4,none,none,glucose
+A5,none,none,glucose
+A6,none,none,glucose
+A7,none,none,glucose
+A8,none,none,glucose
+A9,none,none,glucose
+A10,none,none,glucose
+A11,none,none,glucose
+A12,none,none,glucose
+B1,none,none,glucose
+B2,Smono,none,glucose
+B3,Smono,none,glucose
+B4,Smono,none,glucose
+B5,R2,none,glucose
+B6,R2,none,glucose
+B7,R2,none,glucose
+B8,R4,none,glucose
+B9,R4,none,glucose
+B10,R4,none,glucose
+B11,R4,Phi + P22,glucose
+B12,none,Phi,glucose
+C1,none,none,glucose
+C2,R8,none,glucose
+C3,R8,none,glucose
+C4,R8,none,glucose
+C5,Smono,Phi,glucose
+C6,Smono,Phi,glucose
+C7,Smono,Phi,glucose
+C8,Smono,Phi,glucose
+C9,R2,Phi,glucose
+C10,R2,Phi,glucose
+C11,R4,Phi + P22,glucose
+C12,none,Phi,glucose
+D1,none,none,glucose
+D2,R2,Phi,glucose
+D3,R2,Phi,glucose
+D4,R4,Phi,glucose
+D5,R4,Phi,glucose
+D6,R4,Phi,glucose
+D7,R4,Phi,glucose
+D8,R8,Phi,glucose
+D9,R8,Phi,glucose
+D10,R8,Phi,glucose
+D11,R8,Phi + P22,glucose
+D12,none,Phi,glucose
+E1,none,none,glucose
+E2,R8,Phi,glucose
+E3,Smono,P22,glucose
+E4,Smono,P22,glucose
+E5,Smono,P22,glucose
+E6,Smono,P22,glucose
+E7,R2,P22,glucose
+E8,R2,P22,glucose
+E9,R2,P22,glucose
+E10,R2,P22,glucose
+E11,R8,Phi + P22,glucose
+E12,none,Phi,LB
+F1,none,none,glucose
+F2,R4,P22,glucose
+F3,R4,P22,glucose
+F4,R4,P22,glucose
+F5,R4,P22,glucose
+F6,R8,P22,glucose
+F7,R8,P22,glucose
+F8,R8,P22,glucose
+F9,R8,P22,glucose
+F10,Smono,Phi + P22,glucose
+F11,R8,Phi + P22,glucose
+F12,none,Phi,LB
+G1,none,none,glucose
+G2,Smono,Phi + P22,glucose
+G3,Smono,Phi + P22,glucose
+G4,Smono,Phi + P22,glucose
+G5,R2,Phi + P22,glucose
+G6,R2,Phi + P22,glucose
+G7,R2,Phi + P22,glucose
+G8,R2,Phi + P22,glucose
+G9,R4,Phi + P22,glucose
+G10,R4,Phi + P22,glucose
+G11,R8,Phi + P22,glucose
+G12,none,Phi,LB
+H1,none,none,glucose
+H2,none,none,glucose
+H3,none,none,glucose
+H4,none,none,glucose
+H5,none,none,glucose
+H6,none,none,glucose
+H7,none,none,glucose
+H8,none,none,glucose
+H9,none,none,glucose
+H10,none,none,glucose
+H11,none,none,glucose
+H12,none,none,

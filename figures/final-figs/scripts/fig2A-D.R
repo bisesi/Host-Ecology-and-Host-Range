@@ -14,9 +14,9 @@ partA <- coop_sp_to_gen_pip_values %>%
   mutate(pip = case_when(eigen > 0 ~ "invasion", eigen < 0 ~ "resistance", TRUE ~ "invasion")) %>%
   ggplot(aes(x = I_S_sp, y = I_E_gen, fill = pip)) +
   geom_tile()+
-  scale_fill_manual(values = c("grey", "black"))+
-  xlab("resident infectivity on shared prey")+
-  ylab("mutant infectivity on alternative prey")+
+  scale_fill_manual(values = c("black", "grey"))+
+  xlab("resident infectivity on shared host")+
+  ylab("mutant infectivity on alternative host")+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -32,9 +32,9 @@ partB <- comp_sp_to_gen_pip_values %>%
   mutate(pip = case_when(eigen > 0 ~ "invasion", eigen < 0 ~ "resistance", TRUE ~ "resistance")) %>%
   ggplot(aes(x = I_S_sp, y = I_E_gen, fill = pip)) +
   geom_tile()+
-  scale_fill_manual(values = c("grey", "black"))+
-  xlab("resident infectivity on shared prey")+
-  ylab("mutant infectivity on alternative prey")+
+  scale_fill_manual(values = c("black", "grey"))+
+  xlab("resident infectivity on shared host")+
+  ylab("mutant infectivity on alternative host")+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -51,9 +51,9 @@ partC <- coop_gen_to_sp_pip_values %>%
   mutate(pip = case_when(eigen > 0 ~ "invasion", eigen < 0 ~ "resistance", TRUE ~ "resistance")) %>%
   ggplot(aes(x = gamma_genS, y = gamma_sp, fill = pip)) +
   geom_tile()+
-  scale_fill_manual(values = c("grey", "black"))+
-  xlab("resident burst size on shared prey")+
-  ylab("mutant burst size on shared prey")+
+  scale_fill_manual(values = c("grey"))+
+  xlab("resident burst size on shared host")+
+  ylab("mutant burst size on shared host")+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -78,9 +78,9 @@ partD <- comp_gen_to_sp_pip_values %>%
                                              "1.2" = "shared prey coeff: 1.2",
                                              "1.5" = "shared prey coeff: 1.5",
                                              "2.1" = "shared prey coeff: 2.1")))+
-  scale_fill_manual(values = c("grey", "black"))+
-  xlab("resident burst size on shared prey")+
-  ylab("mutant burst size on shared prey")+
+  scale_fill_manual(values = c("black", "grey"))+
+  xlab("resident burst size on shared host")+
+  ylab("mutant burst size on shared host")+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),

@@ -30,8 +30,8 @@ header-includes:
 $\alpha_\mathrm{j,i}$ &  1.0 &   Cooperation coefficient, benefit of host species \textit{i} to host species \textit{j} \\
 $\beta_\mathrm{j,i}$  &  0.9 &   Competition coefficient, effect of host species \textit{i} on host species \textit{j} \\
 $\mu_\mathrm{i}$    &  0.5 &   Intrinsic growth rate of host species \textit{i} \\
-$\gamma_\mathrm{i,x}$ &  20  &   Efficiency of predator with range \textit{x} on host species \textit{i} \\
-$\zeta_\mathrm{i,x}$  &  0.001 &   Consumption rate of predator with range \textit{x} on host species \textit{i} \\
+$\gamma_\mathrm{i,x}$ &  20  &   Burst size of phage with range \textit{x} on host species \textit{i} \\
+$\zeta_\mathrm{i,x}$  &  0.001 &   Attachment rate of phage with range \textit{x} on host species \textit{i} \\
 $\delta_\mathrm{i}$    &  0.03  &   Natural rate of death for species \textit{i} \\
 $\kappa_\mathrm{i}$ &  1.0    &   Half-saturation Monod constant of species \textit{i} \\
 R &  1.0 (coop) or 2.0 (comp) &   System carrying capacity \\
@@ -53,9 +53,9 @@ R &  1.0 (coop) or 2.0 (comp) &   System carrying capacity \\
 \mcc{Trade-off}& \mcc{Parameter Combinations}& \mcc{Significance}  \\
     \midrule
 None &  $\gamma_\mathrm{i,2}=\gamma_\mathrm{i,1}$ and $\zeta_\mathrm{i,2}=\zeta_\mathrm{i,1}$ &   Generalist and specialist predators are parametrically identical \\
-Cost of generalism &  $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ or $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$ &  Specialist and generalist predators differ in their ability to kill hosts \\
-Interaction outcome & $\mu_\mathrm{i} \neq \mu_\mathrm{j}$ or $\beta_\mathrm{i,j} \neq \beta_\mathrm{j,i}$ or $\alpha_\mathrm{i,j} \neq \alpha_\mathrm{j,i}$  & Prey species coexistence in the absence of predators is biased or impossible \\
-Cost of generalism and interaction outcome & $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ and $\mu_\mathrm{i} \neq \mu_\mathrm{j}$ or $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ and $\beta_\mathrm{i,j} \neq \beta_\mathrm{j,i}$ or $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ and $\alpha_\mathrm{i,j} \neq \alpha_\mathrm{j,i}$ or $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$ and $\mu_\mathrm{i} \neq \mu_\mathrm{j}$ or $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$ and $\beta_\mathrm{i,j} \neq \beta_\mathrm{j,i}$ or $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$  and $\alpha_\mathrm{i,j} \neq \alpha_\mathrm{j,i}$ & Specialist and generalist predators differ in their ability to kill hosts and prey species coexistence in the absence of predators is biased or impossible \\\\
+Cost of generalism &  $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ or $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$ &  Specialist and generalist phage differ in their ability to kill hosts \\
+Interaction outcome & $\mu_\mathrm{i} \neq \mu_\mathrm{j}$ or $\beta_\mathrm{i,j} \neq \beta_\mathrm{j,i}$ or $\alpha_\mathrm{i,j} \neq \alpha_\mathrm{j,i}$  & Prey species coexistence in the absence of phage is biased or impossible \\
+Cost of generalism and interaction outcome & $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ and $\mu_\mathrm{i} \neq \mu_\mathrm{j}$ or $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ and $\beta_\mathrm{i,j} \neq \beta_\mathrm{j,i}$ or $\gamma_\mathrm{i,2}\neq\gamma_\mathrm{i,1}$ and $\alpha_\mathrm{i,j} \neq \alpha_\mathrm{j,i}$ or $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$ and $\mu_\mathrm{i} \neq \mu_\mathrm{j}$ or $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$ and $\beta_\mathrm{i,j} \neq \beta_\mathrm{j,i}$ or $\zeta_\mathrm{i,2}\neq\zeta_\mathrm{i,1}$  and $\alpha_\mathrm{i,j} \neq \alpha_\mathrm{j,i}$ & Specialist and generalist phage differ in their ability to kill hosts and host species coexistence in the absence of phage is biased or impossible \\\\
     \bottomrule
 \end{tabular}
 

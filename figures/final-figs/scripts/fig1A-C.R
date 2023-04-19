@@ -41,8 +41,8 @@ partA <- all_data_partA %>% ungroup() %>%
 #part B
 gamma_and_rate_coop <- gamma_and_rate_coop  %>% mutate(cost = "burst size", parameter = "rate", alpha2 = 1, c_sp = 1e-3)
 c_and_rate_coop <- c_and_rate_coop  %>% mutate(cost = "attachment rate", parameter = "rate", alpha2 = 1, gamma_sp = 20)
-gamma_and_alpha_coop <- gamma_and_alpha_coop  %>% mutate(cost = "burst size", parameter = "alpha", rate_e = 0.5, c_sp = 1e-3)
-c_and_alpha_coop <- c_and_alpha_coop  %>% mutate(cost = "attachment rate", parameter = "alpha", rate_e = 0.5, gamma_sp = 20)
+gamma_and_alpha_coop <- gamma_and_alpha_coop  %>% mutate(cost = "burst size", parameter = "benefit coeff", rate_e = 0.5, c_sp = 1e-3)
+c_and_alpha_coop <- c_and_alpha_coop  %>% mutate(cost = "attachment rate", parameter = "benefit coeff", rate_e = 0.5, gamma_sp = 20)
 all_data_partB <- rbind(gamma_and_rate_coop, c_and_rate_coop, gamma_and_alpha_coop, c_and_alpha_coop) %>%
   ungroup() %>%
   filter(time == max(time)) %>%
@@ -63,9 +63,9 @@ partB <- all_data_partB   %>%
   pivot_longer(cols = c(c_ratio, gamma_ratio), names_to = "cost_type", values_to = "cost_amount") %>%
   filter((cost_type == "c_ratio" & cost == "attachment rate") | (cost_type == "gamma_ratio" & cost == "burst size")) %>%
   pivot_longer(cols = c(alpha_ratio, rate_ratio), names_to = "parameter_type", values_to = "parameter_value") %>%
-  filter((parameter_type == "rate_ratio" & parameter == "rate") | (parameter_type == "alpha_ratio" & parameter == "alpha")) %>%
+  filter((parameter_type == "rate_ratio" & parameter == "rate") | (parameter_type == "alpha_ratio" & parameter == "benefit coeff")) %>%
   ggplot(aes(x = cost_amount, y = parameter_value)) +
-  geom_tile(aes(fill = normalized), width=1,height=1)+
+  geom_tile(aes(fill = normalized), width=0.5,height=0.5)+
   facet_grid(parameter~cost)+
   scale_fill_gradient2(low = "#CA3542",
                        mid = "white",
@@ -73,7 +73,7 @@ partB <- all_data_partB   %>%
                        midpoint = 0.5,
                        limits = c(0,1))+
   xlab("fitness cost of generalism")+
-  ylab("relative growth advantage of alternative prey")+
+  ylab("relative growth advantage of alternative host")+
   geom_vline(xintercept = 1, linetype = "dashed")+
   geom_hline(yintercept = 1, linetype = "dashed")+
   theme(axis.title = element_text(), 
@@ -90,14 +90,14 @@ partB <- all_data_partB   %>%
 #part C
 gamma_and_rate_comp <- gamma_and_rate_comp  %>% mutate(cost = "burst size", parameter = "rate", beta2 = 0.9, c_sp = 1e-3)
 c_and_rate_comp <- c_and_rate_comp  %>% mutate(cost = "attachment rate", parameter = "rate", beta2 = 0.9, gamma_sp = 20)
-gamma_and_beta_comp <- gamma_and_beta_comp  %>% mutate(cost = "burst size", parameter = "beta", rate_e = 0.5, c_sp = 1e-3)
-c_and_beta_comp <- c_and_beta_comp  %>% mutate(cost = "attachment rate", parameter = "beta", rate_e = 0.5, gamma_sp = 20)
+gamma_and_beta_comp <- gamma_and_beta_comp  %>% mutate(cost = "burst size", parameter = "comp coeff", rate_e = 0.5, c_sp = 1e-3)
+c_and_beta_comp <- c_and_beta_comp  %>% mutate(cost = "attachment rate", parameter = "comp coeff", rate_e = 0.5, gamma_sp = 20)
 all_data_partC <- rbind(gamma_and_rate_comp, c_and_rate_comp, gamma_and_beta_comp, c_and_beta_comp) %>%
   ungroup() %>%
   filter(time == max(time)) %>%
   select(beta2, gamma_sp, cost, parameter, rate_e, c_sp, gen, sp)
 
-partC <- all_data_partC   %>%
+partC <- all_data_partC %>%
   mutate(beta_ratio = beta2 / 0.9,
          rate_ratio = rate_e / 0.5, 
          gamma_ratio = gamma_sp / 20,
@@ -112,9 +112,9 @@ partC <- all_data_partC   %>%
   pivot_longer(cols = c(c_ratio, gamma_ratio), names_to = "cost_type", values_to = "cost_amount") %>%
   filter((cost_type == "c_ratio" & cost == "attachment rate") | (cost_type == "gamma_ratio" & cost == "burst size")) %>%
   pivot_longer(cols = c(beta_ratio, rate_ratio), names_to = "parameter_type", values_to = "parameter_value") %>%
-  filter((parameter_type == "rate_ratio" & parameter == "rate") | (parameter_type == "beta_ratio" & parameter == "beta")) %>%
+  filter((parameter_type == "rate_ratio" & parameter == "rate") | (parameter_type == "beta_ratio" & parameter == "comp coeff")) %>%
   ggplot(aes(x = cost_amount, y = parameter_value)) +
-  geom_tile(aes(fill = normalized), width=1,height=1)+
+  geom_tile(aes(fill = normalized), width=0.67,height=0.67)+
   facet_grid(parameter~cost)+
   scale_fill_gradient2(low = "#CA3542",
                        mid = "white",
@@ -122,16 +122,16 @@ partC <- all_data_partC   %>%
                        midpoint = 0.5,
                        limits = c(0,1))+
   xlab("fitness cost of generalism")+
-  ylab("relative growth advantage of alternative prey")+
+  ylab("relative growth advantage of alternative host")+
   geom_vline(xintercept = 1, linetype = "dashed")+
   geom_hline(yintercept = 1, linetype = "dashed")+
+  theme_bw()+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  theme_bw()+
   labs(fill = "specialist relative fitness")+
   xlim(0, 5)+
   ylim(0, 5)

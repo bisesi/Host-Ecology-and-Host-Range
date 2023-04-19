@@ -26,7 +26,10 @@ parameters_coop <- c(
   c_sp = 1e-3,
   
   #additional constants
-  dilution = 3e-2, #rate of dilution (emigration/death) was 3e-2
+  dilution_E = 3e-2,
+  dilution_S = 3e-2,
+  dilution_gen = 3e-2,
+  dilution_sp = 3e-2,#rate of dilution (emigration/death) was 3e-2
   k_e = 1, #half-saturation
   k_s = 1 #half-saturation
 )
@@ -52,7 +55,10 @@ parameters_comp <- c(
   c_sp = 1e-3,
   
   #additional constants
-  dilution = 3e-2 #rate of dilution (emigration/death) was 3e-2
+  dilution_E = 3e-2,
+  dilution_S = 3e-2,
+  dilution_gen = 3e-2,
+  dilution_sp = 3e-2 #rate of dilution (emigration/death) was 3e-2
 )
 
 parameters_coop_R <- c(
@@ -75,7 +81,10 @@ parameters_coop_R <- c(
   c_sp = 1e-3,
   
   #additional constants
-  dilution = 3e-2, #rate of dilution (emigration/death) was 3e-2
+  dilution_E = 3e-2,
+  dilution_S = 3e-2,
+  dilution_gen = 3e-2,
+  dilution_sp = 3e-2, #rate of dilution (emigration/death) was 3e-2
   k_e = 1, #half-saturation
   k_s = 1, #half-saturation
   R = 1
@@ -102,7 +111,10 @@ parameters_comp_R <- c(
   c_sp = 1e-3,
   
   #additional constants
-  dilution = 3e-2,
+  dilution_E = 3e-2,
+  dilution_S = 3e-2,
+  dilution_gen = 3e-2,
+  dilution_sp = 3e-2,
   R = 1#rate of dilution (emigration/death) was 3e-2
 )
 
@@ -123,7 +135,10 @@ parameters_none <- c(
   c_sp = 1e-3,
   
   #additional constants
-  dilution = 3e-2 #rate of dilution (emigration/death) was 3e-2
+  dilution_E = 3e-2,
+  dilution_S = 3e-2,
+  dilution_gen = 3e-2,
+  dilution_sp = 3e-2 #rate of dilution (emigration/death) was 3e-2
 )
 
 #Mathematical models
@@ -138,11 +153,11 @@ generalLV_coop <- function(t,n,parms){
     }
     
     #Coop    
-    dE = rate_e * E * (alpha1*S/(alpha1*S + k_e)) * (1-E) - c_genE*gen*E - dilution*E
-    dS = rate_s * S * (alpha2*E/(alpha2*E + k_s)) * (1-S) - c_sp*sp*S - c_genS*gen*S - dilution*S
+    dE = rate_e * E * (alpha1*S/(alpha1*S + k_e)) * (1-E) - c_genE*gen*E - dilution_E*E
+    dS = rate_s * S * (alpha2*E/(alpha2*E + k_s)) * (1-S) - c_sp*sp*S - c_genS*gen*S - dilution_S*S
     
-    dgen = gamma_genS*c_genS*gen*S + gamma_genE*c_genE*gen*E - dilution*gen
-    dsp = gamma_sp*c_sp*sp*S - dilution*sp
+    dgen = gamma_genS*c_genS*gen*S + gamma_genE*c_genE*gen*E - dilution_gen*gen
+    dsp = gamma_sp*c_sp*sp*S - dilution_sp*sp
     
     return(list(c(dE, dS, dgen, dsp)))
   })
@@ -159,11 +174,11 @@ generalLV_comp <- function(t,n,parms){
     }
     
     #Comp
-    dE = rate_e * E * (2-E-(beta1*S)) - c_genE*gen*E - dilution*E
-    dS = rate_s * S * (2-S-(beta2*E)) - c_sp*sp*S - c_genS*gen*S - dilution*S
+    dE = rate_e * E * (2-E-(beta1*S)) - c_genE*gen*E - dilution_E*E
+    dS = rate_s * S * (2-S-(beta2*E)) - c_sp*sp*S - c_genS*gen*S - dilution_S*S
     
-    dgen = gamma_genS*c_genS*gen*S + gamma_genE*c_genE*gen*E - dilution*gen
-    dsp = gamma_sp*c_sp*sp*S - dilution*sp
+    dgen = gamma_genS*c_genS*gen*S + gamma_genE*c_genE*gen*E - dilution_gen*gen
+    dsp = gamma_sp*c_sp*sp*S - dilution_sp*sp
     
     return(list(c(dE, dS, dgen, dsp)))
   })
@@ -180,11 +195,11 @@ generalLV_coop_R <- function(t,n,parms){
     }
     
     #Coop    
-    dE = rate_e * E * (alpha1*S/(alpha1*S + k_e)) * (R-E) - c_genE*gen*E - dilution*E
-    dS = rate_s * S * (alpha2*E/(alpha2*E + k_s)) * (R-S) - c_sp*sp*S - c_genS*gen*S - dilution*S
+    dE = rate_e * E * (alpha1*S/(alpha1*S + k_e)) * (R-E) - c_genE*gen*E - dilution_E*E
+    dS = rate_s * S * (alpha2*E/(alpha2*E + k_s)) * (R-S) - c_sp*sp*S - c_genS*gen*S - dilution_S*S
     
-    dgen = gamma_genS*c_genS*gen*S + gamma_genE*c_genE*gen*E - dilution*gen
-    dsp = gamma_sp*c_sp*sp*S - dilution*sp
+    dgen = gamma_genS*c_genS*gen*S + gamma_genE*c_genE*gen*E - dilution_gen*gen
+    dsp = gamma_sp*c_sp*sp*S - dilution_sp*sp
     
     return(list(c(dE, dS, dgen, dsp)))
   })
@@ -201,11 +216,11 @@ generalLV_comp_R <- function(t,n,parms){
     }
     
     #Comp
-    dE = rate_e * E * (R-E-(beta1*S)) - c_genE*gen*E - dilution*E
-    dS = rate_s * S * (R-S-(beta2*E)) - c_sp*sp*S - c_genS*gen*S - dilution*S
+    dE = rate_e * E * (R-E-(beta1*S)) - c_genE*gen*E - dilution_E*E
+    dS = rate_s * S * (R-S-(beta2*E)) - c_sp*sp*S - c_genS*gen*S - dilution_S*S
     
-    dgen = gamma_genS*c_genS*gen*S + gamma_genE*c_genE*gen*E - dilution*gen
-    dsp = gamma_sp*c_sp*sp*S - dilution*sp
+    dgen = gamma_genS*c_genS*gen*S + gamma_genE*c_genE*gen*E - dilution_gen*gen
+    dsp = gamma_sp*c_sp*sp*S - dilution_sp*sp
     
     return(list(c(dE, dS, dgen, dsp)))
   })
@@ -222,11 +237,11 @@ generalLV_none <- function(t,n,parms){
     }
     
     #Independent
-    dE = rate_e * E * (1.8-E) - c_genE*gen*E - dilution*E
-    dS = rate_s * S * (1.8-S) - c_sp*sp*S - c_genS*gen*S - dilution*S
+    dE = rate_e * E * (1.8-E) - c_genE*gen*E - dilution_E*E
+    dS = rate_s * S * (1.8-S) - c_sp*sp*S - c_genS*gen*S - dilution_S*S
     
-    dgen = gamma_genS*gen*S + gamma_genE*gen*E - dilution*gen
-    dsp = gamma_sp*sp*S - dilution*sp
+    dgen = gamma_genS*gen*S + gamma_genE*gen*E - dilution_gen*gen
+    dsp = gamma_sp*sp*S - dilution_sp*sp
     
     return(list(c(dE, dS, dgen, dsp)))
   })

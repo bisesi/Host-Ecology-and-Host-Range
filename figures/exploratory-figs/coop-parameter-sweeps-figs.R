@@ -241,6 +241,72 @@ r_c <- r_and_c %>% ungroup() %>%
         panel.grid.minor = element_blank(),
         panel.border = element_blank())
 
+dilution_coop <- dilution_gen_coop %>% ungroup() %>%
+  filter(time == max(time)) %>%
+  mutate(gen = round(gen, 3),
+         sp = round(sp, 3),
+         relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
+  pivot_longer(cols = c(gen, sp), names_to = "phage", values_to = "biomass") %>%
+  ggplot(aes(x = dilution_gen / 1e-2, y = biomass, color = phage))+
+  geom_smooth(se = FALSE, span = 0.2)+
+  theme_bw()+
+  xlab("benefit of specialism (dilution)")+
+  ylab("biomass")+
+  theme(plot.background = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        plot.title = element_text(hjust = 0.5))+
+  ggtitle("cooperation")
+
+dilution_and_gamma_coop <- dilution_gamma_coop %>% ungroup() %>%
+  filter(time == max(time)) %>%
+  mutate(gen = round(gen, 3),
+         sp = round(sp, 3),
+         relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
+  mutate(normalized = exp(log10(relative_fitness)) / (1 + exp(log10(relative_fitness)))) %>%
+  mutate(normalized = case_when(is.nan(normalized) == TRUE ~ 1,
+                                TRUE ~ normalized)) %>%
+  ggplot(aes(x = gamma_sp / 20, y = dilution_gen / 1e-2)) +
+  geom_tile(aes(fill = normalized))+
+  scale_fill_gradient2(low = "#CA3542",
+                       mid = "white",
+                       high= "#27647B",
+                       midpoint = 0.5,
+                       limits = c(0,1))+
+  xlab("gamma_sp")+
+  ylab("dilution_gen")+
+  theme_bw()+
+  theme(plot.background = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank())
+
+dilution_and_c_coop <- dilution_c_coop %>% ungroup() %>%
+  filter(time == max(time)) %>%
+  mutate(gen = round(gen, 3),
+         sp = round(sp, 3),
+         relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
+  mutate(normalized = exp(log10(relative_fitness)) / (1 + exp(log10(relative_fitness)))) %>%
+  mutate(normalized = case_when(is.nan(normalized) == TRUE ~ 1,
+                                TRUE ~ normalized)) %>%
+  ggplot(aes(x = c_sp / 1e-3, y = dilution_gen / 1e-2)) +
+  geom_tile(aes(fill = normalized))+
+  scale_fill_gradient2(low = "#CA3542",
+                       mid = "white",
+                       high= "#27647B",
+                       midpoint = 0.5,
+                       limits = c(0,1))+
+  xlab("c_sp")+
+  ylab("dilution_gen")+
+  theme_bw()+
+  theme(plot.background = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank())
+
+
+
 #patch work
 gamma + c + r + plot_layout(guides = "collect")
 gamma_alpha + c_alpha + plot_layout(guides = "collect")

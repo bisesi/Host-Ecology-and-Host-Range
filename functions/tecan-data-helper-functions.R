@@ -110,6 +110,8 @@ clean_pfu_data <- function(input){
     mutate_all(~replace(., is.nan(.), 0)) %>%
     mutate_all(~replace(., is.infinite(.), log(1 / starting_phage %>% filter(phage == "Phi + P22") %>% select(pfu_E) %>% pull, 2))) %>%
     mutate(interaction = case_when(interaction == "Smono" ~ "S Monoculture",
+                                   interaction == "Emono" ~ "E Monoculture",
+                                   interaction == "E Fac" ~ "E Facilitation",
                                    interaction == "Coop" ~ "Mutualism",
                                    interaction == "Comp" ~ "Competition",
                                    interaction == "Fac" ~ "Facilitation")) %>%

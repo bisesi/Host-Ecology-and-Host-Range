@@ -26,7 +26,8 @@ specialist_gamma_coop <- expand.grid(gamma_sp = gamma_sp)%>%
           parms=c(alpha1 = 1, alpha2 = 1, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
-                  dilution = 3e-2, k_e = 1, k_s = 1, R = 1)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1, R = 1)) %>%
         as.data.frame()
     }
   )
@@ -42,7 +43,8 @@ specialist_c_coop <- expand.grid(c_sp = c_sp)%>%
           parms=c(alpha1 = 1, alpha2 = 1, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
-                  dilution = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
         as.data.frame()
     }
   )
@@ -58,7 +60,8 @@ specialist_gamma_comp <- expand.grid(gamma_sp = gamma_sp)%>%
           parms=c(beta1 = 0.9, beta2 = 0.9, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
-                  dilution = 3e-2, R = 2)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, R = 2)) %>%
         as.data.frame()
     }
   )
@@ -74,7 +77,8 @@ specialist_c_comp <- expand.grid(c_sp = c_sp)%>%
           parms=c(beta1 = 0.9, beta2 = 0.9, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
-                  dilution = 3e-2, R = 2)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, R = 2)) %>%
         as.data.frame()
     }
   )
@@ -92,7 +96,8 @@ gamma_and_rate_coop <- expand.grid(rate_e = rate_e, gamma_sp = gamma_sp) %>%
           parms=c(alpha1 = 1, alpha2 = 1, rate_e = .$rate_e, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
-                  dilution = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
         as.data.frame()
     }
   )
@@ -109,7 +114,8 @@ c_and_rate_coop <- expand.grid(rate_e = rate_e, c_sp = c_sp) %>%
           parms=c(alpha1 = 1, alpha2 = 1, rate_e = .$rate_e, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
-                  dilution = 3e-2,k_e = 1, k_s = 1, R = 1)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1, R = 1)) %>%
         as.data.frame()
     }
   )
@@ -126,7 +132,8 @@ gamma_and_alpha_coop <- expand.grid(alpha2 = s_alpha2, gamma_sp = gamma_sp) %>%
           parms=c(alpha1 = 1, alpha2 = .$alpha2, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
-                  dilution = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
         as.data.frame()
     }
   )
@@ -143,14 +150,15 @@ c_and_alpha_coop <- expand.grid(alpha2 = s_alpha2, c_sp = c_sp) %>%
           parms=c(alpha1 = 1, alpha2 = .$alpha2, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
-                  dilution = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
         as.data.frame()
     }
   )
 
 #PART C - competition parameters
 #specialist gamma and ratio of rate s to rate e
-rate_e <- seq(from = 0, to = parameters_comp_R['rate_s'] * maxcost, by = 0.2)
+rate_e <- seq(from = 0, to = parameters_comp_R['rate_s'] * maxcost, by = 0.1)
 gamma_sp = seq(from = 0, to = parameters_comp_R['gamma_sp'] * maxcost, by = parameters_comp_R['gamma_sp'] / 10)
 
 gamma_and_rate_comp <- expand.grid(rate_e = rate_e, gamma_sp = gamma_sp) %>%
@@ -161,13 +169,14 @@ gamma_and_rate_comp <- expand.grid(rate_e = rate_e, gamma_sp = gamma_sp) %>%
           parms=c(beta1 = 0.9, beta2 = 0.9, rate_e = .$rate_e, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
-                  dilution = 3e-2, R = 2)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, R = 2)) %>%
         as.data.frame()
     }
   )
 
 #specialist c and ratio of rate s to rate e
-rate_e <- seq(from = 0, to = parameters_comp_R['rate_s'] * maxcost, by = 0.2)
+rate_e <- seq(from = 0, to = parameters_comp_R['rate_s'] * maxcost, by = 0.1)
 c_sp = seq(from = 0, to = parameters_comp_R['c_sp'] * maxcost, by = parameters_comp_R['c_sp'] / 10)
 
 c_and_rate_comp <- expand.grid(rate_e = rate_e, c_sp = c_sp) %>%
@@ -178,13 +187,14 @@ c_and_rate_comp <- expand.grid(rate_e = rate_e, c_sp = c_sp) %>%
           parms=c(beta1 = 0.9, beta2 = 0.9, rate_e = .$rate_e, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
-                  dilution = 3e-2, R = 2)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, R = 2)) %>%
         as.data.frame()
     }
   )
 
 #specialist gamma and ratio of beta1 to beta2
-s_beta2 <- seq(from = 0, to = parameters_comp_R['beta2'] * maxcost, by = 0.2)
+s_beta2 <- seq(from = 0, to = parameters_comp_R['beta2'] * maxcost, by = 0.1)
 gamma_sp = seq(from = 0, to = parameters_comp_R['gamma_sp'] * maxcost, by = parameters_comp_R['gamma_sp'] / 10)
 
 gamma_and_beta_comp <- expand.grid(beta2 = s_beta2, gamma_sp = gamma_sp) %>%
@@ -195,13 +205,14 @@ gamma_and_beta_comp <- expand.grid(beta2 = s_beta2, gamma_sp = gamma_sp) %>%
           parms=c(beta1 = 0.9, beta2 = .$beta2, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
-                  dilution = 3e-2, R = 2)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, R = 2)) %>%
         as.data.frame()
     }
   )
 
 #specialist c and ratio of beta1 to beta2
-s_beta2 <- seq(from = 0, to = parameters_comp_R['beta2'] * maxcost, by = 0.2)
+s_beta2 <- seq(from = 0, to = parameters_comp_R['beta2'] * maxcost, by = 0.1)
 c_sp = seq(from = 0, to = parameters_comp_R['c_sp'] * maxcost, by = parameters_comp_R['c_sp'] / 10)
 
 c_and_beta_comp <- expand.grid(beta2 = s_beta2, c_sp = c_sp) %>%
@@ -212,7 +223,8 @@ c_and_beta_comp <- expand.grid(beta2 = s_beta2, c_sp = c_sp) %>%
           parms=c(beta1 = 0.9, beta2 = .$beta2, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
-                  dilution = 3e-2, R = 2)) %>%
+                  dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
+                  dilution_sp = 3e-2, R = 2)) %>%
         as.data.frame()
     }
   )

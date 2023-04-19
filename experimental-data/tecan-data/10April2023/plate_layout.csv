@@ -1,0 +1,97 @@
+﻿well,interaction,phage,media
+A1,none,none,none
+A2,none,none,none
+A3,none,none,none
+A4,none,none,none
+A5,none,none,none
+A6,none,none,none
+A7,none,none,none
+A8,none,none,none
+A9,none,none,none
+A10,none,none,none
+A11,none,none,none
+A12,none,none,none
+B1,none,none,none
+B2,Smono,none,succinate
+B3,Smono,none,succinate
+B4,Smono,none,succinate
+B5,Comp,none,succinate
+B6,Comp,none,succinate
+B7,Comp,none,succinate
+B8,Emono,none,succinate
+B9,Emono,none,succinate
+B10,Emono,none,succinate
+B11,none,none,none
+B12,none,none,none
+C1,none,none,none
+C2,Smono,Phi,succinate
+C3,Smono,Phi,succinate
+C4,Smono,Phi,succinate
+C5,Comp,Phi,succinate
+C6,Comp,Phi,succinate
+C7,Comp,Phi,succinate
+C8,Smono,P22,succinate
+C9,Smono,P22,succinate
+C10,Smono,P22,succinate
+C11,none,none,none
+C12,none,none,none
+D1,none,none,none
+D2,Comp,P22,succinate
+D3,Comp,P22,succinate
+D4,Comp,P22,succinate
+D5,Smono,Phi + P22,succinate
+D6,Smono,Phi + P22,succinate
+D7,Smono,Phi + P22,succinate
+D8,Comp,Phi + P22,succinate
+D9,Comp,Phi + P22,succinate
+D10,Comp,Phi + P22,succinate
+D11,none,none,none
+D12,none,none,none
+E1,none,none,none
+E2,Smono,none,acetate
+E3,Smono,none,acetate
+E4,Smono,none,acetate
+E5,Comp,none,acetate
+E6,Comp,none,acetate
+E7,Comp,none,acetate
+E8,Emono,none,acetate
+E9,Emono,none,acetate
+E10,Emono,none,acetate
+E11,none,none,none
+E12,none,none,none
+F1,none,none,none
+F2,Smono,Phi,acetate
+F3,Smono,Phi,acetate
+F4,Smono,Phi,acetate
+F5,Comp,Phi,acetate
+F6,Comp,Phi,acetate
+F7,Comp,Phi,acetate
+F8,Smono,P22,acetate
+F9,Smono,P22,acetate
+F10,Smono,P22,acetate
+F11,none,none,none
+F12,none,none,none
+G1,none,none,none
+G2,Comp,P22,acetate
+G3,Comp,P22,acetate
+G4,Comp,P22,acetate
+G5,Smono,Phi + P22,acetate
+G6,Smono,Phi + P22,acetate
+G7,Smono,Phi + P22,acetate
+G8,Comp,Phi + P22,acetate
+G9,Comp,Phi + P22,acetate
+G10,Comp,Phi + P22,acetate
+G11,none,none,none
+G12,none,none,none
+H1,none,none,none
+H2,none,none,none
+H3,none,none,none
+H4,none,none,none
+H5,none,none,none
+H6,none,none,none
+H7,none,none,none
+H8,none,none,none
+H9,none,none,none
+H10,none,none,none
+H11,none,none,none
+H12,none,none,none
