@@ -11,8 +11,8 @@ source(here::here("data-generation", "model", "final-figs", "fig1A-C-data-genera
 #part A
 specialist_c_comp <- specialist_c_comp %>% mutate(cost = "attachment rate", interaction = "competition")
 specialist_gamma_comp <- specialist_gamma_comp %>% mutate(cost = "burst size", interaction = "competition")
-specialist_c_coop <- specialist_c_coop %>% mutate(cost = "attachment rate", interaction = "cooperation")
-specialist_gamma_coop <- specialist_gamma_coop %>% mutate(cost = "burst size", interaction = "cooperation")
+specialist_c_coop <- specialist_c_coop %>% mutate(cost = "attachment rate", interaction = "mutualism")
+specialist_gamma_coop <- specialist_gamma_coop %>% mutate(cost = "burst size", interaction = "mutualism")
 all_data_partA <- rbind(specialist_c_comp, specialist_gamma_comp, specialist_c_coop, specialist_gamma_coop)
 
 partA <- all_data_partA %>% ungroup() %>%
@@ -30,13 +30,13 @@ partA <- all_data_partA %>% ungroup() %>%
   facet_grid(cost~interaction) +
   xlab("fitness cost of generalism")+
   ylab("biomass")+
+  theme_bw()+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
-        strip.background = element_blank())+
-  theme_bw()
+        strip.background = element_blank())
 
 #part B
 gamma_and_rate_coop <- gamma_and_rate_coop  %>% mutate(cost = "burst size", parameter = "rate", alpha2 = 1, c_sp = 1e-3)
@@ -76,13 +76,13 @@ partB <- all_data_partB   %>%
   ylab("relative growth advantage of alternative host")+
   geom_vline(xintercept = 1, linetype = "dashed")+
   geom_hline(yintercept = 1, linetype = "dashed")+
+  theme_bw()+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  theme_bw()+
   labs(fill = "specialist relative fitness")+
   xlim(0, 5)+
   ylim(0, 5)
@@ -137,7 +137,7 @@ partC <- all_data_partC %>%
   ylim(0, 5)
 
 #all parts fig 1
-fig1 <- partA / (partB + partC) + plot_layout(guides = "collect") + plot_annotation(tag_levels = "A")
+fig1 <- partA / (partC + partB) + plot_layout(guides = "collect") + plot_annotation(tag_levels = "A")
 
 #load model generation code
 setwd(here::here("figures", "final-figs", "imgs"))

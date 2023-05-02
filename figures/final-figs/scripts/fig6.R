@@ -11,7 +11,7 @@ source(here::here("data-generation", "model", "final-figs", "fig6A-B-data-genera
 #combine datasets
 dilution_range <- dilution_gen
 dilution_gen_comp <- dilution_gen_comp %>% mutate(interaction = "competition")
-dilution_gen_coop <- dilution_gen_coop %>% mutate(interaction = "cooperation")
+dilution_gen_coop <- dilution_gen_coop %>% mutate(interaction = "mutualism")
 all_data <- rbind(dilution_gen_comp, dilution_gen_coop) %>% mutate(cost = dilution_gen / 1e-2) %>%
   filter(!dilution_gen %in% dilution_range[2:12])
 
@@ -28,10 +28,10 @@ plot <- all_data %>% ungroup() %>%
   facet_wrap(~interaction)+
   xlab("fitness cost of generalism")+
   ylab("biomass")+
+  theme_bw() +
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
-        strip.background = element_blank())+
-  theme_bw()
+        strip.background = element_blank())

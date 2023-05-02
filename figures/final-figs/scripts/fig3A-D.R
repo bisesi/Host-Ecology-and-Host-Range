@@ -8,7 +8,7 @@ library("ggpubr")
 library("rstatix")
 
 #set date
-date <- "8March2023"
+date <- "20April2023"
 
 #source tecan data cleaning script
 source(here::here("data-generation", "experimental", "tecan-data-cleaning.R"))
@@ -18,6 +18,10 @@ partA <- pfus_and_final_density %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                TRUE ~ doublings)) %>%
   filter(interaction == "Mutualism" | interaction == "Competition")%>%
+  mutate(interaction = case_when(interaction == "Mutualism" ~ "mutualism",
+                                 interaction == "Competition" ~ "competition"))%>%
+  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist",
+                                phage_type == "Specialist phage" ~ "specialist"))%>%
   ggplot(aes(x = phage, y = doublings, color = phage_type)) +
   facet_wrap(~interaction) +
   geom_boxplot() +
@@ -35,7 +39,7 @@ partA <- pfus_and_final_density %>%
   labs(color = "phage type")
 
 phage_dat <- pfus_and_final_density %>%
-  filter(interaction == "Mutualism" | interaction == "Competition")
+  filter(interaction == "mutualism" | interaction == "competition")
 
 phage_model <- aov(doublings ~ interaction * phage * doubling_type, data = phage_dat)
 
@@ -43,14 +47,18 @@ phage_multiple_comparisons <- TukeyHSD(phage_model, conf.levels = 0.95)
 
 #part B
 partB <- pfus_and_final_density %>%
+  mutate(interaction = case_when(interaction == "Mutualism" ~ "mutualism",
+                                 interaction == "Competition" ~ "competition"))%>%
+  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist",
+                                phage_type == "Specialist phage" ~ "specialist"))%>%
   select(interaction, E_corrected_OD, S_corrected_OD, interaction, phage) %>%
   rbind(., all_tecan_adjusted_OD %>% filter(interaction == "Coop" | interaction == "Comp") %>% 
           filter(phage == "none") %>% slice_max(cycle) %>%
           select(interaction, E_corrected_OD, S_corrected_OD, interaction, phage)) %>%
-  mutate(interaction = case_when(interaction == "Coop" ~ "Mutualism",
-                                interaction == "Comp" ~ "Competition",
+  mutate(interaction = case_when(interaction == "Coop" ~ "mutualism",
+                                interaction == "Comp" ~ "competition",
                                 TRUE ~ interaction)) %>%
-  filter(interaction == "Mutualism" | interaction == "Competition") %>%
+  filter(interaction == "mutualism" | interaction == "competition") %>%
   mutate(E_percentage = E_corrected_OD / (E_corrected_OD + S_corrected_OD) * 100) %>%
   ggplot(aes(x = phage, y = E_percentage, color = interaction))+
   geom_boxplot()+
@@ -72,10 +80,10 @@ E_percent_dat <- pfus_and_final_density %>%
   rbind(., all_tecan_adjusted_OD %>% filter(interaction == "Coop" | interaction == "Comp") %>% 
           filter(phage == "none") %>% slice_max(cycle) %>%
           select(interaction, E_corrected_OD, S_corrected_OD, interaction, phage)) %>%
-  mutate(interaction = case_when(interaction == "Coop" ~ "Mutualism",
-                                 interaction == "Comp" ~ "Competition",
+  mutate(interaction = case_when(interaction == "Coop" ~ "mutualism",
+                                 interaction == "Comp" ~ "competition",
                                  TRUE ~ interaction)) %>%
-  filter(interaction == "Mutualism" | interaction == "Competition") %>%
+  filter(interaction == "mutualism" | interaction == "competition") %>%
   mutate(E_percentage = E_corrected_OD / (E_corrected_OD + S_corrected_OD) * 100)
 
 E_percent_model <- aov(E_percentage ~ interaction * phage, data = E_percent_dat)
@@ -84,10 +92,10 @@ E_percent_multiple_comparisons <- TukeyHSD(E_percent_model, conf.levels = 0.95)
 
 #part C 
 partC <- all_tecan_adjusted_OD %>%
-  mutate(interaction = case_when(interaction == "Coop" ~ "Mutualism",
-                                 interaction == "Comp" ~ "Competition",
+  mutate(interaction = case_when(interaction == "Coop" ~ "mutualism",
+                                 interaction == "Comp" ~ "competition",
                                  TRUE ~ interaction)) %>%
-  filter(interaction == "Mutualism" | interaction == "Competition")%>%
+  filter(interaction == "mutualism" | interaction == "competition")%>%
   pivot_longer(cols = E_corrected_OD:S_corrected_OD, names_to = "fluor", values_to = "OD") %>%
   mutate(species = case_when(fluor == "E_corrected_OD" ~ "E. coli",
                              fluor == "S_corrected_OD" ~ "S. enterica")) %>%

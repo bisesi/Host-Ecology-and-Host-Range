@@ -28,7 +28,11 @@ cleaned_pfus <- clean_pfu_data(pfus %>%
                                  TRUE ~ interaction))
 
 #part A
-partA <- cleaned_pfus %>%
+partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist",
+                                                        phage_type == "Specialist phage" ~ "specialist"))%>%
+  mutate(interaction = case_when(interaction == "E Monoculture" ~ "e monoculture",
+                                 interaction == "S Monoculture" ~ "s monoculture",
+                                 interaction == "No Cells" ~ "no cells"))%>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                TRUE ~ doublings)) %>%
   filter(phage != "Phi + P22") %>%
@@ -76,7 +80,8 @@ cleaned_pfus_media <- wide_data %>%
   mutate(media = case_when(well %in% c("B12", "C12", "D12") ~ "minimal media",
                            well %in% c("E12", "F12", "G12") ~ "rich media"))
 
-partB <- cleaned_pfus_media %>% ggplot(aes(x = media, y = phi_doublings)) +
+partB <- cleaned_pfus_media %>%
+  ggplot(aes(x = media, y = phi_doublings)) +
   geom_boxplot(color = "#CA3542") +
   geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
   theme_bw()+

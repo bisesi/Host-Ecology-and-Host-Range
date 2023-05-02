@@ -162,7 +162,13 @@ comp_both <- specialist_gamma_comp_both %>% filter((gamma_sp / 20) %in% seq(0, 5
   mutate(type = case_when(type == "E" ~ "E. coli", 
                           type == "S" ~ "S. enterica")) %>%
   ggplot(aes(x = time, y = bacteria, color = type)) +
-  facet_wrap(~cost) +
+  facet_wrap(~cost, labeller = labeller(cost = 
+                                          c("0" = "cost: 0",
+                                            "1" = "cost: 1",
+                                            "2" = "cost: 2",
+                                            "3" = "cost: 3",
+                                            "4" = "cost: 4",
+                                            "5" = "cost: 5")))+
   geom_line(size = 0.75) +
   theme_bw()+
   theme(axis.title = element_text(), 
@@ -171,7 +177,7 @@ comp_both <- specialist_gamma_comp_both %>% filter((gamma_sp / 20) %in% seq(0, 5
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("abundance")+
+  ylab("biomass")+
   xlab("time")+
   labs(color = "species")+
   ylim(0, 2)+
@@ -185,7 +191,13 @@ coop_both <- specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0, 5
                           type == "S" ~ "S. enterica")) %>%
   ggplot(aes(x = time, y = bacteria, color = type)) +
   geom_line(size = 0.75) +
-  facet_wrap(~cost) +
+  facet_wrap(~cost, labeller = labeller(cost = 
+                                           c("0" = "cost: 0",
+                                             "1" = "cost: 1",
+                                             "2" = "cost: 2",
+                                             "3" = "cost: 3",
+                                             "4" = "cost: 4",
+                                             "5" = "cost: 5")))+
   theme_bw()+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -193,18 +205,18 @@ coop_both <- specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0, 5
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("abundance")+
+  ylab("biomass")+
   xlab("time")+
   labs(color = "species")+
   ylim(0, 2)+
   scale_color_manual(values = c("#5ba300", "#e6308a"))
 
-individual_phage <- specialist_gamma_comp_gen %>% mutate(phage = "Generalist only") %>% mutate(interaction = "Competition") %>%
-  rbind(., specialist_gamma_comp_sp %>% mutate(phage = "Specialist only") %>% mutate(interaction = "Competition")) %>%
-  rbind(., specialist_gamma_coop_gen %>% mutate(phage = "Generalist only") %>% mutate(interaction = "Mutualism")) %>%
-  rbind(., specialist_gamma_coop_sp %>% mutate(phage = "Specialist only") %>% mutate(interaction = "Mutualism")) %>%
-  rbind(., specialist_gamma_comp_none %>% mutate(phage = "No phage") %>% mutate(interaction = "Competition")) %>%
-  rbind(., specialist_gamma_coop_none %>% mutate(phage = "No phage") %>% mutate(interaction = "Mutualism")) %>%
+individual_phage <- specialist_gamma_comp_gen %>% mutate(phage = "generalist only") %>% mutate(interaction = "competition") %>%
+  rbind(., specialist_gamma_comp_sp %>% mutate(phage = "specialist only") %>% mutate(interaction = "competition")) %>%
+  rbind(., specialist_gamma_coop_gen %>% mutate(phage = "generalist only") %>% mutate(interaction = "mutualism")) %>%
+  rbind(., specialist_gamma_coop_sp %>% mutate(phage = "specialist only") %>% mutate(interaction = "mutualism")) %>%
+  rbind(., specialist_gamma_comp_none %>% mutate(phage = "no phage") %>% mutate(interaction = "competition")) %>%
+  rbind(., specialist_gamma_coop_none %>% mutate(phage = "no phage") %>% mutate(interaction = "mutualism")) %>%
   filter((gamma_sp / 20) == 2) %>%
   filter(time < 2500) %>%
   pivot_longer(E:S, names_to = "type", values_to = "bacteria") %>%
@@ -220,7 +232,7 @@ individual_phage <- specialist_gamma_comp_gen %>% mutate(phage = "Generalist onl
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("abundance")+
+  ylab("biomass")+
   xlab("time")+
   labs(color = "species")+
   ylim(0, 2)+

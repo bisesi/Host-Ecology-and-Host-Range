@@ -1,0 +1,97 @@
+﻿well,interaction,phage
+A1,none,none
+A2,none,none
+A3,none,none
+A4,none,none
+A5,none,none
+A6,none,none
+A7,none,none
+A8,none,none
+A9,none,none
+A10,none,none
+A11,none,none
+A12,none,none
+B1,none,none
+B2,Smono,none
+B3,Smono,none
+B4,Smono,none
+B5,Comp,none
+B6,Comp,none
+B7,Comp,none
+B8,Coop,none
+B9,Coop,none
+B10,Fac,none
+B11,Fac,none
+B12,none,none
+C1,none,none
+C2,Emono,none
+C3,Emono,none
+C4,Smono,Phi
+C5,Smono,Phi
+C6,Smono,Phi
+C7,Smono,Phi
+C8,Comp,Phi
+C9,Comp,Phi
+C10,Comp,Phi
+C11,Comp,Phi
+C12,none,none
+D1,none,none
+D2,Coop,Phi
+D3,Coop,Phi
+D4,Coop,Phi
+D5,Coop,Phi
+D6,Fac,Phi
+D7,Fac,Phi
+D8,Fac,Phi
+D9,Fac,Phi
+D10,Smono,P22
+D11,Smono,P22
+D12,none,none
+E1,none,none
+E2,Smono,P22
+E3,Smono,P22
+E4,Comp,P22
+E5,Comp,P22
+E6,Comp,P22
+E7,Comp,P22
+E8,Coop,P22
+E9,Coop,P22
+E10,Coop,P22
+E11,Coop,P22
+E12,none,none
+F1,none,none
+F2,Fac,P22
+F3,Fac,P22
+F4,Fac,P22
+F5,Fac,P22
+F6,Smono,Phi + P22
+F7,Smono,Phi + P22
+F8,Smono,Phi + P22
+F9,Smono,Phi + P22
+F10,Comp,Phi + P22
+F11,Comp,Phi + P22
+F12,none,none
+G1,none,none
+G2,Comp,Phi + P22
+G3,Comp,Phi + P22
+G4,Coop,Phi + P22
+G5,Coop,Phi + P22
+G6,Coop,Phi + P22
+G7,Coop,Phi + P22
+G8,Fac,Phi + P22
+G9,Fac,Phi + P22
+G10,Fac,Phi + P22
+G11,Fac,Phi + P22
+G12,none,none
+H1,none,none
+H2,none,none
+H3,none,none
+H4,none,none
+H5,none,none
+H6,none,none
+H7,none,none
+H8,none,none
+H9,none,none
+H10,none,none
+H11,none,none
+H12,none,none
