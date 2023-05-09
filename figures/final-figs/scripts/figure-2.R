@@ -171,7 +171,7 @@ partA <- specialist_gamma_comp_gen %>% mutate(phage = "generalist only") %>% mut
   pivot_longer(E:S, names_to = "type", values_to = "bacteria") %>%
   mutate(type = case_when(type == "E" ~ "E. coli", 
                           type == "S" ~ "S. enterica")) %>%
-  mutate(phage = factor(phage, levels = c("no phage", "generalist only", "specialist only"))) %>%
+  mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only"))) %>%
   ggplot(aes(x = time / 1000, y = bacteria, color = type)) +
   geom_line(size = 1) +
   facet_grid(interaction~phage) +

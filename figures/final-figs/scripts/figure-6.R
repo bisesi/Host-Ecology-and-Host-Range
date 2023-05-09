@@ -22,6 +22,8 @@ plot <- all_data %>% ungroup() %>%
          sp = round(sp, 3),
          relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
   pivot_longer(cols = c(gen, sp), names_to = "phage", values_to = "biomass") %>%
+  mutate(phage = case_when(phage == "gen" ~ "generalist (phi-C)",
+                           phage == "sp" ~ "specialist (p22vir)")) %>%
   filter(dilution_gen / 1e-2 <= 5) %>%
   ggplot(aes(x = dilution_gen / 1e-2, y = biomass, color = phage))+
   geom_smooth(se = FALSE, span = 0.16)+
@@ -29,6 +31,8 @@ plot <- all_data %>% ungroup() %>%
   xlab("fitness cost of generalism")+
   ylab("biomass")+
   theme_bw() +
+  labs(color = "phage type")+
+  scale_color_manual(values = c("generalist (phi-C)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),

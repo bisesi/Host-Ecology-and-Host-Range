@@ -26,11 +26,15 @@ partA <- all_data_partA %>% ungroup() %>%
   mutate(cost_amount = case_when(cost_type == "c_sp" ~ cost_amount / 0.001,
                                  cost_type == "gamma_sp" ~ cost_amount / 20)) %>%
   filter(cost_type != "c_sp") %>%
+  mutate(phage = case_when(phage == "gen" ~ "generalist (phi-C)",
+                           phage == "sp" ~ "specialist (p22vir)")) %>%
   ggplot(aes(x = cost_amount, y = biomass, color = phage))+
   geom_smooth(se = FALSE, span = 0.25)+
   theme_bw()+
   facet_wrap(~interaction) +
   xlab("fitness cost of generalism")+
+  labs(color = "phage type")+
+  scale_color_manual(values = c("generalist (phi-C)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
   ylab("biomass")+
   theme_bw()+
   theme(axis.title = element_text(), 
@@ -51,11 +55,15 @@ legend1 <- get_legend(all_data_partA %>% ungroup() %>%
                         mutate(cost_amount = case_when(cost_type == "c_sp" ~ cost_amount / 0.001,
                                                        cost_type == "gamma_sp" ~ cost_amount / 20)) %>%
                         filter(cost_type != "c_sp") %>%
+                        mutate(phage = case_when(phage == "gen" ~ "generalist (phi-C)",
+                                                 phage == "sp" ~ "specialist (p22vir)")) %>%
                         ggplot(aes(x = cost_amount, y = biomass, color = phage))+
                         geom_smooth(se = FALSE, span = 0.25)+
                         theme_bw()+
                         facet_wrap(~interaction) +
                         xlab("fitness cost of generalism")+
+                        labs(color = "phage type")+
+                        scale_color_manual(values = c("generalist (phi-C)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
                         ylab("biomass")+
                         theme_bw()+
                         theme(axis.title = element_text(), 
