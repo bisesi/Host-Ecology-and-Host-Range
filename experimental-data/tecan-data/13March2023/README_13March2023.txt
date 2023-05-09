@@ -1,4 +1,4 @@
-Emono, Smono, no cells
+Emono starved, Smono starved, no cells
  
 Phi, P22, or Phi + P22
 

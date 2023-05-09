@@ -102,7 +102,7 @@ high_density <- resistance_data %>% filter(Interaction %in% c("R2", "R4", "R8") 
 
 ancestral <- resistance_data %>% filter(Interaction == "S0" & Phage %in% c("None", "Phi + P22") & Condition != "Start" & Phi_Resistant != "NA") %>%
   mutate(well_type = case_when(Phage == "None" ~ "ancestral",
-                                Phage == "Phi + P22" ~ "low density", 
+                               Phage == "Phi + P22" ~ "low density", 
                                TRUE ~ Phage))
 
 partC <- high_density %>% 

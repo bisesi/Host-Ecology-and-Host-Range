@@ -1,6 +1,6 @@
 #ATB
-#Paper Fig 2
-#Generation code for parts A, B, C, D
+#Supplemental Figure 2
+#ESS Modeling Data Generation
 
 #import packages and the equations
 library("tidyverse")

@@ -89,32 +89,33 @@ load_pfu_data <- function(path){
 
 clean_pfu_data <- function(input){
   wide_data <- input %>% 
-    select(interaction, phage, plate, pfu, well) %>%
+    select(condition, interaction, phage, plate, pfu, well) %>%
     pivot_wider(names_from = plate, values_from = pfu) %>%
     rename(pfu_S = S, pfu_E = E)
   starting_phage <- wide_data %>%
-    filter(interaction == "None") %>%
+    filter(interaction == "None" & condition == "Start") %>%
     mutate(ratio = pfu_E / (pfu_E + pfu_S)) 
   output <- wide_data %>%
-    filter(interaction != "None") %>%
-    mutate(phi_doublings = case_when(phage == "Phi" ~ log(pfu_E / starting_phage %>% filter(phage == "Phi") %>% select(pfu_E) %>% pull, 2),
-                                     phage == "Phi + P22" ~ log(pfu_E / starting_phage %>% filter(phage == "Phi + P22") %>% select(pfu_E) %>% pull, 2),
+    filter(condition != "Start") %>%
+    mutate(phi_doublings = case_when(phage == "Phi" ~ log(pfu_E / starting_phage %>% filter(phage == "Phi") %>% select(pfu_E) %>% pull),
+                                     phage == "Phi + P22" ~ log(pfu_E / starting_phage %>% filter(phage == "Phi + P22") %>% select(pfu_E) %>% pull),
                                      phage == "P22" ~ 0,
                                      TRUE ~ 0)) %>%    
-    mutate(p22_doublings = case_when(phage == "P22" ~ log(pfu_S / starting_phage %>% filter(phage == "P22") %>% select(pfu_S) %>% pull, 2),
-                                     phage == "Phi + P22" ~ log(pfu_S / starting_phage %>% filter(phage == "Phi + P22") %>% select(pfu_S) %>% pull, 2),
+    mutate(p22_doublings = case_when(phage == "P22" ~ log(pfu_S / starting_phage %>% filter(phage == "P22") %>% select(pfu_S) %>% pull),
+                                     phage == "Phi + P22" ~ log(pfu_S / starting_phage %>% filter(phage == "Phi + P22") %>% select(pfu_S) %>% pull),
                                      phage == "Phi" ~ 0,
                                      TRUE ~ 0)) %>%
     mutate(generalist_fitness = (((pfu_E) / (pfu_E + pfu_S)) / starting_phage %>% filter(phage == "Phi + P22") %>% select(ratio) %>% pull)) %>% 
     mutate(change_in_percent_generalist = (((pfu_E) / (pfu_E + pfu_S)) - starting_phage %>% filter(phage == "Phi + P22") %>% select(ratio) %>% pull)) %>%
     mutate_all(~replace(., is.nan(.), 0)) %>%
-    mutate_all(~replace(., is.infinite(.), log(1 / starting_phage %>% filter(phage == "Phi + P22") %>% select(pfu_E) %>% pull, 2))) %>%
+    mutate_all(~replace(., is.infinite(.), log(1 / starting_phage %>% filter(phage == "Phi + P22") %>% select(pfu_E) %>% pull))) %>%
     mutate(interaction = case_when(interaction == "Smono" ~ "S Monoculture",
                                    interaction == "Emono" ~ "E Monoculture",
                                    interaction == "E Fac" ~ "E Facilitation",
                                    interaction == "Coop" ~ "Mutualism",
                                    interaction == "Comp" ~ "Competition",
-                                   interaction == "Fac" ~ "Facilitation")) %>%
+                                   interaction == "Fac" ~ "Facilitation",
+                                   interaction == "None" ~ "No cells")) %>%
     pivot_longer(cols = ends_with("doublings"),
                  names_to = "doubling_type",
                  values_to = "doublings") %>%

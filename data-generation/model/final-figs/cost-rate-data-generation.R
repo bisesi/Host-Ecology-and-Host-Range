@@ -1,6 +1,6 @@
 #ATB
-#Paper Fig 1
-#Generation code for parts A, B, C
+#Modeling results generation
+#Used for Figure 3 and Supplemental Figure 1
 
 #load packages and data
 library("tidyverse")
@@ -85,7 +85,7 @@ specialist_c_comp <- expand.grid(c_sp = c_sp)%>%
 
 #PART B - cooperation parameters
 #specialist gamma and ratio of rate s to rate e
-rate_e <- seq(from = 0, to = parameters_coop_R['rate_s'] * maxcost, by = 0.2)
+rate_e <- seq(from = 0, to = parameters_coop_R['rate_s'] * maxcost, by = 0.1)
 gamma_sp = seq(from = 0, to = parameters_coop_R['gamma_sp'] * maxcost, by = parameters_coop_R['gamma_sp'] / 10)
 
 gamma_and_rate_coop <- expand.grid(rate_e = rate_e, gamma_sp = gamma_sp) %>%
@@ -103,7 +103,7 @@ gamma_and_rate_coop <- expand.grid(rate_e = rate_e, gamma_sp = gamma_sp) %>%
   )
 
 #specialist c and ratio of rate s to rate e - cooperation
-rate_e <- seq(from = 0, to = parameters_coop_R['rate_s'] * maxcost, by = 0.2)
+rate_e <- seq(from = 0, to = parameters_coop_R['rate_s'] * maxcost, by = 0.1)
 c_sp = seq(from = 0, to = parameters_coop_R['c_sp'] * maxcost, by = parameters_coop_R['c_sp'] / 10)
 
 c_and_rate_coop <- expand.grid(rate_e = rate_e, c_sp = c_sp) %>%
@@ -194,7 +194,7 @@ c_and_rate_comp <- expand.grid(rate_e = rate_e, c_sp = c_sp) %>%
   )
 
 #specialist gamma and ratio of beta1 to beta2
-s_beta2 <- seq(from = 0, to = parameters_comp_R['beta2'] * maxcost, by = 0.1)
+s_beta2 <- seq(from = 0, to = parameters_comp_R['beta2'] * maxcost, by = 0.18)
 gamma_sp = seq(from = 0, to = parameters_comp_R['gamma_sp'] * maxcost, by = parameters_comp_R['gamma_sp'] / 10)
 
 gamma_and_beta_comp <- expand.grid(beta2 = s_beta2, gamma_sp = gamma_sp) %>%
@@ -212,7 +212,7 @@ gamma_and_beta_comp <- expand.grid(beta2 = s_beta2, gamma_sp = gamma_sp) %>%
   )
 
 #specialist c and ratio of beta1 to beta2
-s_beta2 <- seq(from = 0, to = parameters_comp_R['beta2'] * maxcost, by = 0.1)
+s_beta2 <- seq(from = 0, to = parameters_comp_R['beta2'] * maxcost, by = 0.18)
 c_sp = seq(from = 0, to = parameters_comp_R['c_sp'] * maxcost, by = parameters_comp_R['c_sp'] / 10)
 
 c_and_beta_comp <- expand.grid(beta2 = s_beta2, c_sp = c_sp) %>%

@@ -6,7 +6,7 @@
 library("patchwork")
 
 #load model generation code
-source(here::here("data-generation", "model", "final-figs", "fig6A-B-data-generation.R"))
+source(here::here("data-generation", "model", "final-figs", "intrinsic-mortality-data-generation.R"))
 
 #combine datasets
 dilution_range <- dilution_gen
@@ -35,3 +35,4 @@ plot <- all_data %>% ungroup() %>%
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())
+
