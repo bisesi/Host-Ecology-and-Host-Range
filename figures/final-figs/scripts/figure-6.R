@@ -15,8 +15,8 @@ dilution_gen_coop <- dilution_gen_coop %>% mutate(interaction = "mutualism")
 all_data <- rbind(dilution_gen_comp, dilution_gen_coop) %>% mutate(cost = dilution_gen / 1e-2) %>%
   filter(!dilution_gen %in% dilution_range[2:12])
 
-#visualize
-plot <- all_data %>% ungroup() %>%
+#partA
+partA <- all_data %>% ungroup() %>%
   filter(time == max(time)) %>%
   mutate(gen = round(gen, 3),
          sp = round(sp, 3),

@@ -1,0 +1,16 @@
+﻿Type,Component,metric,S monoculture,E monoculture,ES mutualism,ES competition
+C source,lactose,mM,0,0,2.9,0
+,glucose,mM,5.6,5.6,0,5.6
+auxotroph amendments,methionine,mM,0,0.5,0,0.5
+SO4 source,(NH4)2SO4,mM,3.7,3.7,3.7,3.7
+,MgSO4,mM,0.814,0.814,0.814,0.814
+P source,K2HPO4,mM,14.5,14.5,14.5,14.5
+,NaH2PO4,mM,16.3,16.3,16.3,16.3
+Metals,ZnSO4,µM,1.2,1.2,1.2,1.2
+,MnCl2,µM,1,1,1,1
+,FeSO4,µM,18,18,18,18
+,(NH4)6Mo7O24,µM,2,2,2,2
+,CuSO4,µM,1,1,1,1
+,CoCl2,µM,2,2,2,2
+,Na2WO4,µM,0.33,0.33,0.33,0.33
+,CaCl2,µM,20,20,20,20

@@ -1,0 +1,7 @@
+﻿Strain ancestor,Antibiotic marker,Flourescent marker,Source,Relevant phenotype
+Salmonella enterica LT2 metA* metJ*,kanR,YFP,Harcombe 2010,Methionine hypersecreter
+E. coli K-12 BW25113 ∆metB,kanR,CFP,Harcombe 2010,Methionine auxotroph
+E. coli K-12 BW25113 ∆trxA,kanR,NA,Baba et al. 2006,"Sensitive to ΦC, resistant to P22vir"
+S. enterica serovar Typhimurium NCTC 74  ∆btuB,kanR,NA,S. Bowden,"Sensitive to P22vir, resistant to ΦC"
+P22vir,NA,NA,I. J. Molineaux,S. enterica-specific phage
+ΦC,NA,NA,E. Hansen,Generalist phage

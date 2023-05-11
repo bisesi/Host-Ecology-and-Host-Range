@@ -31,6 +31,7 @@ dilution_gen_coop <- expand.grid(dilution_gen = dilution_gen)%>%
     }
   )
 
+
 #PART B
 dilution_gen = seq(from = 0, to = parameters_comp_R['dilution_sp'] * maxcost, by = parameters_comp_R['dilution_sp'] / 20)
 
