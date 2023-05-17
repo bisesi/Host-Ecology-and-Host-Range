@@ -33,7 +33,7 @@ all_data_phage <- rbind(no_cost, with_cost)
 all_data_bacteria <- rbind(no_cost_bacteria, with_cost_bacteria)
 
 #part A - starved cells or phage 24, 48 hour timepoints
-partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (phi-C)",
+partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
                                                         phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
   mutate(interaction = case_when(interaction == "E Monoculture" ~ "starved e monoculture",
                                  interaction == "S Monoculture" ~ "starved s monoculture",
@@ -53,7 +53,7 @@ partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalis
   facet_wrap(~interaction) +
   geom_boxplot() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -74,17 +74,18 @@ partB <- all_data_phage %>%
   filter(!interaction %in% c("Facilitation", "Mutualism"))%>%
   mutate(interaction = case_when(interaction == "S Monoculture" ~ "s monoculture",
                                  interaction == "Competition" ~ "competition")) %>%
-  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (phi-C)",
+  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
                                 phage_type == "Specialist phage" ~ "specialist (p22vir)")) %>%
   mutate(phage = case_when(phage == "P22" ~ "specialist\nonly",
                            phage == "Phi" ~ "generalist\nonly",
                            phage == "Phi + P22" ~ "both\nphage")) %>%
   mutate(phage= factor(phage, levels = c("specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
-  ggplot(aes(x = phage, y = doublings, color = phage_type)) +
-  facet_grid(cost~interaction) +
+  filter(phage == "both\nphage") %>%
+  ggplot(aes(x = cost, y = doublings, color = phage_type)) +
+  facet_wrap(~interaction) +
   geom_boxplot() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   scale_color_manual(values = c("#CA3542", "#27647B"))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -98,82 +99,9 @@ partB <- all_data_phage %>%
   labs(color = "phage type")+
   ylim(-10, 12.5)
 
-#part C bacterial dynamics without cost
-partC <- all_data_bacteria %>%
-  filter(cost == "no cost") %>%
-  mutate(interaction = case_when(interaction == "Fac" ~ "facilitation",
-                                 interaction == "Comp" ~ "competition",
-                                 interaction == "Smono" ~ "s monoculture",
-                                 TRUE ~ interaction)) %>%
-  filter(interaction == "competition" | interaction == "s monoculture")%>%
-  mutate(phage = case_when(phage == "P22" ~ "specialist only",
-                           phage == "Phi" ~ "generalist only",
-                           phage == "Phi + P22" ~ "both phage",
-                           phage == "none" ~ "no phage")) %>%
-  mutate(phage= factor(phage, levels = c("no phage", "specialist only", "generalist only", "both phage"))) %>%
-  pivot_longer(cols = E_corrected_OD:S_corrected_OD, names_to = "fluor", values_to = "OD") %>%
-  mutate(species = case_when(fluor == "E_corrected_OD" ~ "E. coli",
-                             fluor == "S_corrected_OD" ~ "S. enterica")) %>%
-  ggplot(aes(x = hours, y = OD, color = species))+
-  geom_smooth(span = 0.2, se = FALSE)+
-  scale_color_manual(values = c("#5ba300", "#e6308a"))+
-  facet_grid(interaction~phage)+
-  theme_bw()+
-  theme(axis.title = element_text(), 
-        panel.background = element_rect(fill = "white"), 
-        plot.background = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = "none",
-        legend.background = element_blank(),
-        strip.background = element_blank())+
-  ylab("OD")+
-  xlab("hours")+
-  ylim(0, 0.4)+
-  labs(color = "species")+
-  xlim(0, 48)
-
-#part D bacterial dynamics with cost
-dummy <- all_data_bacteria %>% filter(cost == "with cost") %>% filter(hours == min(hours)) %>%
-  mutate(hours = case_when(hours != 0 ~ -24,
-                           TRUE ~ hours))
-
-partD <- all_data_bacteria %>%
-  filter(cost == "with cost") %>%
-  rbind(., dummy) %>%
-  mutate(interaction = case_when(interaction == "Fac" ~ "facilitation",
-                                 interaction == "Comp" ~ "competition",
-                                 interaction == "Smono" ~ "s monoculture",
-                                 TRUE ~ interaction)) %>%
-  filter(interaction == "competition" | interaction == "s monoculture")%>%
-  pivot_longer(cols = E_corrected_OD:S_corrected_OD, names_to = "fluor", values_to = "OD") %>%
-  mutate(species = case_when(fluor == "E_corrected_OD" ~ "E. coli",
-                             fluor == "S_corrected_OD" ~ "S. enterica")) %>%
-  mutate(phage = case_when(phage == "P22" ~ "specialist only",
-                           phage == "Phi" ~ "generalist only",
-                           phage == "Phi + P22" ~ "both phage",
-                           phage == "none" ~ "no phage")) %>%
-  mutate(phage= factor(phage, levels = c("no phage", "specialist only", "generalist only", "both phage"))) %>%
-  ggplot(aes(x = hours + 24, y = OD, color = species))+
-  geom_smooth(span = 0.2, se = FALSE)+
-  scale_color_manual(values = c("#5ba300", "#e6308a"))+
-  facet_grid(interaction~phage)+
-  theme_bw()+
-  theme(axis.title = element_text(), 
-        panel.background = element_rect(fill = "white"), 
-        plot.background = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = "none",
-        legend.background = element_blank(),
-        strip.background = element_blank())+
-  ylab("OD")+
-  xlab("hours")+
-  labs(color = "species")+
-  xlim(0, 48)+
-  ylim(0, 0.4)+
-  geom_vline(xintercept = 24, color = "red", linetype = "dashed")
 
 #legends
-legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (phi-C)",
+legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
                                                                      phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
                         mutate(interaction = case_when(interaction == "E Monoculture" ~ "starved e monoculture",
                                                        interaction == "S Monoculture" ~ "starved s monoculture",
@@ -193,7 +121,7 @@ legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type 
                         facet_wrap(~interaction) +
                         geom_boxplot() +
                         geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
-                        theme_bw()+
+                        theme_bw(base_size = 18)+
                         theme(axis.title = element_text(), 
                               panel.background = element_rect(fill = "white"), 
                               plot.background = element_blank(),
@@ -207,42 +135,8 @@ legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type 
                         ylim(-10, 12.5)+
                         labs(color = "phage type"))
 
-legend2 <- get_legend(all_data_bacteria %>%
-                        filter(cost == "with cost") %>%
-                        rbind(., dummy) %>%
-                        mutate(interaction = case_when(interaction == "Fac" ~ "facilitation",
-                                                       interaction == "Comp" ~ "competition",
-                                                       interaction == "Smono" ~ "s monoculture",
-                                                       TRUE ~ interaction)) %>%
-                        filter(interaction == "competition" | interaction == "s monoculture")%>%
-                        pivot_longer(cols = E_corrected_OD:S_corrected_OD, names_to = "fluor", values_to = "OD") %>%
-                        mutate(species = case_when(fluor == "E_corrected_OD" ~ "E. coli",
-                                                   fluor == "S_corrected_OD" ~ "S. enterica")) %>%
-                        mutate(phage = case_when(phage == "P22" ~ "specialist only",
-                                                 phage == "Phi" ~ "generalist only",
-                                                 phage == "Phi + P22" ~ "both phage",
-                                                 phage == "none" ~ "no phage")) %>%
-                        mutate(phage= factor(phage, levels = c("no phage", "specialist only", "generalist only", "both phage"))) %>%
-                        ggplot(aes(x = hours + 24, y = OD, color = species))+
-                        geom_smooth(span = 0.2, se = FALSE)+
-                        scale_color_manual(values = c("#5ba300", "#e6308a"))+
-                        facet_grid(interaction~phage)+
-                        theme_bw()+
-                        theme(axis.title = element_text(), 
-                              panel.background = element_rect(fill = "white"), 
-                              plot.background = element_blank(),
-                              panel.grid.minor = element_blank(),
-                              legend.position = "bottom",
-                              legend.background = element_blank(),
-                              strip.background = element_blank())+
-                        ylab("OD")+
-                        xlab("hours")+
-                        labs(color = "species")+
-                        xlim(0, 48)+
-                        ylim(0, 0.4)+
-                        geom_vline(xintercept = 24, color = "red", linetype = "dashed"))
 
 #complete fig
-fig4 <- plot_grid(plot_grid(partA, partB, legend1, ncol = 1, rel_heights = c(1,1,0.1), labels = c("A", "B")),
-                  plot_grid(partC, partD, legend2, ncol = 1, rel_heights = c(1,1,0.1), labels = c("C", "D")))
+fig5 <- plot_grid(plot_grid(partA, partB, ncol = 2, labels = c("A", "B"), label_size = 24), legend1, rel_heights = c(1,0.1), ncol =1)
+
 

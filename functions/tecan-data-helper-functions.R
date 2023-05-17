@@ -20,6 +20,9 @@ import_tecan_data <- function(path, file_type = "OD"){
   if (file_type == "YFP"){
     data <- data %>% rename(YFP = OD)
   }
+  if (file_type == "RFP"){
+    data <- data %>% rename(RFP = OD)
+  }
   return(data)
 }
 

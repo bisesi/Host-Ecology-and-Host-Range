@@ -1,8 +1,0 @@
-﻿Predicted mutations,,,,,
-position,mutation,freq,annotation,gene,description
-"17,743",G→A,100%,G514S (GGT→AGT) ,9 →,tailspike protein
-"28,455",C→A,6.00%,E91* (GAA→TAA) ,17 ←,unknown
-"30,899",G→T,100%,intergenic (‑240/+114),24 ← / ← c2,unknown/prophage repressor
-"31,700",C→G,100%,intergenic (‑37/‑44),c2 ← / → cro,prophage repressor/repressor
-"31,716",A→G,100%,intergenic (‑53/‑28),c2 ← / → cro,prophage repressor/repressor
-"35,023",C→A,100%,H92N (CAT→AAT) ,ninB →,NinB

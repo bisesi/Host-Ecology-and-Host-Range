@@ -21,7 +21,7 @@ partA <- no_cells %>%
                                TRUE ~ doublings)) %>%
   mutate(interaction = case_when(interaction == "No cells" ~ "no cells",
                                  TRUE ~ interaction))%>%
-  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (phi-C)",
+  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
                                 phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
   mutate(timepoint = case_when(timepoint == 24 ~ "hour 24",
                                timepoint == 48 ~ "hour 48",
@@ -34,7 +34,7 @@ partA <- no_cells %>%
   facet_wrap(~timepoint) +
   geom_boxplot() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   scale_color_manual(values = c("#CA3542", "#27647B"))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -46,7 +46,7 @@ partA <- no_cells %>%
   ylab("growth rate (ln(final pfu / initial pfu))")+
   xlab("treatment")+
   labs(color = "phage type")+
-  ylim(-10, 12.5)
+  ylim(-15, 12.5)
 
 #partB
 date <- "15March2023"
@@ -69,29 +69,13 @@ cleaned_pfus_media <- wide_data %>%
   mutate(media = case_when(well %in% c("B12", "C12", "D12") ~ "minimal media",
                            well %in% c("E12", "F12", "G12") ~ "rich media"))
 
-partB <- cleaned_pfus_media %>%
-  mutate(phage_type = case_when(phage == "Generalist phage" ~ "generalist (phi-C)",
-                                phage == "Specialist phage" ~ "specialist (p22vir)"))%>%
-  ggplot(aes(x = media, y = phi_doublings)) +
-  geom_boxplot(color = "#CA3542") +
-  geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
-  theme_bw()+
-  theme(axis.title = element_text(), 
-        panel.background = element_rect(fill = "white"), 
-        plot.background = element_blank(),
-        legend.position = "none",
-        panel.grid.minor = element_blank(),
-        legend.background = element_blank(),
-        strip.background = element_blank()) +
-  ylab("growth rate (ln(final pfu / initial pfu))")+
-  xlab("media")+
-  labs(color = "")
+partB_data <- cleaned_pfus_media %>%
+  mutate(phage_type = case_when(phage == "Generalist phage" ~ "generalist (eh7)",
+                                phage == "Specialist phage" ~ "specialist (p22vir)")) %>%
+  mutate(media = case_when(media == "rich media" ~ "LB",
+                           TRUE ~ media)) %>%
+  mutate(date = "1")
 
-media_dat <- cleaned_pfus_media
-
-media_model <- aov(phi_doublings ~ media, data = media_dat)
-
-media_comparisons <- TukeyHSD(media_model, conf.levels = 0.95)
 
 #partC - minimal media components
 date <- "11April2023"
@@ -111,7 +95,7 @@ cleaned_pfus <- clean_pfu_data(pfus %>%
                                  TRUE ~ interaction))
 
 #visualize pfus
-partC <- cleaned_pfus %>%
+partC_data <- cleaned_pfus %>%
   inner_join(., plate_layout %>% select(well, media), by = "well") %>%
   filter(media != "none") %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
@@ -123,24 +107,15 @@ partC <- cleaned_pfus %>%
                            media == "S-" ~ "sulf\nfree",
                            media == "P/S-" ~ "phos/sulf\nfree",
                            TRUE ~ media)) %>%
-  mutate(phage_type = case_when(phage == "Generalist phage" ~ "generalist (phi-C)",
+  mutate(phage_type = case_when(phage == "Generalist phage" ~ "generalist (eh7)",
                                 phage == "Specialist phage" ~ "specialist (p22vir)"))%>%
   filter(media != "0.85%\nsaline") %>%
   filter(phage != "P22") %>%
-  ggplot(aes(x = media, y = doublings)) +
-  geom_boxplot(color = "#CA3542") +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
-  theme_bw()+
-  theme(axis.title = element_text(), 
-        panel.background = element_rect(fill = "white"), 
-        plot.background = element_blank(),
-        legend.position = "none",
-        panel.grid.minor = element_blank(),
-        legend.background = element_blank(),
-        strip.background = element_blank()) +
-  ylab("growth rate (ln(final pfu / initial pfu))")+
-  xlab("media")+
-  labs(color = "")
+  mutate(date = "2") %>%
+  select(interaction, phage, well, pfu_E, pfu_S, media, phage_type, date, doublings, doubling_type) %>%
+  filter(doubling_type == "phi_doublings") %>%
+  pivot_wider(names_from = doubling_type, values_from = doublings)
+  
 
 #part D - rich media components
 date <- "19April2023"
@@ -159,7 +134,7 @@ cleaned_pfus <- clean_pfu_data(pfus %>%
                                  TRUE ~ interaction))
 
 #visualize pfus
-partD <- cleaned_pfus %>%
+partD_data <- cleaned_pfus %>%
   inner_join(., plate_layout %>% select(well, media), by = "well") %>%
   filter(media != "none") %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
@@ -170,17 +145,36 @@ partD <- cleaned_pfus %>%
                            media == "yeast + tryptone" ~ "yeast\n+\ntryp",
                            media == "tryptone" ~ "tryp",
                            TRUE ~ media)) %>%
-  mutate(media = factor(media, levels = c("minimal\nmedia", "yeast", "salt",
+  mutate(media = factor(media, levels = c("yeast", "salt",
                                           "salt\n+\nyeast", "LB", "salt\n+\ntryp",
                                           "tryp", "yeast\n+\ntryp"))) %>%
-  mutate(phage_type = case_when(phage == "Generalist phage" ~ "generalist (phi-C)",
+  mutate(phage_type = case_when(phage == "Generalist phage" ~ "generalist (eh7)",
                                 phage == "Specialist phage" ~ "specialist (p22vir)"))%>%
+  filter(media != "minimal\nmedia")%>%
   filter(media != "LB") %>%
   filter(phage != "P22") %>%
-  ggplot(aes(x = media, y = doublings)) +
+  mutate(date = "3") %>%
+  select(interaction, phage, well, pfu_E, pfu_S, media, phage_type, date, doublings, doubling_type) %>%
+  filter(doubling_type == "phi_doublings") %>%
+  pivot_wider(names_from = doubling_type, values_from = doublings)
+  
+
+#part B visualization
+all_partB_data <- rbind(partB_data, partC_data, partD_data)
+
+partB <- all_partB_data %>%
+  mutate(media = reorder(media, phi_doublings)) %>%
+  group_by(date, media) %>%
+  arrange(desc(phi_doublings)) %>%
+  ungroup() %>%
+  ggplot(aes(x = media, y = phi_doublings)) +
   geom_boxplot(color = "#CA3542") +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
-  theme_bw()+
+  theme_bw(base_size = 18)+
+  facet_wrap(~date, scales = "free_x", labeller = labeller(date = 
+                                                             c("1" = "",
+                                                               "2" = "",
+                                                               "3" = "")))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -190,14 +184,15 @@ partD <- cleaned_pfus %>%
         strip.background = element_blank()) +
   ylab("growth rate (ln(final pfu / initial pfu))")+
   xlab("media")+
-  labs(color = "")
+  labs(color = "")+
+  ylim(-15, 12.5)
 
 legend <- get_legend(no_cells %>%
                        mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                                     TRUE ~ doublings)) %>%
                        mutate(interaction = case_when(interaction == "No cells" ~ "no cells",
                                                       TRUE ~ interaction))%>%
-                       mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (phi-C)",
+                       mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
                                                      phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
                        mutate(timepoint = case_when(timepoint == 24 ~ "hour 24",
                                                     timepoint == 48 ~ "hour 48",
@@ -210,7 +205,7 @@ legend <- get_legend(no_cells %>%
                        facet_wrap(~timepoint) +
                        geom_boxplot() +
                        geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
-                       theme_bw()+
+                       theme_bw(base_size = 18)+
                        scale_color_manual(values = c("#CA3542", "#27647B"))+
                        theme(axis.title = element_text(), 
                              panel.background = element_rect(fill = "white"), 
@@ -222,10 +217,12 @@ legend <- get_legend(no_cells %>%
                        ylab("growth rate (ln(final pfu / initial pfu))")+
                        xlab("treatment")+
                        labs(color = "phage type")+
-                       ylim(-10, 12.5))
+                       ylim(-15, 12.5))
 
 #figure 
-supp_fig3 <- plot_grid(plot_grid(partA, partB, labels = c("A", "B"), ncol = 1),
-                       plot_grid(partC, partD, legend, labels = c("C", "D"), ncol = 1, rel_heights = c(1,1,0.2)))
+#supp_fig3 <- plot_grid(plot_grid(partA, partB, ncol = 2, labels = c("A", "B"), label_size = 24), 
+                       #legend, rel_heights = c(1, 0.1), ncol = 1)
+
+supp_fig3 <- plot_grid(partA, partB, legend, labels = c("A", "B"), label_size = 24, rel_heights = c(1, 1, 0.1), ncol = 1)
                   
 

@@ -26,17 +26,16 @@ partA <- all_data_partA %>% ungroup() %>%
   mutate(cost_amount = case_when(cost_type == "c_sp" ~ cost_amount / 0.001,
                                  cost_type == "gamma_sp" ~ cost_amount / 20)) %>%
   filter(cost_type != "c_sp") %>%
-  mutate(phage = case_when(phage == "gen" ~ "generalist (phi-C)",
+  mutate(phage = case_when(phage == "gen" ~ "generalist (eh7)",
                            phage == "sp" ~ "specialist (p22vir)")) %>%
   ggplot(aes(x = cost_amount, y = biomass, color = phage))+
   geom_smooth(se = FALSE, span = 0.25)+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   facet_wrap(~interaction) +
   xlab("fitness cost of generalism")+
   labs(color = "phage type")+
-  scale_color_manual(values = c("generalist (phi-C)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
+  scale_color_manual(values = c("generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
   ylab("biomass")+
-  theme_bw()+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -55,7 +54,7 @@ legend1 <- get_legend(all_data_partA %>% ungroup() %>%
                         mutate(cost_amount = case_when(cost_type == "c_sp" ~ cost_amount / 0.001,
                                                        cost_type == "gamma_sp" ~ cost_amount / 20)) %>%
                         filter(cost_type != "c_sp") %>%
-                        mutate(phage = case_when(phage == "gen" ~ "generalist (phi-C)",
+                        mutate(phage = case_when(phage == "gen" ~ "generalist (eh7)",
                                                  phage == "sp" ~ "specialist (p22vir)")) %>%
                         ggplot(aes(x = cost_amount, y = biomass, color = phage))+
                         geom_smooth(se = FALSE, span = 0.25)+
@@ -63,9 +62,9 @@ legend1 <- get_legend(all_data_partA %>% ungroup() %>%
                         facet_wrap(~interaction) +
                         xlab("fitness cost of generalism")+
                         labs(color = "phage type")+
-                        scale_color_manual(values = c("generalist (phi-C)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
+                        scale_color_manual(values = c("generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
                         ylab("biomass")+
-                        theme_bw()+
+                        theme_bw(base_size = 18)+
                         theme(axis.title = element_text(), 
                               panel.background = element_rect(fill = "white"), 
                               plot.background = element_blank(),
@@ -113,7 +112,7 @@ partB <- all_data_partB   %>%
   ylab("relative advantage of E. coli")+
   geom_vline(xintercept = 1, linetype = "dashed")+
   geom_hline(yintercept = 1, linetype = "dashed")+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -164,7 +163,7 @@ partC <- all_data_partC %>%
   ylab("relative advantage of E. coli")+
   geom_vline(xintercept = 1, linetype = "dashed")+
   geom_hline(yintercept = 1, linetype = "dashed")+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -210,6 +209,8 @@ legend2 <- get_legend(all_data_partC %>%
                               panel.background = element_rect(fill = "white"), 
                               plot.background = element_blank(),
                               legend.position = "bottom",
+                              legend.title = element_text(size=18),
+                              legend.text = element_text(size=10), 
                               panel.grid.minor = element_blank(),
                               legend.background = element_blank(),
                               strip.background = element_blank())+
@@ -219,7 +220,7 @@ legend2 <- get_legend(all_data_partC %>%
 
 #all parts fig 1
 fig3 <- plot_grid(partA, legend1,
-                  plot_grid(partB, partC, labels = c("B", "C")), 
+                  plot_grid(partC, partB, labels = c("B", "C"), label_size = 24), 
                   ncol = 1,
-                  labels = c("A"), 
+                  labels = c("A"), label_size = 24,
                   legend2, rel_heights = c(1, 0.1, 1, .2))

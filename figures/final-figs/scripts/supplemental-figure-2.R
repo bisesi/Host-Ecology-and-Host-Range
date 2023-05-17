@@ -18,7 +18,7 @@ partA <- coop_sp_to_gen_pip_values %>%
   scale_fill_manual(values = c("black", "grey"))+
   xlab("resident infectivity on S. enterica")+
   ylab("mutant infectivity on S. enterica")+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   labs(fill = " ")+
   geom_abline(intercept =0 , slope = 1, linetype = "dashed")+
   theme(axis.title = element_text(), 
@@ -37,7 +37,7 @@ partB <- comp_sp_to_gen_pip_values %>%
   xlab("resident infectivity on S. enterica")+
   ylab("mutant infectivity on S. enterica")+
   scale_fill_manual(values = c("black", "grey"))+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   labs(fill = " ")+
   geom_abline(intercept =0 , slope = 1, linetype = "dashed")+
   theme(axis.title = element_text(), 
@@ -58,7 +58,7 @@ partC <- coop_gen_to_sp_pip_values %>%
   scale_fill_manual(values = c("grey"))+
   xlab("resident burst size on S. enterica")+
   ylab("mutant burst size on S. enterica")+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   labs(fill = " ")+
   geom_abline(intercept =0 , slope = 1, linetype = "dashed")+
   theme(axis.title = element_text(), 
@@ -84,7 +84,7 @@ partD <- comp_gen_to_sp_pip_values %>%
                                              "1.5" = "S. enterica coeff: 1.5",
                                              "2.1" = "S. enterica coeff: 2.1")))+
   scale_fill_manual(values = c("black", "grey"))+
-  theme_bw()+
+  theme_bw(base_size = 18)+
   geom_abline(intercept =0 , slope = 1, linetype = "dashed")+
   xlab("resident burst size on S. enterica")+
   ylab("mutant burst size on S. enterica")+
@@ -105,7 +105,7 @@ legend <- get_legend(comp_sp_to_gen_pip_values %>%
                        xlab("resident infectivity on S. enterica")+
                        ylab("mutant infectivity on S. enterica")+
                        scale_fill_manual(values = c("black", "grey"))+
-                       theme_bw()+
+                       theme_bw(base_size = 18)+
                        labs(fill = " ")+
                        geom_abline(intercept =0 , slope = 1, linetype = "dashed")+
                        theme(axis.title = element_text(), 
@@ -118,8 +118,8 @@ legend <- get_legend(comp_sp_to_gen_pip_values %>%
 )
 
 #all parts fig 2
-supp_fig2 <- plot_grid(plot_grid(partA, partB, labels = c("A", "B")), 
-                      plot_grid(partC, partD, labels = c("C", "D")), 
+supp_fig2 <- plot_grid(plot_grid(partA, partB, labels = c("A", "B"), label_size = 24), 
+                      plot_grid(partC, partD, labels = c("C", "D"), label_size = 24), 
                       legend,
                        ncol = 1,
                       rel_heights = c(1, 1, .2))
