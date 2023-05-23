@@ -184,7 +184,7 @@ legend <- get_legend(specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% 
 
 #full plot
 fig2 <- plot_grid(partA, 
-                  plot_grid(partB, partC, labels = c("B", "C"), label_size = 24), 
+                  plot_grid(partB, partC, labels = c("B", "C"), label_size = 28), 
                   ncol = 1,
-                  labels = c("A"), label_size = 24,
+                  labels = c("A"), label_size = 28,
                   legend, rel_heights = c(1, 1, .1))

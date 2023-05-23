@@ -30,7 +30,7 @@ fig6 <- all_data %>% ungroup() %>%
   xlab("fitness cost of generalism")+
   ylab("biomass")+
   theme_bw(base_size = 18) +
-  labs(color = "phage type")+
+  labs(color = "species")+
   scale_color_manual(values = c("generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 

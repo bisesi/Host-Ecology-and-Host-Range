@@ -118,8 +118,8 @@ legend <- get_legend(comp_sp_to_gen_pip_values %>%
 )
 
 #all parts fig 2
-supp_fig2 <- plot_grid(plot_grid(partA, partB, labels = c("A", "B"), label_size = 24), 
-                      plot_grid(partC, partD, labels = c("C", "D"), label_size = 24), 
+supp_fig2 <- plot_grid(plot_grid(partA, partB, labels = c("A", "B"), label_size = 28), 
+                      plot_grid(partC, partD, labels = c("C", "D"), label_size = 28), 
                       legend,
                        ncol = 1,
                       rel_heights = c(1, 1, .2))

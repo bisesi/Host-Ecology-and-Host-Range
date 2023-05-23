@@ -61,7 +61,7 @@ legend1 <- get_legend(all_data_partA %>% ungroup() %>%
                         theme_bw()+
                         facet_wrap(~interaction) +
                         xlab("fitness cost of generalism")+
-                        labs(color = "phage type")+
+                        labs(color = "species")+
                         scale_color_manual(values = c("generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
                         ylab("biomass")+
                         theme_bw(base_size = 18)+
@@ -220,7 +220,7 @@ legend2 <- get_legend(all_data_partC %>%
 
 #all parts fig 1
 fig3 <- plot_grid(partA, legend1,
-                  plot_grid(partC, partB, labels = c("B", "C"), label_size = 24), 
+                  plot_grid(partC, partB, labels = c("B", "C"), label_size = 32), 
                   ncol = 1,
-                  labels = c("A"), label_size = 24,
+                  labels = c("A"), label_size = 28,
                   legend2, rel_heights = c(1, 0.1, 1, .2))

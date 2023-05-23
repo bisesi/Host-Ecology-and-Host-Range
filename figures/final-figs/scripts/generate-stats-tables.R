@@ -79,7 +79,7 @@ partA_data_fig5 <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == 
                                    TRUE ~ doubling_type)) %>%
   mutate(phage = case_when(phage == "Phi" ~ "EH7",
                            phage == "Phi + P22" ~ "EH7 + P22",
-                           TRUE ~ phage))
+                           TRUE ~ phage)) %>% filter(doublings != 0)
 
 
 partB_data_fig5 <-all_data_phage %>%

@@ -41,10 +41,10 @@ partA <- no_cells %>%
         plot.background = element_blank(),
         legend.position = "none",
         panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
   ylab("growth rate (ln(final pfu / initial pfu))")+
-  xlab("treatment")+
   labs(color = "phage type")+
   ylim(-15, 12.5)
 
@@ -180,10 +180,10 @@ partB <- all_partB_data %>%
         plot.background = element_blank(),
         legend.position = "none",
         panel.grid.minor = element_blank(),
+        axis.title.x = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank()) +
   ylab("growth rate (ln(final pfu / initial pfu))")+
-  xlab("media")+
   labs(color = "")+
   ylim(-15, 12.5)
 
@@ -212,17 +212,17 @@ legend <- get_legend(no_cells %>%
                              plot.background = element_blank(),
                              legend.position = "bottom",
                              panel.grid.minor = element_blank(),
+                             axis.title.x = element_blank(),
                              legend.background = element_blank(),
                              strip.background = element_blank())+
                        ylab("growth rate (ln(final pfu / initial pfu))")+
-                       xlab("treatment")+
-                       labs(color = "phage type")+
+                       labs(color = "species")+
                        ylim(-15, 12.5))
 
 #figure 
 #supp_fig3 <- plot_grid(plot_grid(partA, partB, ncol = 2, labels = c("A", "B"), label_size = 24), 
                        #legend, rel_heights = c(1, 0.1), ncol = 1)
 
-supp_fig3 <- plot_grid(partA, partB, legend, labels = c("A", "B"), label_size = 24, rel_heights = c(1, 1, 0.1), ncol = 1)
+supp_fig3 <- plot_grid(partA, partB, legend, labels = c("A", "B"), label_size = 28, rel_heights = c(1, 1, 0.1), ncol = 1)
                   
 
