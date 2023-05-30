@@ -15,10 +15,26 @@ To reproduce the analyses, clone or download the project and follow the instruct
 ## Getting started
 
 1. Clone or download the repository to your local machine.
-2. If you are using R Studio, open the R project file, \`\`\`Host-Ecology-and-Host-Range.Rproj\`\`\`. This will set up your working directories correctly, so there is no need to change them manually. 
+2. If you are using R Studio, open the R project file, ```Host-Ecology-and-Host-Range.Rproj```. This will set up your working directories correctly, so there is no need to change them manually. 
 
+## Figure generation
 
+Figures can be recreated using the individual scripts found in the folder ```figures/final-figs/scripts```. The script ```generate-final-imgs.R``` will generate the data for each figure and export the figure to the correct location as a png. Statistics for Figures 4, 5 and Supplemental Figure 3 can be generated and saved as xlsx files using the ```generate-stats-tables.R``` found in the same folder.  
 
-Experimental data, models, paper, and visualizations for dissertation project on the impact of host ecology on phage host range.
+## Experimental data
 
-This repository contains all the relevant data, mathematical models, and visualizations for my dissertation project on host ecology and predator host range in a well-mixed environment.
+Tecan and PFU data for all relevant experiments can be found in the ```experimental-data/tecan-data``` folder. Each experiment is labelled by date; the README in each folder provides details about the conditions tested. Helper functions to clean and analyze the data can be found in the ```functions``` folder. 
+
+## Required R Packages
+
+Before running the scripts, ensure you have the following R packages installed:
+
+- ```tidyverse```: A collection of R packages designed for data science. 
+- ```ggpubr```: Functions for creating publication-ready plots.
+- ```rstatix```: Functions for performing various statistical tests.
+- ```deSolve```: Functions for the numerical treatment of systems of differential equations
+- ```ODESensitivity```: Functions for sensitivity analysis in ordinary differential equation (ode) models
+- ```cowplot```: Functions for creating publication-ready plots.
+- ```ggtext```: Functions for creating publication-ready plots.
+- ```zoo```: Functions for methods for totally ordered indexed observations
+- ```patchwork```: Functions for creating publication-ready plots.
