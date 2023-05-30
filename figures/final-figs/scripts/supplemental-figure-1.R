@@ -29,13 +29,13 @@ partA <- all_data_partA %>% ungroup() %>%
   mutate(phage = case_when(phage == "gen" ~ "generalist (eh7)",
                            phage == "sp" ~ "specialist (p22vir)")) %>%
   ggplot(aes(x = cost_amount, y = biomass, color = phage))+
-  geom_smooth(se = FALSE, span = 0.25)+
-  facet_wrap(~interaction) +
-  xlab("fitness cost of generalism")+
-  labs(color = "phage type")+
-  scale_color_manual(values = c("generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
-  ylab("biomass")+
+  geom_smooth(se = FALSE, span = 0.25, size = 1.5)+
   theme_bw(base_size = 18)+
+  facet_wrap(~interaction) +
+  xlab("relative attachment rate")+
+  labs(color = "phage type")+
+  scale_color_manual(values = c("generalist (eh7)" = eh7, "specialist (p22vir)" = p22vir))+
+  ylab("biomass")+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -61,7 +61,7 @@ legend1 <- get_legend(all_data_partA %>% ungroup() %>%
                         facet_wrap(~interaction) +
                         xlab("fitness cost of generalism")+
                         labs(color = "species")+
-                        scale_color_manual(values = c("generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
+                        scale_color_manual(values = c("Generalist (EH7)" = eh7, "Specialist (P22vir)" = p22vir))+
                         ylab("biomass")+
                         theme_bw(base_size = 18)+
                         theme(axis.title = element_text(), 
@@ -90,25 +90,30 @@ partB <- all_data_partB   %>%
   filter(cost == "attachment rate") %>%
   mutate(gen = round(gen, 3),
          sp = round(sp, 3),
+         abundance = sp / (sp + gen),
          relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
   mutate(normalized = exp(log10(relative_fitness)) / (1 + exp(log10(relative_fitness)))) %>%
   mutate(normalized = case_when(is.nan(normalized) == TRUE ~ 1,
                                 TRUE ~ normalized)) %>%
-  select(cost, parameter, alpha_ratio, rate_ratio, gamma_ratio, c_ratio, normalized) %>%
+  select(cost, parameter, alpha_ratio, rate_ratio, gamma_ratio, c_ratio, normalized, abundance) %>%
   pivot_longer(cols = c(c_ratio, gamma_ratio), names_to = "cost_type", values_to = "cost_amount") %>%
   filter((cost_type == "c_ratio" & cost == "attachment rate") | (cost_type == "gamma_ratio" & cost == "burst size")) %>%
   pivot_longer(cols = c(alpha_ratio, rate_ratio), names_to = "parameter_type", values_to = "parameter_value") %>%
   filter((parameter_type == "rate_ratio" & parameter == "rate") | (parameter_type == "alpha_ratio" & parameter == "benefit coeff")) %>%
+  mutate(parameter = case_when(parameter == "rate" ~ "growth\nrate",
+                               parameter == "benefit coeff" ~ "mutualism\ncoefficient",
+                               TRUE ~ parameter)) %>%
+  mutate(parameter = factor(parameter, levels = c("mutualism\ncoefficient", "growth\nrate"))) %>%
   ggplot(aes(x = cost_amount, y = parameter_value)) +
-  geom_tile(aes(fill = normalized), width=0.5,height=0.5)+
+  geom_tile(aes(fill = abundance))+
   facet_wrap(~parameter)+
-  scale_fill_gradient2(low = "#CA3542",
+  scale_fill_gradient2(low = eh7,
                        mid = "white",
-                       high= "#27647B",
+                       high= p22vir,
                        midpoint = 0.5,
                        limits = c(0,1))+
-  xlab("fitness cost of generalism")+
-  ylab("relative advantage of E. coli")+
+  xlab("relative attachment rate")+
+  ylab("relative advantage of *E. coli*")+
   geom_vline(xintercept = 1, linetype = "dashed")+
   geom_hline(yintercept = 1, linetype = "dashed")+
   theme_bw(base_size = 18)+
@@ -116,6 +121,7 @@ partB <- all_data_partB   %>%
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         legend.position = "none",
+        axis.title.y = element_markdown(),
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
@@ -141,25 +147,30 @@ partC <- all_data_partC %>%
          c_ratio = c_sp / 1e-3) %>%
   mutate(gen = round(gen, 3),
          sp = round(sp, 3),
+         abundance = sp / (gen + sp),
          relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
   mutate(normalized = exp(log10(relative_fitness)) / (1 + exp(log10(relative_fitness)))) %>%
   mutate(normalized = case_when(is.nan(normalized) == TRUE ~ 1,
                                 TRUE ~ normalized)) %>%
-  select(cost, parameter, beta_ratio, rate_ratio, gamma_ratio, c_ratio, normalized) %>%
+  select(cost, parameter, beta_ratio, rate_ratio, gamma_ratio, c_ratio, normalized, abundance) %>%
   pivot_longer(cols = c(c_ratio, gamma_ratio), names_to = "cost_type", values_to = "cost_amount") %>%
   filter((cost_type == "c_ratio" & cost == "attachment rate") | (cost_type == "gamma_ratio" & cost == "burst size")) %>%
   pivot_longer(cols = c(beta_ratio, rate_ratio), names_to = "parameter_type", values_to = "parameter_value") %>%
   filter((parameter_type == "rate_ratio" & parameter == "rate") | (parameter_type == "beta_ratio" & parameter == "comp coeff")) %>%
+  mutate(parameter = case_when(parameter == "rate" ~ "growth\nrate",
+                               parameter == "comp coeff" ~ "competition\ncoefficient",
+                               TRUE ~ parameter)) %>%
+  mutate(parameter = factor(parameter, levels = c("competition\ncoefficient", "growth\nrate"))) %>%
   ggplot(aes(x = cost_amount, y = parameter_value)) +
-  geom_tile(aes(fill = normalized), width=0.67,height=0.67)+
+  geom_tile(aes(fill = abundance), height = 0.5, width = 0.5)+
   facet_wrap(~parameter)+
-  scale_fill_gradient2(low = "#CA3542",
+  scale_fill_gradient2(low = eh7,
                        mid = "white",
-                       high= "#27647B",
+                       high= p22vir,
                        midpoint = 0.5,
                        limits = c(0,1))+
-  xlab("fitness cost of generalism")+
-  ylab("relative advantage of E. coli")+
+  xlab("relative attachment rate")+
+  ylab("relative advantage of *E. coli*")+
   geom_vline(xintercept = 1, linetype = "dashed")+
   geom_hline(yintercept = 1, linetype = "dashed")+
   theme_bw(base_size = 18)+
@@ -167,6 +178,7 @@ partC <- all_data_partC %>%
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         legend.position = "none",
+        axis.title.y = element_markdown(),
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
@@ -182,28 +194,33 @@ legend2 <- get_legend(all_data_partC %>%
                                c_ratio = c_sp / 1e-3) %>%
                         mutate(gen = round(gen, 3),
                                sp = round(sp, 3),
+                               abundance = sp / (gen + sp),
                                relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
                         mutate(normalized = exp(log10(relative_fitness)) / (1 + exp(log10(relative_fitness)))) %>%
                         mutate(normalized = case_when(is.nan(normalized) == TRUE ~ 1,
                                                       TRUE ~ normalized)) %>%
-                        select(cost, parameter, beta_ratio, rate_ratio, gamma_ratio, c_ratio, normalized) %>%
+                        select(cost, parameter, beta_ratio, rate_ratio, gamma_ratio, c_ratio, abundance, normalized) %>%
                         pivot_longer(cols = c(c_ratio, gamma_ratio), names_to = "cost_type", values_to = "cost_amount") %>%
                         filter((cost_type == "c_ratio" & cost == "attachment rate") | (cost_type == "gamma_ratio" & cost == "burst size")) %>%
                         pivot_longer(cols = c(beta_ratio, rate_ratio), names_to = "parameter_type", values_to = "parameter_value") %>%
                         filter((parameter_type == "rate_ratio" & parameter == "rate") | (parameter_type == "beta_ratio" & parameter == "comp coeff")) %>%
+                        mutate(parameter = case_when(parameter == "rate" ~ "growth\nrate",
+                                                     parameter == "comp coeff" ~ "competition\ncoefficient",
+                                                     TRUE ~ parameter)) %>%
+                        mutate(parameter = factor(parameter, levels = c("competition\ncoefficient", "growth\nrate"))) %>%
                         ggplot(aes(x = cost_amount, y = parameter_value)) +
-                        geom_tile(aes(fill = normalized), width=0.5,height=0.5)+
+                        geom_tile(aes(fill = abundance), height = 0.5, width = 0.5)+
                         facet_wrap(~parameter)+
-                        scale_fill_gradient2(low = "#CA3542",
+                        scale_fill_gradient2(low = eh7,
                                              mid = "white",
-                                             high= "#27647B",
+                                             high= p22vir,
                                              midpoint = 0.5,
                                              limits = c(0,1))+
-                        xlab("fitness cost of generalism")+
-                        ylab("relative advantage of E. coli")+
+                        xlab("relative burst size")+
+                        ylab("relative advantage of *E. coli*")+
                         geom_vline(xintercept = 1, linetype = "dashed")+
                         geom_hline(yintercept = 1, linetype = "dashed")+
-                        theme_bw()+
+                        theme_bw(base_size = 18)+
                         theme(axis.title = element_text(), 
                               panel.background = element_rect(fill = "white"), 
                               plot.background = element_blank(),
@@ -218,8 +235,6 @@ legend2 <- get_legend(all_data_partC %>%
                         ylim(0, 5))
 
 #all parts fig 1
-supp_fig1 <- plot_grid(partA, legend1,
-                  plot_grid(partC, partB, labels = c("B", "C"), label_size = 32), 
-                  ncol = 1,
-                  labels = c("A"), label_size = 28,
-                  legend2, rel_heights = c(1, .1, 1, .2))
+right <- plot_grid(partC, partB, legend2, labels = c("B", "C"), label_size = 26, ncol = 1, rel_heights = c(1,1,0.15))
+left <- plot_grid(NULL, partA, legend1, labels = c("", "A"), label_size = 26, ncol = 1, rel_heights = c(0.1,0.2, 0.1))
+supp_fig1 <- plot_grid(left, right, ncol = 2)

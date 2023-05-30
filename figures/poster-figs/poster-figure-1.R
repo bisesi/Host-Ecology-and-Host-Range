@@ -79,11 +79,16 @@ final_bacterial_dynamics_comp <- single_phage %>%
   mutate(cost = gamma_sp / 20) %>%
   filter(cost == 5) %>%
   filter(time == max(time)) %>%
+  mutate(phage = case_when(phage == "both phage" ~ "both\nphage",
+                           phage == "no phage" ~ "no\nphage",
+                           phage == "generalist only" ~ "generalist\nonly",
+                           phage == "specialist only" ~ "specialist\nonly",
+                           TRUE ~ phage)) %>%
   mutate(E_percent = E / (E + S), S_percent = S / (E + S)) %>%
   pivot_longer(E_percent:S_percent, names_to = "bacteria", values_to = "density") %>%
   mutate(bacteria = case_when(bacteria == "E_percent" ~ "E. coli", 
                               bacteria == "S_percent" ~ "S. enterica")) %>%
-  mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only", "both phage"))) %>%
+  mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
   ggplot(aes(x = phage, y = density * 100, fill = bacteria))+
   geom_bar(stat = "identity", width = 0.75, position = position_dodge(0.75))+
   scale_fill_manual(values = c("#5ba300", "#e6308a"))+
@@ -164,11 +169,16 @@ final_bacterial_dynamics_coop <- single_phage %>%
   mutate(cost = gamma_sp / 20) %>%
   filter(cost == 5) %>%
   filter(time == max(time)) %>%
+  mutate(phage = case_when(phage == "both phage" ~ "both\nphage",
+                           phage == "no phage" ~ "no\nphage",
+                           phage == "generalist only" ~ "generalist\nonly",
+                           phage == "specialist only" ~ "specialist\nonly",
+                           TRUE ~ phage)) %>%
   mutate(E_percent = E / (E + S), S_percent = S / (E + S)) %>%
   pivot_longer(E_percent:S_percent, names_to = "bacteria", values_to = "density") %>%
   mutate(bacteria = case_when(bacteria == "E_percent" ~ "E. coli", 
                               bacteria == "S_percent" ~ "S. enterica")) %>%
-  mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only", "both phage"))) %>%
+  mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
   ggplot(aes(x = phage, y = density * 100, fill = bacteria))+
   geom_bar(stat = "identity", width = 0.75, position = position_dodge(0.75))+
   scale_fill_manual(values = c("#5ba300", "#e6308a"))+

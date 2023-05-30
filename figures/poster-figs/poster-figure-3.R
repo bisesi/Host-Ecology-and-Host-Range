@@ -50,7 +50,7 @@ partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalis
                            phage == "Phi + P22" ~ "both\nphage")) %>%
   mutate(phage= factor(phage, levels = c("specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
   ggplot(aes(x = interaction, y = doublings, color = phage)) +
-  geom_boxplot() +
+  geom_boxplot(alpha = 0.5, varwidth = TRUE) +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
@@ -61,7 +61,7 @@ partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalis
         legend.position = "none",
         legend.background = element_blank(),
         strip.background = element_blank())+
-  scale_color_manual(values = c("#CA3542", "#27647B"))+
+  scale_color_manual(values = c("#27647B", "#CA3542"))+
   ylab("growth rate")+
   ylim(-10, 12.5)+
   labs(color = "phage type")
@@ -188,10 +188,10 @@ partC_data <- cleaned_pfus %>%
                                TRUE ~ doublings)) %>%
   mutate(media = case_when(media == "saline" ~ "0.85%\nsaline",
                            media == "H2O" ~ "water",
-                           media == "MM-" ~ "metal\nfree",
-                           media == "P-" ~ "phos\nfree",
-                           media == "S-" ~ "sulf\nfree",
-                           media == "P/S-" ~ "phos/sulf\nfree",
+                           media == "MM-" ~ "no\nmetals",
+                           media == "P-" ~ "no\nphos",
+                           media == "S-" ~ "no\nsulf",
+                           media == "P/S-" ~ "no\nphos\nsulf",
                            TRUE ~ media)) %>%
   mutate(phage_type = case_when(phage == "Generalist phage" ~ "generalist (eh7)",
                                 phage == "Specialist phage" ~ "specialist (p22vir)"))%>%

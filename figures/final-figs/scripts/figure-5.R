@@ -4,6 +4,7 @@
 
 #library
 library("patchwork")
+library("tidyverse")
 library("cowplot")
 
 #load all data
@@ -35,12 +36,12 @@ all_data_bacteria <- rbind(no_cost_bacteria, with_cost_bacteria)
 #part A - starved cells or phage 24, 48 hour timepoints
 partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
                                                         phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
-  mutate(interaction = case_when(interaction == "E Monoculture" ~ "starved\nE. coli\nmonoculture",
-                                 interaction == "S Monoculture" ~ "starved\nS. enterica\nmonoculture",
+  mutate(interaction = case_when(interaction == "E Monoculture" ~ "starved<br>*E. coli*<br>monoculture",
+                                 interaction == "S Monoculture" ~ "starved<br>*S. enterica*<br>monoculture",
                                  interaction == "No Cells" ~ "no cells",
                                  TRUE ~ interaction))%>%
-  filter(interaction %in% c("starved\nE. coli\nmonoculture",
-                            "starved\nS. enterica\nmonoculture",
+  filter(interaction %in% c("starved<br>*E. coli*<br>monoculture",
+                            "starved<br>*S. enterica*<br>monoculture",
                             "no cells")) %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                TRUE ~ doublings)) %>%
@@ -49,6 +50,8 @@ partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalis
                            phage == "Phi" ~ "generalist\nonly",
                            phage == "Phi + P22" ~ "both\nphage")) %>%
   mutate(phage= factor(phage, levels = c("specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
+  mutate(doublings = case_when(doublings == min(doublings) ~ -5,
+                               TRUE ~ doublings)) %>%
   ggplot(aes(x = phage, y = doublings, color = phage_type)) +
   facet_wrap(~interaction) + 
   geom_boxplot() +
@@ -59,12 +62,13 @@ partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalis
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.position = "none",
+        strip.text = element_markdown(),
         legend.background = element_blank(),
         axis.title.x = element_blank(),
         strip.background = element_blank())+
-  scale_color_manual(values = c("#CA3542", "#27647B"))+
-  ylab("growth rate (ln(final pfu / initial pfu))")+
-  ylim(-10, 12.5)+
+  scale_color_manual(values = c(eh7, p22vir))+
+  ylab("ln(final pfu / initial pfu)")+
+  ylim(-7, 12.5)+
   labs(color = "phage type")
 
 #part B - monoculture, competition, from original data and cost data
@@ -72,7 +76,7 @@ partB <- all_data_phage %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                TRUE ~ doublings)) %>%
   filter(!interaction %in% c("Facilitation", "Mutualism"))%>%
-  mutate(interaction = case_when(interaction == "S Monoculture" ~ "S. enterica\nmonoculture",
+  mutate(interaction = case_when(interaction == "S Monoculture" ~ "*S. enterica* monoculture",
                                  interaction == "Competition" ~ "competition")) %>%
   mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
                                 phage_type == "Specialist phage" ~ "specialist (p22vir)")) %>%
@@ -81,27 +85,30 @@ partB <- all_data_phage %>%
                            phage == "Phi + P22" ~ "both\nphage")) %>%
   mutate(phage= factor(phage, levels = c("specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
   filter(phage == "both\nphage") %>%
+  mutate(doublings = case_when(doublings == min(doublings) ~ -5,
+                               TRUE ~ doublings)) %>%
   ggplot(aes(x = cost, y = doublings, color = phage_type)) +
   facet_wrap(~interaction) +
   geom_boxplot() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
   theme_bw(base_size = 18)+
-  scale_color_manual(values = c("#CA3542", "#27647B"))+
+  scale_color_manual(values = c(eh7, p22vir))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.position = "none",
+        strip.text = element_markdown(),
         axis.title.x = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("growth rate (ln(final pfu / initial pfu))")+
+  ylab("ln(final pfu / initial pfu)")+
   labs(color = "phage type")+
-  ylim(-10, 12.5)
+  ylim(-7, 12.5)
 
 #legends
-legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
-                                                                     phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
+legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "Generalist (EH7)",
+                                                                     phage_type == "Specialist phage" ~ "Specialist (P22vir)"))%>%
                         mutate(interaction = case_when(interaction == "E Monoculture" ~ "starved e monoculture",
                                                        interaction == "S Monoculture" ~ "starved s monoculture",
                                                        interaction == "No Cells" ~ "no cells",
@@ -128,14 +135,15 @@ legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type 
                               legend.position = "bottom",
                               legend.background = element_blank(),
                               strip.background = element_blank())+
-                        scale_color_manual(values = c("#CA3542", "#27647B"))+
-                        ylab("growth rate (ln(final pfu / initial pfu))")+
+                        scale_color_manual(values = c(eh7, p22vir))+
+                        ylab("ln(final pfu / initial pfu)")+
                         xlab("treatment")+
                         ylim(-10, 12.5)+
                         labs(color = "species"))
 
 
 #complete fig
-fig5 <- plot_grid(plot_grid(partA, partB, ncol = 2, labels = c("A", "B"), label_size = 28), legend1, rel_heights = c(1,0.1), ncol =1)
+fig5 <- plot_grid(plot_grid(partA, partB, ncol = 2, labels = c("A", "B"), label_size = 26),
+                  legend1, rel_heights = c(1,0.1), ncol =1)
 
 

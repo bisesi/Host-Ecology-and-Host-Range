@@ -21,17 +21,17 @@ fig6 <- all_data %>% ungroup() %>%
          sp = round(sp, 3),
          relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
   pivot_longer(cols = c(gen, sp), names_to = "phage", values_to = "biomass") %>%
-  mutate(phage = case_when(phage == "gen" ~ "generalist (eh7)",
-                           phage == "sp" ~ "specialist (p22vir)")) %>%
+  mutate(phage = case_when(phage == "gen" ~ "Generalist (EH7)",
+                           phage == "sp" ~ "Specialist (P22vir)")) %>%
   filter(dilution_gen / dilution <= 5) %>%
   ggplot(aes(x = dilution_gen / dilution, y = biomass, color = phage))+
-  geom_smooth(se = FALSE, span = 0.25)+
+  geom_smooth(se = FALSE, span = 0.25, size = 1.5)+
   facet_wrap(~interaction)+
-  xlab("fitness cost of generalism")+
+  xlab("relative intrinsic mortality rate")+
   ylab("biomass")+
   theme_bw(base_size = 18) +
   labs(color = "species")+
-  scale_color_manual(values = c("generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))+
+  scale_color_manual(values = c("Generalist (EH7)" = eh7, "Specialist (P22vir)" = p22vir))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),

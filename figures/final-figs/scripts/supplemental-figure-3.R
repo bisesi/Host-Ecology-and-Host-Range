@@ -30,12 +30,14 @@ partA <- no_cells %>%
                            phage == "Phi" ~ "generalist\nonly",
                            phage == "Phi + P22" ~ "both\nphage")) %>%
   mutate(phage= factor(phage, levels = c("specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
+  mutate(doublings = case_when(doublings == min(doublings) ~ -5,
+                               TRUE ~ doublings)) %>%
   ggplot(aes(x = phage, y = doublings, color = phage_type)) +
   facet_wrap(~timepoint) +
   geom_boxplot() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
   theme_bw(base_size = 18)+
-  scale_color_manual(values = c("#CA3542", "#27647B"))+
+  scale_color_manual(values = c(eh7, p22vir))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -44,9 +46,9 @@ partA <- no_cells %>%
         axis.title.x = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("growth rate (ln(final pfu / initial pfu))")+
+  ylab("ln(final pfu / initial pfu)")+
   labs(color = "phage type")+
-  ylim(-15, 12.5)
+  ylim(-7, 5)
 
 #partB
 date <- "15March2023"
@@ -100,6 +102,8 @@ partC_data <- cleaned_pfus %>%
   filter(media != "none") %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                TRUE ~ doublings)) %>%
+  mutate(doublings = case_when(doublings == min(doublings) ~ -5,
+                                   TRUE ~ doublings)) %>%
   mutate(media = case_when(media == "saline" ~ "0.85%\nsaline",
                            media == "H2O" ~ "water",
                            media == "MM-" ~ "metal\nfree",
@@ -167,8 +171,10 @@ partB <- all_partB_data %>%
   group_by(date, media) %>%
   arrange(desc(phi_doublings)) %>%
   ungroup() %>%
+  mutate(phi_doublings = case_when(phi_doublings == min(phi_doublings) ~ -5,
+                               TRUE ~ phi_doublings)) %>%
   ggplot(aes(x = media, y = phi_doublings)) +
-  geom_boxplot(color = "#CA3542") +
+  geom_boxplot(color = eh7) +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
   theme_bw(base_size = 18)+
   facet_wrap(~date, scales = "free_x", labeller = labeller(date = 
@@ -183,17 +189,17 @@ partB <- all_partB_data %>%
         axis.title.x = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank()) +
-  ylab("growth rate (ln(final pfu / initial pfu))")+
+  ylab("ln(final pfu / initial pfu)")+
   labs(color = "")+
-  ylim(-15, 12.5)
+  ylim(-7, 5)
 
 legend <- get_legend(no_cells %>%
                        mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                                     TRUE ~ doublings)) %>%
                        mutate(interaction = case_when(interaction == "No cells" ~ "no cells",
                                                       TRUE ~ interaction))%>%
-                       mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
-                                                     phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
+                       mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "Generalist (EH7)",
+                                                     phage_type == "Specialist phage" ~ "Specialist (P22vir)"))%>%
                        mutate(timepoint = case_when(timepoint == 24 ~ "hour 24",
                                                     timepoint == 48 ~ "hour 48",
                                                     TRUE ~ timepoint)) %>%
@@ -206,7 +212,7 @@ legend <- get_legend(no_cells %>%
                        geom_boxplot() +
                        geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
                        theme_bw(base_size = 18)+
-                       scale_color_manual(values = c("#CA3542", "#27647B"))+
+                       scale_color_manual(values = c(eh7, p22vir))+
                        theme(axis.title = element_text(), 
                              panel.background = element_rect(fill = "white"), 
                              plot.background = element_blank(),
@@ -215,7 +221,7 @@ legend <- get_legend(no_cells %>%
                              axis.title.x = element_blank(),
                              legend.background = element_blank(),
                              strip.background = element_blank())+
-                       ylab("growth rate (ln(final pfu / initial pfu))")+
+                       ylab("ln(final pfu / initial pfu)")+
                        labs(color = "species")+
                        ylim(-15, 12.5))
 

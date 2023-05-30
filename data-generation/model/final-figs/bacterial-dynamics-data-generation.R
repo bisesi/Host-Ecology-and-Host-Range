@@ -49,7 +49,7 @@ specialist_gamma_coop_both <- expand.grid(gamma_sp = gamma_sp)%>%
 #set some initial parameters - generalist only
 time = seq(from = 0.1, to = 1e4, by = 10)
 start_density <- c(E = 0.1, S = 0.1, gen = 0.1, sp = 0)
-maxcost = 15
+maxcost = 5
 
 #competition, generalist only
 gamma_sp = seq(from = 0, to = parameters_comp_R['gamma_sp'] * maxcost, by = parameters_comp_R['gamma_sp'] / 20)
@@ -86,7 +86,7 @@ specialist_gamma_coop_gen <- expand.grid(gamma_sp = gamma_sp)%>%
 #set some initial parameters - specialist only
 time = seq(from = 0.1, to = 1e4, by = 10)
 start_density <- c(E = 0.1, S = 0.1, gen = 0, sp = 0.1)
-maxcost = 15
+maxcost = 5
 
 #competition, specialist only
 gamma_sp = seq(from = 0, to = parameters_comp_R['gamma_sp'] * maxcost, by = parameters_comp_R['gamma_sp'] / 20)
@@ -123,7 +123,7 @@ specialist_gamma_coop_sp <- expand.grid(gamma_sp = gamma_sp)%>%
 #set some initial parameters - no phage
 time = seq(from = 0.1, to = 1e4, by = 10)
 start_density <- c(E = 0.1, S = 0.1, gen = 0, sp = 0)
-maxcost = 15
+maxcost = 5
 
 #competition, no phage
 gamma_sp = seq(from = 0, to = parameters_comp_R['gamma_sp'] * maxcost, by = parameters_comp_R['gamma_sp'] / 20)

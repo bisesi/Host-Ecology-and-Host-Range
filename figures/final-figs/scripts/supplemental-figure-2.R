@@ -16,8 +16,8 @@ partA <- coop_sp_to_gen_pip_values %>%
   ggplot(aes(x = I_S_sp, y = I_E_gen)) +
   geom_tile(aes(fill = pip))+
   scale_fill_manual(values = c("black", "grey"))+
-  xlab("resident infectivity on S. enterica")+
-  ylab("mutant infectivity on S. enterica")+
+  xlab("resident infectivity on *S. enterica*")+
+  ylab("mutant infectivity on *S. enterica*")+
   theme_bw(base_size = 18)+
   labs(fill = " ")+
   geom_abline(intercept =0 , slope = 1, linetype = "dashed")+
@@ -26,6 +26,8 @@ partA <- coop_sp_to_gen_pip_values %>%
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.position = "none", 
+        axis.title.x = element_markdown(),
+        axis.title.y = element_markdown(),
         legend.background = element_blank(),
         strip.background = element_blank())
 
@@ -56,8 +58,8 @@ partC <- coop_gen_to_sp_pip_values %>%
   ggplot(aes(x = gamma_genS, y = gamma_sp)) +
   geom_tile(aes(fill = pip))+
   scale_fill_manual(values = c("grey"))+
-  xlab("resident burst size on S. enterica")+
-  ylab("mutant burst size on S. enterica")+
+  xlab("resident burst size on *S. enterica*")+
+  ylab("mutant burst size on *S. enterica*")+
   theme_bw(base_size = 18)+
   labs(fill = " ")+
   geom_abline(intercept =0 , slope = 1, linetype = "dashed")+
@@ -66,6 +68,8 @@ partC <- coop_gen_to_sp_pip_values %>%
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.position = "none", 
+        axis.title.x = element_markdown(),
+        axis.title.y = element_markdown(),
         legend.background = element_blank(),
         strip.background = element_blank())
   
@@ -79,20 +83,23 @@ partD <- comp_gen_to_sp_pip_values %>%
   ggplot(aes(x = gamma_genS, y = gamma_sp)) +
   geom_tile(aes(fill = pip))+
   facet_wrap(~beta1, labeller = labeller(beta1 = 
-                                           c("0.3" = "S. enterica coeff: 0.3",
-                                             "1.2" = "S. enterica coeff: 1.2",
-                                             "1.5" = "S. enterica coeff: 1.5",
-                                             "2.1" = "S. enterica coeff: 2.1")))+
+                                           c("0.3" = "*S. enterica* competition coefficient: 0.3",
+                                             "1.2" = "*S. enterica* competition coefficient: 1.2",
+                                             "1.5" = "*S. enterica* competition coefficient: 1.5",
+                                             "2.1" = "*S. enterica* competition coefficient: 2.1")))+
   scale_fill_manual(values = c("black", "grey"))+
   theme_bw(base_size = 18)+
   geom_abline(intercept =0 , slope = 1, linetype = "dashed")+
-  xlab("resident burst size on S. enterica")+
-  ylab("mutant burst size on S. enterica")+
+  xlab("resident burst size on *S. enterica*")+
+  ylab("mutant burst size on *S. enterica*")+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.position = "none", 
+        strip.text = element_markdown(),
+        axis.title.x = element_markdown(),
+        axis.title.y = element_markdown(),
         legend.background = element_blank(),
         strip.background = element_blank())
 
@@ -118,8 +125,8 @@ legend <- get_legend(comp_sp_to_gen_pip_values %>%
 )
 
 #all parts fig 2
-supp_fig2 <- plot_grid(plot_grid(partA, partB, labels = c("A", "B"), label_size = 28), 
-                      plot_grid(partC, partD, labels = c("C", "D"), label_size = 28), 
+supp_fig2 <- plot_grid(plot_grid(partA, partB, labels = c("A", "B"), label_size = 26), 
+                      plot_grid(partC, partD, labels = c("C", "D"), label_size = 26), 
                       legend,
                        ncol = 1,
                       rel_heights = c(1, 1, .2))
