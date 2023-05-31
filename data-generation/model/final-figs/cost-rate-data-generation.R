@@ -1,5 +1,5 @@
 #ATB
-#Modeling results generation
+#Modeling results generation, altering both cost and interaction coefficients 
 #Used for Figure 3 and Supplemental Figure 1
 
 #load packages and data

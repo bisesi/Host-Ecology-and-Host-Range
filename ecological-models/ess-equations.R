@@ -1,7 +1,8 @@
 #ATB
-#Based on eneralized Lotka Volterra model for 4 species system
+#Based on Generalized Lotka Volterra model for 4 species system
 #One generalist predator, one specialist predator
-#ESS equations generated in Mathematica
+#ESS equations (Jmut) generated in Mathematica
+#Interested in where these values are positive (can invade) or negative (can't invade)
 
 #Resident type = specialist, mutant type = generalist
 coop_sp_to_gen <- function(R = 2, I_E_gen = 0.02, dilution = 3e-2, I_S_gen = 0.02, I_S_sp = 0.02, mu1 = 0.5, k1 = 1) {

@@ -1,6 +1,7 @@
 #ATB
 #Paper Fig 6
 #Generation code for parts A and B
+#Alter intrinsic mortality as phage cost
 
 #load packages and data
 library("tidyverse")
@@ -12,7 +13,7 @@ source(here::here("ecological-models", "lotka-volterra-model.R"))
 #set some initial parameters
 time = seq(from = 0.1, to = 1e4, by = 10)
 start_density <- c(E = 0.1, S = 0.1, gen = 0.1, sp = 0.1)
-maxcost = 5
+maxcost = 100
 dilution = 0.0067
 
 #PART A

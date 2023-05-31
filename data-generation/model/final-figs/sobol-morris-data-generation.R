@@ -1,5 +1,7 @@
 #ATB
 #Sensitivity analysis - Morris Screening and Sobol Variance
+#completes morris screening and sobol variance analysis, cleans data using the sobol-morris-helper functions
+#and then exports the results to csv files in the paper-supplement folder
 
 #load packages and data
 library("deSolve")

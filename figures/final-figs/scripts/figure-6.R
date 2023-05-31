@@ -1,6 +1,6 @@
 #ATB
 #Paper Fig 6
-#Generation and visualization code for parts A, B
+#Generation and visualization code for figure using intrinsic mortality
 
 #load visualization packages
 library("patchwork")

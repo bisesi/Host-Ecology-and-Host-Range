@@ -1,6 +1,7 @@
 #ATB
 #Tecan and PFU analysis - clean and concatenate data
 #Using csv files from tecan and xlsx of plaque assay results
+#Generates final versions of data for visualization
 
 #load packages
 library("tidyverse")

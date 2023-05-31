@@ -1,6 +1,7 @@
 #ATB
 #Tecan and plaque assay data analysis
 #Helper functions
+#Loads data, generates growth rate data, cleans PFU files, creates species-specific ODs
 
 generate_paths <- function(tecan_file_type, date, ending){
   return(paste0(tecan_file_type, "_", date, ".", ending))

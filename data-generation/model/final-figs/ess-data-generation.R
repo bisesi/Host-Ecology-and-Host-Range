@@ -1,6 +1,7 @@
 #ATB
 #Supplemental Figure 2
 #ESS Modeling Data Generation
+#Uses the ess equations in the R script, which are derived from the Mathematica notebook supplemental-analysis-1.nb
 
 #import packages and the equations
 library("tidyverse")

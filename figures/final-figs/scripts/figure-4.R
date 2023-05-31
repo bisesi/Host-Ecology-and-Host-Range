@@ -6,7 +6,7 @@
 library("patchwork")
 library("cowplot")
 
-#set date
+#set date for representative experimental run used in visualizations
 date <- "8March2023"
 
 #source tecan data cleaning script
@@ -51,6 +51,59 @@ partA <- cleaned_pfus %>%
   ylab("ln(final pfu / initial pfu)")+
   labs(color = "species")
 
+comp_mut <- pfus_and_final_density %>%
+  mutate(doublings = case_when(doublings == 0.0 ~ Inf,
+                               TRUE ~ doublings)) %>%
+  filter(interaction == "Mutualism" | interaction == "Competition") %>%
+  mutate(interaction = case_when(interaction == "Mutualism" ~ "mutualism",
+                                 interaction == "Competition" ~ "competition"))%>%
+  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
+                                phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
+  mutate(phage = case_when(phage == "P22" ~ "specialist\nonly",
+                           phage == "Phi" ~ "generalist\nonly",
+                           phage == "Phi + P22" ~ "both\nphage",
+                           phage == "none" ~ "no\nphage")) %>%
+  mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly",
+                                          "both\nphage"))) %>%
+  mutate(doublings = case_when(doublings == min(doublings) ~ -5,
+                               TRUE ~ doublings)) %>% select(doublings, doubling_type, interaction, phage, phage_type)
+
+alternative_partA <- cleaned_pfus %>%
+  mutate(doublings = case_when(doublings == 0.0 ~ Inf,
+                               TRUE ~ doublings)) %>%
+  mutate(interaction = case_when(interaction == "E Monoculture" ~ "*E. coli*<br>monoculture",
+                                 interaction == "S Monoculture" ~ "*S. enterica*<br>monoculture")) %>%
+  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
+                                phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
+  mutate(phage = case_when(phage == "P22" ~ "specialist\nonly",
+                           phage == "Phi" ~ "generalist\nonly",
+                           phage == "Phi + P22" ~ "both\nphage",
+                           phage == "none" ~ "no\nphage")) %>%
+  mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly",
+                                          "both\nphage"))) %>%
+  filter(phage != "both\nphage") %>%
+  select(doublings, doubling_type, interaction, phage, phage_type) %>% 
+  rbind(., comp_mut) %>% 
+  filter(phage != "both\nphage") %>%
+  ggplot(aes(x = phage, y = doublings, color = phage_type)) +
+  facet_wrap(~interaction, ncol = 4) +
+  geom_boxplot() +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
+  theme_bw(base_size = 18)+
+  ylim(-7, 15)+
+  scale_color_manual(values = c(eh7, p22vir))+
+  theme(axis.title = element_text(), 
+        panel.background = element_rect(fill = "white"), 
+        plot.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none",
+        strip.text= element_markdown(),
+        axis.title.x = element_blank(),
+        legend.background = element_blank(),
+        strip.background = element_blank())+
+  ylab("ln(final pfu / initial pfu)")+
+  labs(color = "species")
+
 #part B - coop and comp phage densities growth rates
 partB <- pfus_and_final_density %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
@@ -68,6 +121,41 @@ partB <- pfus_and_final_density %>%
                                           "both\nphage"))) %>%
   mutate(doublings = case_when(doublings == min(doublings) ~ -5,
                                TRUE ~ doublings)) %>%
+  ggplot(aes(x = phage, y = doublings, color = phage_type)) +
+  facet_wrap(~interaction) +
+  geom_boxplot() +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
+  theme_bw(base_size = 18)+
+  ylim(-7, 15)+
+  scale_color_manual(values = c(eh7, p22vir))+
+  theme(axis.title = element_text(), 
+        panel.background = element_rect(fill = "white"), 
+        plot.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = "none",
+        axis.title.x = element_blank(),
+        legend.background = element_blank(),
+        strip.background = element_blank())+
+  ylab("ln(final pfu / initial pfu)")+
+  labs(color = "species")
+
+alternative_partB <- pfus_and_final_density %>%
+  mutate(doublings = case_when(doublings == 0.0 ~ Inf,
+                               TRUE ~ doublings)) %>%
+  filter(interaction == "Mutualism" | interaction == "Competition") %>%
+  mutate(interaction = case_when(interaction == "Mutualism" ~ "mutualism",
+                                 interaction == "Competition" ~ "competition"))%>%
+  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
+                                phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
+  mutate(phage = case_when(phage == "P22" ~ "specialist\nonly",
+                           phage == "Phi" ~ "generalist\nonly",
+                           phage == "Phi + P22" ~ "both\nphage",
+                           phage == "none" ~ "no\nphage")) %>%
+  mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly",
+                                          "both\nphage"))) %>%
+  mutate(doublings = case_when(doublings == min(doublings) ~ -5,
+                               TRUE ~ doublings)) %>%
+  filter(phage == "both\nphage") %>%
   ggplot(aes(x = phage, y = doublings, color = phage_type)) +
   facet_wrap(~interaction) +
   geom_boxplot() +
@@ -194,7 +282,7 @@ partC_bottom <- pfus_and_final_density %>%
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("percent of final population")+
+  ylab("percent of final co-culture")+
   labs(color = "interaction")+
   ylim(0, 100)
 
@@ -234,7 +322,8 @@ partD_top <- all_tecan_adjusted_OD %>%
   ylim(0, 0.4)+
   xlab("hours")+
   labs(color = "species")
-  #geom_vline(data = (data.frame(xint=47, interaction="mutualism", phage = "no phage") %>% mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only",
+  
+#geom_vline(data = (data.frame(xint=47, interaction="mutualism", phage = "no phage") %>% mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only",
                                                                                                                                     #"both phage")))), 
              #aes(xintercept = xint), color = "red", linetype = "dashed")
 
@@ -275,7 +364,7 @@ partD_bottom <- pfus_and_final_density %>%
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("percent of final population")+
+  ylab("percent of final co-culture")+
   labs(color = "interaction")+
   ylim(0, 100)
 
@@ -320,6 +409,9 @@ legend2 <- get_legend(all_tecan_adjusted_OD %>%
 #fig 4
 fig4 <- plot_grid(plot_grid(partA, partB, legend, labels = c("A", "B"), label_size = 26, rel_heights = c(0.25,0.25, 0.15), ncol = 1),
                   plot_grid(partC, partD, legend2, labels = c("C", "D"), label_size = 26, rel_heights = c(1,1, 0.15), ncol = 1))
+
+alt_fig4 <- plot_grid(plot_grid(alternative_partA, alternative_partB, legend, labels = c("A", "B"), label_size = 26, rel_heights = c(0.3,0.3, 0.1), ncol = 1),
+                  plot_grid(partC, partD, legend2, labels = c("C", "D"), label_size = 26, rel_heights = c(1,1, 0.15), ncol = 1), rel_widths = c(0.75, 0.9))
 
 
 

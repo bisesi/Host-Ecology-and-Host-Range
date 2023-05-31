@@ -1,6 +1,7 @@
 #ATB
-#Generate all JPG outputs for figures
+#Generate all png outputs for figures
 #Figs 2, 3, 4, 5, 6, Supp 1, 2, 3
+#Figure 1 generated using biorender
 
 #load library
 library("ggtext")
@@ -39,6 +40,10 @@ source(here::here("figures", "final-figs", "scripts", "figure-4.R"))
 
 png(here::here("figures", "final-figs", "imgs", "figure-4.png"), res = 200, width = 2700, height = 2200)
 fig4
+dev.off()
+
+png(here::here("figures", "final-figs", "imgs", "alt-figure-4.png"), res = 200, width = 4000, height = 2500)
+alt_fig4
 dev.off()
 
 #load figure 5
@@ -97,6 +102,6 @@ eh7 = "#DDAA33"
 p22vir = "#004488"
 source(here::here("figures", "final-figs", "scripts", "supplemental-figure-3.R"))
 
-png(here::here("paper-supplement", "figs", "supplemental-figure-3.png"), res = 200, width = 2200, height = 2200)
+png(here::here("paper-supplement", "figs", "supplemental-figure-3.png"), res = 200, width = 2900, height = 850)
 supp_fig3
 dev.off()

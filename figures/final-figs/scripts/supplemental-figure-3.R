@@ -32,6 +32,7 @@ partA <- no_cells %>%
   mutate(phage= factor(phage, levels = c("specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
   mutate(doublings = case_when(doublings == min(doublings) ~ -5,
                                TRUE ~ doublings)) %>%
+  filter(phage != "both\nphage") %>%
   ggplot(aes(x = phage, y = doublings, color = phage_type)) +
   facet_wrap(~timepoint) +
   geom_boxplot() +
@@ -109,7 +110,7 @@ partC_data <- cleaned_pfus %>%
                            media == "MM-" ~ "metal\nfree",
                            media == "P-" ~ "phos\nfree",
                            media == "S-" ~ "sulf\nfree",
-                           media == "P/S-" ~ "phos/sulf\nfree",
+                           media == "P/S-" ~ "phos\n+\nsulf\nfree",
                            TRUE ~ media)) %>%
   mutate(phage_type = case_when(phage == "Generalist phage" ~ "generalist (eh7)",
                                 phage == "Specialist phage" ~ "specialist (p22vir)"))%>%
@@ -226,9 +227,7 @@ legend <- get_legend(no_cells %>%
                        ylim(-15, 12.5))
 
 #figure 
-#supp_fig3 <- plot_grid(plot_grid(partA, partB, ncol = 2, labels = c("A", "B"), label_size = 24), 
-                       #legend, rel_heights = c(1, 0.1), ncol = 1)
-
-supp_fig3 <- plot_grid(partA, partB, legend, labels = c("A", "B"), label_size = 28, rel_heights = c(1, 1, 0.1), ncol = 1)
+supp_fig3 <- plot_grid(plot_grid(partA, partB, labels = c("A", "B"), label_size = 26, rel_widths = c(0.65,1.25), 
+                       ncol = 2), legend, rel_heights = c(1, 0.1), ncol = 1)
                   
 

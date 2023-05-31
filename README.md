@@ -8,7 +8,7 @@ Ave T. Bisesi, Wolfram Moebius, Carey Nadell, Eleanore G. Hansen, Steven D. Bowd
 
 ## Repository Overview
 
-This code repository contains the necessary data and scripts to reproduce the main figures and analyses presented in the manuscript, "Bacteriophage diet breadth is impacted by interactions between bacteria."
+This code repository contains the necessary data and scripts to reproduce the figures and analyses presented in the manuscript, "Bacteriophage diet breadth is impacted by interactions between bacteria." 
 
 To reproduce the analyses, clone or download the project and follow the instructions provided below.
 
@@ -32,9 +32,10 @@ Before running the scripts, ensure you have the following R packages installed:
 - ```tidyverse```: A collection of R packages designed for data science. 
 - ```ggpubr```: Functions for creating publication-ready plots.
 - ```rstatix```: Functions for performing various statistical tests.
-- ```deSolve```: Functions for the numerical treatment of systems of differential equations
-- ```ODESensitivity```: Functions for sensitivity analysis in ordinary differential equation (ode) models
+- ```deSolve```: Functions for the numerical treatment of systems of differential equations.
+- ```ODESensitivity```: Functions for sensitivity analysis in ordinary differential equation (ode) models.
 - ```cowplot```: Functions for creating publication-ready plots.
 - ```ggtext```: Functions for creating publication-ready plots.
-- ```zoo```: Functions for methods for totally ordered indexed observations
+- ```zoo```: Functions for methods for totally ordered indexed observations.
 - ```patchwork```: Functions for creating publication-ready plots.
+- ```readxl```: Functions to load xlsx files.

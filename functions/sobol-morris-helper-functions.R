@@ -1,7 +1,7 @@
 #ATB
 #Functions
 #Sobol Morris Helper Functions
-#Clean outputs
+#Clean outputs and generate global indices (GI)
 
 #required packages
 library("tidyverse")

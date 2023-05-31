@@ -1,6 +1,11 @@
-install.packages("zoo")
-library(zoo)
+#ATB
+#Baranyi functions 
+#Tecan analysis to evalute growth rates, yield, and lag times
 
+#load library
+library("zoo")
+
+#create baranyi fit function
 fit_baranyi = function(x, y, tries = 100){
   m1 <- NA
   #figure out start lag guess
@@ -17,8 +22,6 @@ fit_baranyi = function(x, y, tries = 100){
   if (is.na(m1)){
     return(c(NA, NA,NA,NA))
   }
-  #   m1 <- nls(y ~ baranyi(x, r, lag, ymax, y0),
-  #             start = list(r = 0.1, lag = x[round(length(x) / 3)], ymax = max(y), y0 = min(y)))
   r = coef(m1)[1]
   lag = coef(m1)[2]
   ymax = coef(m1)[3]

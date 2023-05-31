@@ -1,6 +1,7 @@
 #ATB
 #Generate bacterial dynamics in a Lotka Volterra model figure
 #Figure 2
+#Uses bacterial dynamics data generation script
 
 #load packages and data
 library("patchwork")

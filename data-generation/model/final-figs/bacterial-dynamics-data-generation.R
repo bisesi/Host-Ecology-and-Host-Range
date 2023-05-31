@@ -1,6 +1,6 @@
 #ATB
 #Paper Fig 2
-#Generation code for parts A, B and C
+#Generation code for parts A, B and C of figure 2
 
 #load packages
 library("tidyverse")
@@ -12,7 +12,7 @@ source(here::here("ecological-models", "lotka-volterra-model.R"))
 #set some initial parameters - both phage
 time = seq(from = 0.1, to = 1e4, by = 10)
 start_density <- c(E = 0.1, S = 0.1, gen = 0.1, sp = 0.1)
-maxcost = 5
+maxcost = 30
 
 #competition, both phage
 gamma_sp = seq(from = 0, to = parameters_comp_R['gamma_sp'] * maxcost, by = parameters_comp_R['gamma_sp'] / 20)
