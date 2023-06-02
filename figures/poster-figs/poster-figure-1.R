@@ -6,6 +6,12 @@
 library("patchwork")
 library("cowplot")
 
+#set color palette
+ecoli = "#000000"
+senterica = "#BB5566"
+eh7 = "#DDAA33"
+p22vir = "#004488"
+
 #generate all data for figures
 source(here::here("data-generation", "model", "final-figs", "bacterial-dynamics-data-generation.R"))
 
@@ -27,25 +33,27 @@ both_phage_main_comp <- specialist_gamma_comp_both %>% filter((gamma_sp / 20) %i
   pivot_longer(E:sp, names_to = "microbe", values_to = "biomass") %>%
   mutate(microbe = case_when(microbe == "E" ~ "E. coli", 
                              microbe == "S" ~ "S. enterica",
-                             microbe == "gen" ~ "generalist (eh7)",
-                             microbe == "sp" ~ "specialist (p22vir)")) %>%
-  filter(microbe == "generalist (eh7)" | microbe == "specialist (p22vir)") %>%
-  ggplot(aes(x = time / 100, y = biomass, color = microbe)) +
-  geom_line(size = 2) +
+                             microbe == "gen" ~ "Generalist (EH7)",
+                             microbe == "sp" ~ "Specialist (P22vir)")) %>%
+  filter(microbe == "Generalist (EH7)" | microbe == "Specialist (P22vir)") %>%
+  filter(time == max(time)) %>%
+  ggplot(aes(x = microbe, y = biomass - 25, color = microbe)) +
+  geom_point(size = 7.5)+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         legend.position = "none",
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("biomass")+
-  xlab("time (a.u.)")+
+  ylab("final phage biomass")+
   ylim(0, 250)+
   labs(color = "species")+
-  scale_color_manual(values = c("E. coli" = "#5ba300", "S. enterica" = "#e6308a", 
-                                "generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))
+  scale_color_manual(values = c("E. coli" = ecoli, "S. enterica" = senterica, 
+                                "Generalist (EH7)" = eh7, "Specialist (P22vir)" = p22vir))
 
 bacterial_dynamics_comp <- single_phage %>%
   rbind(., specialist_gamma_comp_both %>% mutate(phage = "both phage") %>% mutate(interaction = "competition")) %>%
@@ -56,6 +64,9 @@ bacterial_dynamics_comp <- single_phage %>%
   mutate(type = case_when(type == "E" ~ "E. coli", 
                           type == "S" ~ "S. enterica")) %>%
   mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only", "both phage"))) %>%
+  mutate(bacteria = case_when(phage == "no phage" & type == "E. coli" ~ bacteria + 0.05,
+                              phage == "generalist only" & type == "E. coli" ~ bacteria + 0.05,
+                              TRUE ~ bacteria)) %>%
   ggplot(aes(x = time / 100, y = bacteria, color = type)) +
   geom_line(size = 2) +
   facet_wrap(~phage, ncol = 4) +
@@ -67,11 +78,11 @@ bacterial_dynamics_comp <- single_phage %>%
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("biomass")+
+  ylab("bacterial\nbiomass")+
   xlab("time (a.u.)")+
   labs(color = "species")+
   ylim(0, 2)+
-  scale_color_manual(values = c("#5ba300", "#e6308a"))
+  scale_color_manual(values = c(ecoli, senterica))
 
 final_bacterial_dynamics_comp <- single_phage %>%
   rbind(., specialist_gamma_comp_both %>% mutate(phage = "both phage") %>% mutate(interaction = "competition")) %>%
@@ -91,7 +102,7 @@ final_bacterial_dynamics_comp <- single_phage %>%
   mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
   ggplot(aes(x = phage, y = density * 100, fill = bacteria))+
   geom_bar(stat = "identity", width = 0.75, position = position_dodge(0.75))+
-  scale_fill_manual(values = c("#5ba300", "#e6308a"))+
+  scale_fill_manual(values = c(ecoli, senterica))+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -101,13 +112,13 @@ final_bacterial_dynamics_comp <- single_phage %>%
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("percent of final population")+
+  ylab("% of final\nco-culture")+
   labs(color = "interaction")+
   ylim(0, 100)
 
 bacteria_comp <- bacterial_dynamics_comp / final_bacterial_dynamics_comp
 
-competition <- both_phage_main_comp + bacteria_comp
+competition <- plot_grid(both_phage_main_comp, bacteria_comp, rel_widths = c(0.5, 1.25))
 
 #mutualism row
 both_phage_main_coop <- specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0, 5, by = 1)) %>%
@@ -117,25 +128,27 @@ both_phage_main_coop <- specialist_gamma_coop_both %>% filter((gamma_sp / 20) %i
   pivot_longer(E:sp, names_to = "microbe", values_to = "biomass") %>%
   mutate(microbe = case_when(microbe == "E" ~ "E. coli", 
                              microbe == "S" ~ "S. enterica",
-                             microbe == "gen" ~ "generalist (eh7)",
-                             microbe == "sp" ~ "specialist (p22vir)")) %>%
-  filter(microbe == "generalist (eh7)" | microbe == "specialist (p22vir)") %>%
-  ggplot(aes(x = time / 100, y = biomass, color = microbe)) +
-  geom_line(size = 2) +
+                             microbe == "gen" ~ "Generalist (EH7)",
+                             microbe == "sp" ~ "Specialist (P22vir)")) %>%
+  filter(microbe == "Generalist (EH7)" | microbe == "Specialist (P22vir)") %>%
+  filter(time == max(time)) %>%
+  ggplot(aes(x = microbe, y = biomass, color = microbe)) +
+  geom_point(size = 7.5)+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         legend.position = "none",
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("biomass")+
-  xlab("time (a.u.)")+
+  ylab("final phage biomass")+
   ylim(0, 250)+
   labs(color = "species")+
-  scale_color_manual(values = c("E. coli" = "#5ba300", "S. enterica" = "#e6308a", 
-                                "generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))
+  scale_color_manual(values = c("E. coli" = ecoli, "S. enterica" = senterica, 
+                                "Generalist (EH7)" = eh7, "Specialist (P22vir)" = p22vir))
 
 bacterial_dynamics_coop <- single_phage %>%
   rbind(., specialist_gamma_coop_both %>% mutate(phage = "both phage") %>% mutate(interaction = "mutualism")) %>%
@@ -146,6 +159,9 @@ bacterial_dynamics_coop <- single_phage %>%
   mutate(type = case_when(type == "E" ~ "E. coli", 
                           type == "S" ~ "S. enterica")) %>%
   mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only", "both phage"))) %>%
+  mutate(bacteria = case_when(phage == "no phage" & type == "E. coli" ~ bacteria + 0.05,
+                              phage == "generalist only" & type == "E. coli" ~ bacteria + 0.05,
+                              TRUE ~ bacteria)) %>%
   ggplot(aes(x = time / 100, y = bacteria, color = type)) +
   geom_line(size = 2) +
   facet_wrap(~phage, ncol = 4) +
@@ -157,11 +173,11 @@ bacterial_dynamics_coop <- single_phage %>%
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("biomass")+
+  ylab("bacterial\nbiomass")+
   xlab("time (a.u.)")+
   labs(color = "species")+
   ylim(0, 2)+
-  scale_color_manual(values = c("#5ba300", "#e6308a"))
+  scale_color_manual(values = c(ecoli, senterica))
 
 final_bacterial_dynamics_coop <- single_phage %>%
   rbind(., specialist_gamma_coop_both %>% mutate(phage = "both phage") %>% mutate(interaction = "mutualism")) %>%
@@ -181,7 +197,7 @@ final_bacterial_dynamics_coop <- single_phage %>%
   mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
   ggplot(aes(x = phage, y = density * 100, fill = bacteria))+
   geom_bar(stat = "identity", width = 0.75, position = position_dodge(0.75))+
-  scale_fill_manual(values = c("#5ba300", "#e6308a"))+
+  scale_fill_manual(values = c(ecoli, senterica))+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -191,32 +207,33 @@ final_bacterial_dynamics_coop <- single_phage %>%
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("percent of final population")+
+  ylab("% of final\nco-culture")+
   labs(color = "interaction")+
   ylim(0, 100)
 
 bacteria_coop <- bacterial_dynamics_coop / final_bacterial_dynamics_coop
 
-mutualism <- both_phage_main_coop + bacteria_coop
+mutualism <- plot_grid(both_phage_main_coop, bacteria_coop, rel_widths = c(0.5, 1.25))
 
 #final figure
-legend <- get_legend(specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0, 5, by = 1)) %>%
+legend <- get_legend(specialist_gamma_comp_both %>% filter((gamma_sp / 20) %in% seq(0, 5, by = 1)) %>%
                        filter(time < 2000) %>%
                        mutate(cost = gamma_sp / 20) %>%
                        filter(cost == 5) %>%
                        pivot_longer(E:sp, names_to = "microbe", values_to = "biomass") %>%
-                       mutate(microbe = case_when(microbe == "E" ~ "E. coli", 
-                                                  microbe == "S" ~ "S. enterica",
-                                                  microbe == "gen" ~ "generalist (eh7)",
-                                                  microbe == "sp" ~ "specialist (p22vir)")) %>%
-                       filter(microbe == "generalist (eh7)" | microbe == "specialist (p22vir)") %>%
-                       ggplot(aes(x = time / 10, y = biomass, color = microbe)) +
+                       mutate(microbe = case_when(microbe == "E" ~ "*E. coli*", 
+                                                  microbe == "S" ~ "*S. enterica*",
+                                                  microbe == "gen" ~ "Generalist (EH7)",
+                                                  microbe == "sp" ~ "Specialist (P22vir)")) %>%
+                       filter(microbe == "Generalist (EH7)" | microbe == "Specialist (P22vir)") %>%
+                       ggplot(aes(x = time / 100, y = biomass, color = microbe)) +
                        geom_line(size = 2) +
-                       theme_bw(base_size = 18)+
+                       theme_bw(base_size = 22)+
                        theme(axis.title = element_text(), 
                              panel.background = element_rect(fill = "white"), 
                              plot.background = element_blank(),
                              legend.position = "bottom",
+                             legend.text = element_markdown(),
                              panel.grid.minor = element_blank(),
                              legend.background = element_blank(),
                              strip.background = element_blank())+
@@ -224,12 +241,11 @@ legend <- get_legend(specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% 
                        xlab("time (a.u.)")+
                        ylim(0, 250)+
                        labs(color = "species")+
-                       scale_color_manual(values = c("E. coli" = "#5ba300", "S. enterica" = "#e6308a", 
-                                                     "generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B"))
-)
+                       scale_color_manual(values = c("*E. coli*" = ecoli, "*S. enterica*" = senterica, 
+                                                     "Generalist (EH7)" = eh7, "Specialist (P22*vir*)" = p22vir)))
 
-model <- plot_grid(competition, mutualism, legend, ncol = 1, labels = c("A", "B"), rel_heights = c(1, 1, 0.1),
-          label_size = 32)
+model <- plot_grid(competition, mutualism, legend, ncol = 1, labels = c("competition", "mutualism"), rel_heights = c(1, 1, 0.1),
+          label_size = 30)
 
 #create png
 png(here::here("figures", "poster-figs", "model.png"), res = 200, width = 2650, height = 2100)

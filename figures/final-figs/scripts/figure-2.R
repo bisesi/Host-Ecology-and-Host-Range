@@ -23,11 +23,11 @@ partA <- specialist_gamma_comp_gen %>% mutate(phage = "generalist only") %>% mut
   mutate(type = case_when(type == "E" ~ "E. coli", 
                           type == "S" ~ "S. enterica")) %>%
   mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only"))) %>%
-  mutate(bacteria = case_when(phage == "no phage" & type == "E. coli" ~ bacteria + 0.05,
-                              phage == "generalist only" & type == "E. coli" ~ bacteria + 0.05,
+  mutate(bacteria = case_when(phage == "no phage" & type == "E. coli" ~ bacteria + 0.055,
+                              phage == "generalist only" & type == "E. coli" ~ bacteria + 0.055,
                               TRUE ~ bacteria)) %>%
   ggplot(aes(x = time / 100, y = bacteria, color = type)) +
-  geom_line(size = 1.5) +
+  geom_line(size = 2) +
   facet_grid(interaction~phage) +
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
@@ -55,7 +55,7 @@ partB_main <- specialist_gamma_comp_both %>% filter((gamma_sp / 20) %in% seq(0, 
                           microbe == "sp" ~ "specialist (p22vir)")) %>%
   filter(microbe == "generalist (eh7)" | microbe == "specialist (p22vir)") %>%
   ggplot(aes(x = time / 10, y = biomass, color = microbe)) +
-  geom_line(size = 1.5) +
+  geom_line(size = 2) +
   ggtitle("competition")+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
@@ -84,7 +84,7 @@ partB_inset <- specialist_gamma_comp_both %>% filter((gamma_sp / 20) %in% seq(0,
                              microbe == "sp" ~ "specialist (p22vir)")) %>%
   filter(microbe == "E. coli" | microbe == "S. enterica") %>%
   ggplot(aes(x = time / 1000, y = biomass, color = microbe)) +
-  geom_line(size = 1.5) +
+  geom_line(size = 2) +
   theme_bw()+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -100,7 +100,7 @@ partB_inset <- specialist_gamma_comp_both %>% filter((gamma_sp / 20) %in% seq(0,
   scale_color_manual(values = c("E. coli" = ecoli, "S. enterica" = senterica, 
                                 "generalist (eh7)" = eh7, "specialist (p22vir)" = p22vir))
 partB <- ggdraw(partB_main) + 
-  draw_plot(partB_inset, x = 0.17, y = 0.5, width = 0.35, height = 0.35)
+  draw_plot(partB_inset, x = 0.19, y = 0.525, width = 0.35, height = 0.35)
 
 #partC - cooperation at high cost
 partC_main <- specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0, 5, by = 1)) %>%
@@ -114,7 +114,7 @@ partC_main <- specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0, 
                              microbe == "sp" ~ "specialist (p22vir)")) %>%
   filter(microbe == "generalist (eh7)" | microbe == "specialist (p22vir)") %>%
   ggplot(aes(x = time / 100, y = biomass, color = microbe)) +
-  geom_line(size = 1.5) +
+  geom_line(size = 2) +
   theme_bw(base_size = 18)+
   ggtitle("mutualism")+
   theme(axis.title = element_text(), 
@@ -143,7 +143,7 @@ partC_inset <- specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0,
                              microbe == "sp" ~ "Specialist (P22vir)")) %>%
   filter(microbe == "E. coli" | microbe == "S. enterica") %>%
   ggplot(aes(x = time / 100, y = biomass, color = microbe)) +
-  geom_line(size = 1.5) +
+  geom_line(size = 2) +
   theme_bw()+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -159,7 +159,7 @@ partC_inset <- specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0,
   scale_color_manual(values = c("E. coli" = ecoli, "S. enterica" = senterica, 
                                 "generalist (eh7)" = eh7, "specialist (p22vir)" = p22vir))
 partC <- ggdraw(partC_main) + 
-  draw_plot(partC_inset, x = 0.17, y = 0.5, width = 0.35, height = 0.35)
+  draw_plot(partC_inset, x = 0.19, y = 0.525, width = 0.35, height = 0.35)
 
 legend <- get_legend(specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0, 5, by = 1)) %>%
                        filter(time < 2000) %>%
@@ -171,8 +171,8 @@ legend <- get_legend(specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% 
                                                   microbe == "gen" ~ "Generalist (EH7)",
                                                   microbe == "sp" ~ "Specialist (P22vir)")) %>%
                        filter(microbe == "E. coli" | microbe == "S. enterica") %>%
-                       ggplot(aes(x = time / 100, y = biomass, color = microbe)) +
-                       geom_line(size = 1.5) +
+                       ggplot(aes(x = time / 100, y = biomass, fill = microbe)) +
+                       geom_bar(stat = "identity") +
                        theme_bw(base_size = 18)+
                        theme(axis.title = element_text(), 
                              panel.background = element_rect(fill = "white"), 
@@ -185,9 +185,9 @@ legend <- get_legend(specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% 
                        ylab("biomass")+
                        xlab("time (a.u.)")+
                        ylim(0, 2)+
-                       labs(color = "species")+
-                       scale_color_manual(values = c("*E. coli*" = ecoli, "*S. enterica*" = senterica, 
-                                                     "Generalist (EH7)" = eh7, "Specialist (P22vir)" = p22vir)))
+                       labs(fill = "species")+
+                       scale_fill_manual(values = c("*E. coli*" = ecoli, "*S. enterica*" = senterica, 
+                                                     "Generalist (EH7)" = eh7, "Specialist (P22*vir*)" = p22vir)))
 
 #full plot
 fig2 <- plot_grid(partA, 

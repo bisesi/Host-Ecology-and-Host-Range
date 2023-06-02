@@ -6,6 +6,11 @@
 library("patchwork")
 library("cowplot")
 
+ecoli = "#000000"
+senterica = "#BB5566"
+eh7 = "#DDAA33"
+p22vir = "#004488"
+
 #set date
 date <- "8March2023"
 
@@ -33,22 +38,27 @@ competition_main_both <- pfus_and_final_density %>%
                            phage == "none" ~ "no\nphage")) %>%
   mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly",
                                           "both\nphage"))) %>%
-  ggplot(aes(x = phage, y = doublings, color = phage_type)) +
-  geom_boxplot() +
+  filter(phage == "both\nphage") %>%
+  group_by(phage_type) %>%
+  summarize(mean = mean(doublings), sd = sd(doublings)) %>% 
+  ggplot(aes(x = phage_type, y = mean, color = phage_type)) +
+  geom_point(size = 7.5) +
+  geom_errorbar(aes(ymin=mean-1.96*sd, max=mean+1.96*sd), width=.2, position=position_dodge(width=0.75))+
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
   theme_bw(base_size = 18)+
-  ylim(-15, 15)+
-  scale_color_manual(values = c("#CA3542", "#27647B"))+
+  ylim(-7, 15)+
+  scale_color_manual(values = c(eh7, p22vir))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.position = "none",
+        axis.text.x = element_blank(),
         axis.title.x = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("growth rate")+
-  labs(color = "phage type")
+  ylab("ln(final pfu / initial pfu)")+
+  labs(color = "species")
 
 competition_bacterial_OD <- all_tecan_adjusted_OD %>%
   mutate(time = cycle * 23, hours = (time / 60)) %>%
@@ -62,13 +72,14 @@ competition_bacterial_OD <- all_tecan_adjusted_OD %>%
                            phage == "none" ~ "no phage")) %>%
   mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only",
                                           "both phage"))) %>%
-  filter(!well %in% c("B8", "B9")) %>%
+  filter(!well %in% c("B8", "B9", "G3")) %>%
   pivot_longer(cols = E_corrected_OD:S_corrected_OD, names_to = "fluor", values_to = "OD") %>%
   mutate(species = case_when(fluor == "E_corrected_OD" ~ "E. coli",
                              fluor == "S_corrected_OD" ~ "S. enterica")) %>%
   ggplot(aes(x = hours, y = OD, color = species))+
-  geom_smooth(span = 0.2, fill = "black")+
-  scale_color_manual(values = c("#5ba300", "#e6308a"))+
+  geom_smooth(span = 0.2, size = 1.5, aes(ymax = after_stat(y + se * sqrt(length(y))),
+                                          ymin = after_stat(y - se * sqrt(length(y)))))+
+  scale_color_manual(values = c(ecoli, senterica))+
   facet_wrap(~phage, ncol = 4)+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
@@ -78,7 +89,7 @@ competition_bacterial_OD <- all_tecan_adjusted_OD %>%
         legend.position = "none",
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("OD")+
+  ylab("OD600")+
   xlab("hours")+
   ylim(0, 0.4)+
   labs(color = "species")
@@ -110,7 +121,7 @@ competition_bacterial_density <- pfus_and_final_density %>%
   ggplot(aes(x = phage, y = mean, fill = bacteria))+
   geom_bar(stat = "identity", width = 0.75, position = position_dodge(0.75))+
   geom_errorbar(aes(ymin=mean-1.96*sd, max=mean+1.96*sd), width=.2, position=position_dodge(width=0.75))+
-  scale_fill_manual(values = c("#5ba300", "#e6308a"))+
+  scale_fill_manual(values = c(ecoli, senterica))+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -120,13 +131,13 @@ competition_bacterial_density <- pfus_and_final_density %>%
         axis.title.x = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("percent of final population")+
+  ylab("% of final\nco-culture")+
   labs(color = "interaction")+
   ylim(0, 100)
 
 bacterial_comp <- competition_bacterial_OD / competition_bacterial_density
 
-competition_experimental <- competition_main_both + bacterial_comp
+competition_experimental <- plot_grid(competition_main_both, bacterial_comp, rel_widths = c(0.5, 1.25))
 
 #mutualsim
 mutualism_main_both <- pfus_and_final_density %>%
@@ -143,21 +154,28 @@ mutualism_main_both <- pfus_and_final_density %>%
                            phage == "none" ~ "no\nphage")) %>%
   mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly",
                                           "both\nphage"))) %>%
-  ggplot(aes(x = phage, y = doublings, color = phage_type)) +
-  geom_boxplot() +
+  filter(phage == "both\nphage") %>%
+  mutate(doublings = case_when(doublings == min(doublings) ~ -5,
+                               TRUE ~ doublings)) %>%
+  group_by(phage_type) %>%
+  summarize(mean = mean(doublings), sd = sd(doublings)) %>% 
+  ggplot(aes(x = phage_type, y = mean, color = phage_type)) +
+  geom_point(size = 7.5) +
+  geom_errorbar(aes(ymin=mean-1.96*sd, max=mean+1.96*sd), width=.2, position=position_dodge(width=0.75))+
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
   theme_bw(base_size = 18)+
-  ylim(-15, 15)+
-  scale_color_manual(values = c("#CA3542", "#27647B"))+
+  ylim(-7, 15)+
+  scale_color_manual(values = c(eh7, p22vir))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
         panel.grid.minor = element_blank(),
         legend.position = "none",
+        axis.text.x = element_blank(),
         axis.title.x = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("growth rate")+
+  ylab("ln(final pfu / initial pfu)")+
   labs(color = "phage type")
 
 mutualism_bacterial_OD <- all_tecan_adjusted_OD %>%
@@ -172,13 +190,14 @@ mutualism_bacterial_OD <- all_tecan_adjusted_OD %>%
                            phage == "none" ~ "no phage")) %>%
   mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only",
                                           "both phage"))) %>%
-  filter(!well %in% c("B8", "B9")) %>%
+  filter(!well %in% c("B8", "B9", "G3")) %>%
   pivot_longer(cols = E_corrected_OD:S_corrected_OD, names_to = "fluor", values_to = "OD") %>%
   mutate(species = case_when(fluor == "E_corrected_OD" ~ "E. coli",
                              fluor == "S_corrected_OD" ~ "S. enterica")) %>%
   ggplot(aes(x = hours, y = OD, color = species))+
-  geom_smooth(span = 0.2, fill = "black")+
-  scale_color_manual(values = c("#5ba300", "#e6308a"))+
+  geom_smooth(span = 0.2, size = 1.5, aes(ymax = after_stat(y + se * sqrt(length(y))),
+                                          ymin = after_stat(y - se * sqrt(length(y)))))+
+  scale_color_manual(values = c(ecoli, senterica))+
   facet_wrap(~phage, ncol = 4)+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
@@ -188,7 +207,7 @@ mutualism_bacterial_OD <- all_tecan_adjusted_OD %>%
         legend.position = "none",
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("OD")+
+  ylab("OD600")+
   ylim(0, 0.4)+
   xlab("hours")+
   labs(color = "species")
@@ -220,7 +239,7 @@ mutualism_bacterial_density <- pfus_and_final_density %>%
   ggplot(aes(x = phage, y = mean, fill = bacteria))+
   geom_bar(stat = "identity", width = 0.75, position = position_dodge(0.75))+
   geom_errorbar(aes(ymin=mean-1.96*sd, max=mean+1.96*sd), width=.2, position=position_dodge(width=0.75))+
-  scale_fill_manual(values = c("#5ba300", "#e6308a"))+
+  scale_fill_manual(values = c(ecoli, senterica))+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -230,13 +249,13 @@ mutualism_bacterial_density <- pfus_and_final_density %>%
         panel.grid.minor = element_blank(),
         legend.background = element_blank(),
         strip.background = element_blank())+
-  ylab("percent of final population")+
+  ylab("% of final\nco-culture")+
   labs(color = "interaction")+
   ylim(0, 100)
 
 bacterial_coop <- mutualism_bacterial_OD / mutualism_bacterial_density
 
-mutualism_experimental <- mutualism_main_both + bacterial_coop
+mutualism_experimental <- plot_grid(mutualism_main_both, bacterial_coop, rel_widths = c(0.5,1.25))
 
 #full figure
 legend_experimental <- get_legend(specialist_gamma_coop_both %>% filter((gamma_sp / 20) %in% seq(0, 5, by = 1)) %>%
@@ -251,11 +270,12 @@ legend_experimental <- get_legend(specialist_gamma_coop_both %>% filter((gamma_s
                                     filter(microbe == "generalist (eh7)" | microbe == "specialist (p22vir)") %>%
                                     ggplot(aes(x = time / 10, y = biomass, color = microbe)) +
                                     geom_line(size = 2) +
-                                    theme_bw(base_size = 18)+
+                                    theme_bw(base_size = 22)+
                                     theme(axis.title = element_text(), 
                                           panel.background = element_rect(fill = "white"), 
                                           plot.background = element_blank(),
                                           legend.position = "bottom",
+                                          legend.text = element_markdown(),
                                           panel.grid.minor = element_blank(),
                                           legend.background = element_blank(),
                                           strip.background = element_blank())+
@@ -263,11 +283,11 @@ legend_experimental <- get_legend(specialist_gamma_coop_both %>% filter((gamma_s
                                     xlab("time (a.u.)")+
                                     ylim(0, 250)+
                                     labs(color = "species")+
-                                    scale_color_manual(values = c("E. coli" = "#5ba300", "S. enterica" = "#e6308a", 
-                                                                  "generalist (eh7)" = "#CA3542", "specialist (p22vir)" = "#27647B")))
+                                    scale_color_manual(values = c("*E. coli*" = ecoli, "*S. enterica*" = senterica, 
+                                                                  "Generalist (EH7)" = eh7, "Specialist (P22*vir*)" = p22vir)))
 
-experiment <- plot_grid(competition_experimental, mutualism_experimental, legend_experimental, ncol = 1, labels = c("A", "B"), rel_heights = c(1, 1, 0.1),
-                   label_size = 32)
+experiment <- plot_grid(competition_experimental, mutualism_experimental, legend_experimental, ncol = 1, labels = c("competition", "mutualism"), rel_heights = c(1, 1, 0.1),
+                   label_size = 30)
 #create png
 png(here::here("figures", "poster-figs", "experiment.png"), res = 200, width = 2650, height = 2100)
 experiment

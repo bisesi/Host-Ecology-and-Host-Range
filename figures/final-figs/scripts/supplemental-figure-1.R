@@ -29,7 +29,7 @@ partA <- all_data_partA %>% ungroup() %>%
   mutate(phage = case_when(phage == "gen" ~ "generalist (eh7)",
                            phage == "sp" ~ "specialist (p22vir)")) %>%
   ggplot(aes(x = cost_amount, y = biomass, color = phage))+
-  geom_smooth(se = FALSE, span = 0.25, size = 1.5)+
+  geom_smooth(se = FALSE, span = 0.25, size = 2)+
   theme_bw(base_size = 18)+
   facet_wrap(~interaction) +
   xlab("relative attachment rate")+
@@ -45,7 +45,7 @@ partA <- all_data_partA %>% ungroup() %>%
         strip.background = element_blank())
 
 legend1 <- get_legend(all_data_partA %>% ungroup() %>%
-                        filter(time == max(time) & cost == "attachment rate") %>%
+                        filter(time == max(time) & cost == "burst size") %>%
                         mutate(gen = round(gen, 3),
                                sp = round(sp, 3),
                                relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
@@ -53,15 +53,16 @@ legend1 <- get_legend(all_data_partA %>% ungroup() %>%
                         pivot_longer(cols = c(c_sp, gamma_sp), names_to = "cost_type", values_to = "cost_amount") %>%
                         mutate(cost_amount = case_when(cost_type == "c_sp" ~ cost_amount / 0.001,
                                                        cost_type == "gamma_sp" ~ cost_amount / 20)) %>%
-                        filter(cost_type != "gamma_sp") %>%
+                        filter(cost_type != "c_sp") %>%
                         mutate(phage = case_when(phage == "gen" ~ "generalist (eh7)",
                                                  phage == "sp" ~ "specialist (p22vir)")) %>%
-                        ggplot(aes(x = cost_amount, y = biomass, color = phage))+
-                        geom_smooth(se = FALSE, span = 0.25)+
+                        ggplot(aes(x = cost_amount, y = biomass, fill = phage))+
+                        geom_bar(stat = "identity") +
+                        theme_bw()+
                         facet_wrap(~interaction) +
                         xlab("fitness cost of generalism")+
-                        labs(color = "species")+
-                        scale_color_manual(values = c("Generalist (EH7)" = eh7, "Specialist (P22vir)" = p22vir))+
+                        labs(fill= "species")+
+                        scale_fill_manual(values = c("Generalist (EH7)" = eh7, "Specialist (P22*vir*)" = p22vir))+
                         ylab("biomass")+
                         theme_bw(base_size = 18)+
                         theme(axis.title = element_text(), 
@@ -69,6 +70,7 @@ legend1 <- get_legend(all_data_partA %>% ungroup() %>%
                               plot.background = element_blank(),
                               legend.position = "bottom",
                               panel.grid.minor = element_blank(),
+                              legend.text = element_markdown(),
                               legend.background = element_blank(),
                               strip.background = element_blank()))
 
@@ -235,6 +237,7 @@ legend2 <- get_legend(all_data_partC %>%
                         ylim(0, 5))
 
 #all parts fig 1
-right <- plot_grid(partC, partB, legend2, labels = c("B", "C"), label_size = 26, ncol = 1, rel_heights = c(1,1,0.15))
-left <- plot_grid(NULL, partA, legend1, labels = c("", "A"), label_size = 26, ncol = 1, rel_heights = c(0.1,0.2, 0.1))
-supp_fig1 <- plot_grid(left, right, ncol = 2)
+top <- plot_grid(partA, labels = c("A"), label_size = 26, ncol = 1)
+bottom <- plot_grid(partC, partB, legend1, legend2, labels = c("B", "C"), label_size = 26, ncol = 2, rel_heights = c(1, 0.15))
+
+supp_fig1 <- plot_grid(top, bottom, ncol = 1, rel_heights = c(0.9, 1))

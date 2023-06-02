@@ -68,7 +68,7 @@ partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalis
         strip.background = element_blank())+
   scale_color_manual(values = c(eh7, p22vir))+
   ylab("ln(final pfu / initial pfu)")+
-  ylim(-7, 12.5)+
+  ylim(-7, 10)+
   labs(color = "phage type")
 
 #part B - monoculture, competition, from original data and cost data
@@ -76,7 +76,7 @@ partB <- all_data_phage %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                TRUE ~ doublings)) %>%
   filter(!interaction %in% c("Facilitation", "Mutualism"))%>%
-  mutate(interaction = case_when(interaction == "S Monoculture" ~ "*S. enterica* monoculture",
+  mutate(interaction = case_when(interaction == "S Monoculture" ~ "*S. enterica*<br>monoculture",
                                  interaction == "Competition" ~ "competition")) %>%
   mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
                                 phage_type == "Specialist phage" ~ "specialist (p22vir)")) %>%
@@ -85,6 +85,9 @@ partB <- all_data_phage %>%
                            phage == "Phi + P22" ~ "both\nphage")) %>%
   mutate(phage= factor(phage, levels = c("specialist\nonly", "generalist\nonly", "both\nphage"))) %>%
   filter(phage == "both\nphage") %>%
+  mutate(cost = case_when(cost == "with cost" ~ "with\ncost",
+                          cost == "no cost" ~ "no\ncost",
+                          TRUE ~ cost)) %>%
   mutate(doublings = case_when(doublings == min(doublings) ~ -5,
                                TRUE ~ doublings)) %>%
   ggplot(aes(x = cost, y = doublings, color = phage_type)) +
@@ -104,11 +107,11 @@ partB <- all_data_phage %>%
         strip.background = element_blank())+
   ylab("ln(final pfu / initial pfu)")+
   labs(color = "phage type")+
-  ylim(-7, 12.5)
+  ylim(-7, 15)
 
 #legends
 legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "Generalist (EH7)",
-                                                                     phage_type == "Specialist phage" ~ "Specialist (P22vir)"))%>%
+                                                                     phage_type == "Specialist phage" ~ "Specialist (P22*vir*)"))%>%
                         mutate(interaction = case_when(interaction == "E Monoculture" ~ "starved e monoculture",
                                                        interaction == "S Monoculture" ~ "starved s monoculture",
                                                        interaction == "No Cells" ~ "no cells",
@@ -133,17 +136,17 @@ legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type 
                               plot.background = element_blank(),
                               panel.grid.minor = element_blank(),
                               legend.position = "bottom",
+                              legend.text = element_markdown(),
                               legend.background = element_blank(),
                               strip.background = element_blank())+
                         scale_color_manual(values = c(eh7, p22vir))+
                         ylab("ln(final pfu / initial pfu)")+
                         xlab("treatment")+
-                        ylim(-10, 12.5)+
+                        ylim(-10, 15)+
                         labs(color = "species"))
 
 
 #complete fig
-fig5 <- plot_grid(plot_grid(partA, partB, ncol = 2, labels = c("A", "B"), label_size = 26),
-                  legend1, rel_heights = c(1,0.1), ncol =1)
+fig5 <- plot_grid(partA, partB, legend1, ncol = 1, labels = c("A", "B"), rel_heights = c(1,1,0.1), label_size = 26)
 
 
