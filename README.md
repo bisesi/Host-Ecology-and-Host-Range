@@ -1,6 +1,6 @@
 # Bacteriophage diet breadth is impacted by interactions between bacteria
 
-![Bacterial ecology](https://github.com/bisesi/Host-Ecology-and-Host-Range/figures/final-figs/imgs/figure-1.png)
+![Bacterial ecology](https://github.com/bisesi/Host-Ecology-and-Host-Range/blob/main/figures/final-figs/imgs/figure-1.png)
 
 ### Authors:
 
