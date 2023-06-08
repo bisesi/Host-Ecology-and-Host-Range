@@ -4,11 +4,11 @@
 
 ### Authors:
 
-Ave T. Bisesi, Wolfram Moebius, Carey Nadell, Eleanore G. Hansen, Steven D. Bowden, William R. Harcombe
+Ave T. Bisesi, Wolfram Möbius, Carey Nadell, Eleanore G. Hansen, Steven D. Bowden, William R. Harcombe
 
 ## Repository Overview
 
-This code repository contains the necessary data and scripts to reproduce the figures and analyses presented in the manuscript, "Bacteriophage diet breadth is impacted by interactions between bacteria." 
+This code repository contains the necessary data and scripts to reproduce the figures and analyses presented in the manuscript, "Bacteriophage diet breadth is impacted by interactions between bacteria." The paper preprint is available at https://www.biorxiv.org/content/10.1101/2023.06.05.543762v1.
 
 To reproduce the analyses, clone or download the project and follow the instructions provided below.
 
@@ -19,7 +19,7 @@ To reproduce the analyses, clone or download the project and follow the instruct
 
 ## Figure generation
 
-Figures can be recreated using the individual scripts found in the folder ```figures/final-figs/scripts```. The script ```generate-final-imgs.R``` will generate the data for each figure and export the figure to the correct location as a png. Statistics for Figures 4, 5 and Supplemental Figure 3 can be generated and saved as xlsx files using the ```generate-stats-tables.R``` found in the same folder.  
+Figures can be recreated using the individual scripts found in the folder ```figures/final-figs/scripts```. The script ```generate-final-imgs.R``` will generate the data for each figure and export the figure to the correct location as a png. Statistics for Figures 4, 5 and Supplemental Figure 2 can be generated and saved as xlsx files using the ```generate-stats-tables.R``` found in the same folder.  
 
 ## Experimental data
 

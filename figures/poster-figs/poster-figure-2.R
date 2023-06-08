@@ -5,6 +5,7 @@
 #library
 library("patchwork")
 library("cowplot")
+library("ggtext")
 
 ecoli = "#000000"
 senterica = "#BB5566"
@@ -72,13 +73,13 @@ competition_bacterial_OD <- all_tecan_adjusted_OD %>%
                            phage == "none" ~ "no phage")) %>%
   mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only",
                                           "both phage"))) %>%
-  filter(!well %in% c("B8", "B9", "G3")) %>%
   pivot_longer(cols = E_corrected_OD:S_corrected_OD, names_to = "fluor", values_to = "OD") %>%
   mutate(species = case_when(fluor == "E_corrected_OD" ~ "E. coli",
                              fluor == "S_corrected_OD" ~ "S. enterica")) %>%
-  ggplot(aes(x = hours, y = OD, color = species))+
-  geom_smooth(span = 0.2, size = 1.5, aes(ymax = after_stat(y + se * sqrt(length(y))),
-                                          ymin = after_stat(y - se * sqrt(length(y)))))+
+  ggplot(aes(x = hours, y = OD, color = species, alpha = well))+
+  geom_smooth(span = 0.2, size = 1, se = FALSE)+ 
+  #geom_smooth(span = 0.2, size = 1.5, aes(ymax = after_stat(y + se * sqrt(length(y))),
+                                          #ymin = after_stat(y - se * sqrt(length(y)))))+
   scale_color_manual(values = c(ecoli, senterica))+
   facet_wrap(~phage, ncol = 4)+
   theme_bw(base_size = 18)+
@@ -190,13 +191,13 @@ mutualism_bacterial_OD <- all_tecan_adjusted_OD %>%
                            phage == "none" ~ "no phage")) %>%
   mutate(phage = factor(phage, levels = c("no phage", "specialist only", "generalist only",
                                           "both phage"))) %>%
-  filter(!well %in% c("B8", "B9", "G3")) %>%
   pivot_longer(cols = E_corrected_OD:S_corrected_OD, names_to = "fluor", values_to = "OD") %>%
   mutate(species = case_when(fluor == "E_corrected_OD" ~ "E. coli",
                              fluor == "S_corrected_OD" ~ "S. enterica")) %>%
-  ggplot(aes(x = hours, y = OD, color = species))+
-  geom_smooth(span = 0.2, size = 1.5, aes(ymax = after_stat(y + se * sqrt(length(y))),
-                                          ymin = after_stat(y - se * sqrt(length(y)))))+
+  ggplot(aes(x = hours, y = OD, color = species, alpha = well))+
+  geom_smooth(span = 0.2, size = 1, se = FALSE)+ 
+  #geom_smooth(span = 0.2, size = 1.5, aes(ymax = after_stat(y + se * sqrt(length(y))),
+                                          #ymin = after_stat(y - se * sqrt(length(y)))))+
   scale_color_manual(values = c(ecoli, senterica))+
   facet_wrap(~phage, ncol = 4)+
   theme_bw(base_size = 18)+
@@ -268,8 +269,8 @@ legend_experimental <- get_legend(specialist_gamma_coop_both %>% filter((gamma_s
                                                                microbe == "gen" ~ "generalist (eh7)",
                                                                microbe == "sp" ~ "specialist (p22vir)")) %>%
                                     filter(microbe == "generalist (eh7)" | microbe == "specialist (p22vir)") %>%
-                                    ggplot(aes(x = time / 10, y = biomass, color = microbe)) +
-                                    geom_line(size = 2) +
+                                    ggplot(aes(x = time / 10, y = biomass, fill = microbe)) +
+                                    geom_bar(stat = "identity")+
                                     theme_bw(base_size = 22)+
                                     theme(axis.title = element_text(), 
                                           panel.background = element_rect(fill = "white"), 
@@ -282,8 +283,8 @@ legend_experimental <- get_legend(specialist_gamma_coop_both %>% filter((gamma_s
                                     ylab("biomass")+
                                     xlab("time (a.u.)")+
                                     ylim(0, 250)+
-                                    labs(color = "species")+
-                                    scale_color_manual(values = c("*E. coli*" = ecoli, "*S. enterica*" = senterica, 
+                                    labs(fill = "species")+
+                                    scale_fill_manual(values = c("*E. coli*" = ecoli, "*S. enterica*" = senterica, 
                                                                   "Generalist (EH7)" = eh7, "Specialist (P22*vir*)" = p22vir)))
 
 experiment <- plot_grid(competition_experimental, mutualism_experimental, legend_experimental, ncol = 1, labels = c("competition", "mutualism"), rel_heights = c(1, 1, 0.1),

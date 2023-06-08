@@ -5,6 +5,7 @@
 #load packages
 library("patchwork")
 library("cowplot")
+library("ggtext")
 
 #set color palette
 ecoli = "#000000"
@@ -226,8 +227,8 @@ legend <- get_legend(specialist_gamma_comp_both %>% filter((gamma_sp / 20) %in% 
                                                   microbe == "gen" ~ "Generalist (EH7)",
                                                   microbe == "sp" ~ "Specialist (P22vir)")) %>%
                        filter(microbe == "Generalist (EH7)" | microbe == "Specialist (P22vir)") %>%
-                       ggplot(aes(x = time / 100, y = biomass, color = microbe)) +
-                       geom_line(size = 2) +
+                       ggplot(aes(x = time / 100, y = biomass, fill = microbe)) +
+                       geom_bar(stat = "identity")+
                        theme_bw(base_size = 22)+
                        theme(axis.title = element_text(), 
                              panel.background = element_rect(fill = "white"), 
@@ -240,8 +241,8 @@ legend <- get_legend(specialist_gamma_comp_both %>% filter((gamma_sp / 20) %in% 
                        ylab("biomass")+
                        xlab("time (a.u.)")+
                        ylim(0, 250)+
-                       labs(color = "species")+
-                       scale_color_manual(values = c("*E. coli*" = ecoli, "*S. enterica*" = senterica, 
+                       labs(fill = "species")+
+                       scale_fill_manual(values = c("*E. coli*" = ecoli, "*S. enterica*" = senterica, 
                                                      "Generalist (EH7)" = eh7, "Specialist (P22*vir*)" = p22vir)))
 
 model <- plot_grid(competition, mutualism, legend, ncol = 1, labels = c("competition", "mutualism"), rel_heights = c(1, 1, 0.1),
