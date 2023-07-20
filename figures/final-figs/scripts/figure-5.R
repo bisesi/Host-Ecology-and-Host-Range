@@ -56,6 +56,7 @@ partA <- cleaned_pfus %>% mutate(phage_type = case_when(phage_type == "Generalis
   facet_wrap(~interaction) + 
   geom_boxplot() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
+  geom_hline(yintercept = -4.5, linetype = "dashed", color = "black", alpha = 0.75)+
   theme_bw(base_size = 18)+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
@@ -94,6 +95,7 @@ partB <- all_data_phage %>%
   facet_wrap(~interaction) +
   geom_boxplot() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
+  geom_hline(yintercept = -4.5, linetype = "dashed", color = "black", alpha = 0.75)+
   theme_bw(base_size = 18)+
   scale_color_manual(values = c(eh7, p22vir))+
   theme(axis.title = element_text(), 
@@ -148,5 +150,3 @@ legend1 <- get_legend(cleaned_pfus %>% mutate(phage_type = case_when(phage_type 
 
 #complete fig
 fig5 <- plot_grid(partA, partB, legend1, ncol = 1, labels = c("A", "B"), rel_heights = c(1,1,0.1), label_size = 26)
-
-

@@ -38,8 +38,8 @@ eh7 = "#DDAA33"
 p22vir = "#004488"
 source(here::here("figures", "final-figs", "scripts", "figure-4.R"))
 
-png(here::here("figures", "final-figs", "imgs", "alt-figure-4.png"), res = 300, width = 3200, height = 2800)
-alt_fig4
+png(here::here("figures", "final-figs", "imgs", "figure-4.png"), res = 300, width = 3200, height = 2800)
+fig4
 dev.off()
 
 #load figure 5
@@ -86,6 +86,6 @@ eh7 = "#DDAA33"
 p22vir = "#004488"
 source(here::here("figures", "final-figs", "scripts", "supplemental-figure-2.R"))
 
-png(here::here("paper-supplement", "figs", "supplemental-figure-2.png"), res = 200, width = 2200, height = 1800)
+png(here::here("paper-supplement", "figs", "supplemental-figure-2.png"), res = 300, width = 3000, height = 2500)
 supp_fig2
 dev.off()

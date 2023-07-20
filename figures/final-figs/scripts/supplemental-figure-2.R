@@ -37,6 +37,7 @@ partA <- no_cells %>%
   facet_wrap(~timepoint) +
   geom_boxplot() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
+  geom_hline(yintercept = -4.5, linetype = "dashed", color = "black", alpha = 0.75)+
   theme_bw(base_size = 18)+
   scale_color_manual(values = c(eh7, p22vir))+
   theme(axis.title = element_text(), 
@@ -104,7 +105,7 @@ partC_data <- cleaned_pfus %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                TRUE ~ doublings)) %>%
   mutate(doublings = case_when(doublings == min(doublings) ~ -5,
-                                   TRUE ~ doublings)) %>%
+                               TRUE ~ doublings)) %>%
   mutate(media = case_when(media == "saline" ~ "0.85%\nsaline",
                            media == "H2O" ~ "water",
                            media == "MM-" ~ "metal\nfree",
@@ -120,7 +121,7 @@ partC_data <- cleaned_pfus %>%
   select(interaction, phage, well, pfu_E, pfu_S, media, phage_type, date, doublings, doubling_type) %>%
   filter(doubling_type == "phi_doublings") %>%
   pivot_wider(names_from = doubling_type, values_from = doublings)
-  
+
 
 #part D - rich media components
 date <- "19April2023"
@@ -162,7 +163,7 @@ partD_data <- cleaned_pfus %>%
   select(interaction, phage, well, pfu_E, pfu_S, media, phage_type, date, doublings, doubling_type) %>%
   filter(doubling_type == "phi_doublings") %>%
   pivot_wider(names_from = doubling_type, values_from = doublings)
-  
+
 
 #part B visualization
 all_partB_data <- rbind(partB_data, partC_data, partD_data)
@@ -173,10 +174,11 @@ partB <- all_partB_data %>%
   arrange(desc(phi_doublings)) %>%
   ungroup() %>%
   mutate(phi_doublings = case_when(phi_doublings == min(phi_doublings) ~ -5,
-                               TRUE ~ phi_doublings)) %>%
+                                   TRUE ~ phi_doublings)) %>%
   ggplot(aes(x = media, y = phi_doublings)) +
   geom_boxplot(color = eh7) +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
+  geom_hline(yintercept = -4.5, linetype = "dashed", color = "black", alpha = 0.75)+
   theme_bw(base_size = 18)+
   facet_wrap(~date, scales = "free_x", labeller = labeller(date = 
                                                              c("1" = "",
@@ -229,5 +231,5 @@ legend <- get_legend(no_cells %>%
 
 #figure 
 supp_fig2 <- plot_grid(partA, partB, legend, labels = c("A", "B"), label_size = 26, rel_heights = c(1, 1, 0.1), ncol = 1)
-                  
+
 

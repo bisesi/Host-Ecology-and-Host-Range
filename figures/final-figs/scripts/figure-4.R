@@ -18,39 +18,6 @@ pfu_path <- here::here("experimental-data", "tecan-data", date, generate_paths("
 pfus_partA <- load_pfu_data(pfu_path) %>% janitor::clean_names() %>% mutate(well = c(1:28))
 cleaned_pfus <- clean_pfu_data(pfus_partA)
 
-partA <- cleaned_pfus %>%
-  mutate(doublings = case_when(doublings == 0.0 ~ Inf,
-                               TRUE ~ doublings)) %>%
-  mutate(interaction = case_when(interaction == "E Monoculture" ~ "*E. coli*<br>monoculture",
-                                 interaction == "S Monoculture" ~ "*S. enterica*<br>monoculture")) %>%
-  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
-                                phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
-  mutate(phage = case_when(phage == "P22" ~ "specialist\nonly",
-                           phage == "Phi" ~ "generalist\nonly",
-                           phage == "Phi + P22" ~ "both\nphage",
-                           phage == "none" ~ "no\nphage")) %>%
-  mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly",
-                                          "both\nphage"))) %>%
-  filter(phage != "both\nphage") %>%
-  ggplot(aes(x = phage, y = doublings, color = phage_type)) +
-  facet_wrap(~interaction) +
-  geom_boxplot() +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
-  theme_bw(base_size = 18)+
-  ylim(-5,15)+
-  scale_color_manual(values = c(eh7, p22vir))+
-  theme(axis.title = element_text(), 
-        panel.background = element_rect(fill = "white"), 
-        plot.background = element_blank(),
-        legend.position = "none",
-        panel.grid.minor = element_blank(),
-        axis.title.x = element_blank(),
-        strip.text = element_markdown(),
-        legend.background = element_blank(),
-        strip.background = element_blank())+
-  ylab("ln(final pfu / initial pfu)")+
-  labs(color = "species")
-
 comp_mut <- pfus_and_final_density %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                TRUE ~ doublings)) %>%
@@ -105,40 +72,6 @@ alternative_partA <- cleaned_pfus %>%
   labs(color = "species")
 
 #part B - coop and comp phage densities growth rates
-partB <- pfus_and_final_density %>%
-  mutate(doublings = case_when(doublings == 0.0 ~ Inf,
-                               TRUE ~ doublings)) %>%
-  filter(interaction == "Mutualism" | interaction == "Competition") %>%
-  mutate(interaction = case_when(interaction == "Mutualism" ~ "mutualism",
-                                 interaction == "Competition" ~ "competition"))%>%
-  mutate(phage_type = case_when(phage_type == "Generalist phage" ~ "generalist (eh7)",
-                                phage_type == "Specialist phage" ~ "specialist (p22vir)"))%>%
-  mutate(phage = case_when(phage == "P22" ~ "specialist\nonly",
-                           phage == "Phi" ~ "generalist\nonly",
-                           phage == "Phi + P22" ~ "both\nphage",
-                           phage == "none" ~ "no\nphage")) %>%
-  mutate(phage = factor(phage, levels = c("no\nphage", "specialist\nonly", "generalist\nonly",
-                                          "both\nphage"))) %>%
-  mutate(doublings = case_when(doublings == min(doublings) ~ -5,
-                               TRUE ~ doublings)) %>%
-  ggplot(aes(x = phage, y = doublings, color = phage_type)) +
-  facet_wrap(~interaction) +
-  geom_boxplot() +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
-  theme_bw(base_size = 18)+
-  ylim(-7, 15)+
-  scale_color_manual(values = c(eh7, p22vir))+
-  theme(axis.title = element_text(), 
-        panel.background = element_rect(fill = "white"), 
-        plot.background = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = "none",
-        axis.title.x = element_blank(),
-        legend.background = element_blank(),
-        strip.background = element_blank())+
-  ylab("ln(final pfu / initial pfu)")+
-  labs(color = "species")
-
 alternative_partB <- pfus_and_final_density %>%
   mutate(doublings = case_when(doublings == 0.0 ~ Inf,
                                TRUE ~ doublings)) %>%
@@ -160,6 +93,7 @@ alternative_partB <- pfus_and_final_density %>%
   facet_wrap(~interaction) +
   geom_boxplot() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "red")+
+  geom_hline(yintercept = -4.5, linetype = "dashed", color = "black", alpha = 0.75)+
   theme_bw(base_size = 18)+
   ylim(-7, 12.5)+
   scale_color_manual(values = c(eh7, p22vir))+
@@ -411,10 +345,7 @@ legend2 <- get_legend(all_tecan_adjusted_OD %>%
                                    #aes(xintercept = xint), color = "red", linetype = "dashed"))
 
 #fig 4
-fig4 <- plot_grid(plot_grid(partA, partB, legend, labels = c("A", "B"), label_size = 26, rel_heights = c(0.25,0.25, 0.15), ncol = 1),
-                  plot_grid(partC, partD, legend2, labels = c("C", "D"), label_size = 26, rel_heights = c(1,1, 0.15), ncol = 1))
-
-alt_fig4 <- plot_grid(plot_grid(alternative_partA, alternative_partB, legend, labels = c("A", "B"), label_size = 26, rel_heights = c(1.2,0.8, 0.1), ncol = 1),
+fig4 <- plot_grid(plot_grid(alternative_partA, alternative_partB, legend, labels = c("A", "B"), label_size = 26, rel_heights = c(1.2,0.8, 0.1), ncol = 1),
                   plot_grid(partC, partD, legend2, labels = c("C", "D"), label_size = 26, rel_heights = c(1,1, 0.1), ncol = 1))
 
 
