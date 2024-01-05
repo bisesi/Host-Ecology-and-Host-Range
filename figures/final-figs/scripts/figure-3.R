@@ -33,7 +33,7 @@ partA <- all_data_partA %>% ungroup() %>%
   geom_smooth(se = FALSE, span = 0.25, size = 2)+
   theme_bw(base_size = 18)+
   facet_wrap(~interaction) +
-  xlab("relative burst size")+
+  xlab("relative burst size of specialist")+
   labs(color = "phage type")+
   scale_color_manual(values = c("generalist (eh7)" = eh7, "specialist (p22vir)" = p22vir))+
   ylab("biomass")+
@@ -55,8 +55,9 @@ legend1 <- get_legend(all_data_partA %>% ungroup() %>%
                         mutate(cost_amount = case_when(cost_type == "c_sp" ~ cost_amount / 0.001,
                                                        cost_type == "gamma_sp" ~ cost_amount / 20)) %>%
                         filter(cost_type != "c_sp") %>%
-                        mutate(phage = case_when(phage == "gen" ~ "generalist (eh7)",
-                                                 phage == "sp" ~ "specialist (p22vir)")) %>%
+                        mutate(phage = case_when(phage == "gen" ~ "Generalist (EH7)",
+                                                 phage == "sp" ~ "Specialist (P22*vir*)")) %>%
+                        filter(cost_amount == 0) %>%
                         ggplot(aes(x = cost_amount, y = biomass, fill = phage))+
                         geom_bar(stat = "identity") +
                         theme_bw()+
@@ -115,7 +116,7 @@ partB <- all_data_partB   %>%
                        high= p22vir,
                        midpoint = 0.5,
                        limits = c(0,1))+
-  xlab("relative burst size")+
+  xlab("relative burst size of specialist")+
   ylab("relative advantage of *E. coli*")+
   geom_vline(xintercept = 1, linetype = "dashed")+
   geom_hline(yintercept = 1, linetype = "dashed")+
@@ -172,7 +173,7 @@ partC <- all_data_partC %>%
                        high= p22vir,
                        midpoint = 0.5,
                        limits = c(0,1))+
-  xlab("relative burst size")+
+  xlab("relative burst size of specialist")+
   ylab("relative advantage of *E. coli*")+
   geom_vline(xintercept = 1, linetype = "dashed")+
   geom_hline(yintercept = 1, linetype = "dashed")+

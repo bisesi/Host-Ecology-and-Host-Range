@@ -22,16 +22,16 @@ figure <- all_data %>% ungroup() %>%
          relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
   pivot_longer(cols = c(gen, sp), names_to = "phage", values_to = "biomass") %>%
   mutate(phage = case_when(phage == "gen" ~ "Generalist (EH7)",
-                           phage == "sp" ~ "Specialist (P22vir)")) %>%
+                           phage == "sp" ~ "Specialist (P22*vir*)")) %>%
   filter(dilution_gen / dilution <= 5) %>%
   ggplot(aes(x = dilution_gen / dilution, y = biomass, color = phage))+
   geom_smooth(se = FALSE, span = 0.25, size = 1.5)+
   facet_wrap(~interaction)+
-  xlab("relative intrinsic mortality rate")+
+  xlab("relative intrinsic mortality rate of specialist")+
   ylab("biomass")+
   theme_bw(base_size = 18) +
   labs(color = "species")+
-  scale_color_manual(values = c("Generalist (EH7)" = eh7, "Specialist (P22vir)" = p22vir))+
+  scale_color_manual(values = c("Generalist (EH7)" = eh7, "Specialist (P22*vir*)" = p22vir))+
   theme(axis.title = element_text(), 
         panel.background = element_rect(fill = "white"), 
         plot.background = element_blank(),
@@ -47,7 +47,7 @@ legend <- get_legend(all_data %>% ungroup() %>%
                               relative_fitness = abs((((sp - start_density["sp"]) / start_density["gen"]) / ((gen - start_density["gen"]) / start_density["sp"])))) %>%
                        pivot_longer(cols = c(gen, sp), names_to = "phage", values_to = "biomass") %>%
                        mutate(phage = case_when(phage == "gen" ~ "Generalist (EH7)",
-                                                phage == "sp" ~ "Specialist (P22vir)")) %>%
+                                                phage == "sp" ~ "Specialist (P22*vir*)")) %>%
                        filter(dilution_gen / dilution <= 5) %>%
                        ggplot(aes(x = dilution_gen / dilution, y = biomass, fill = phage))+
                        geom_bar(stat = "identity")+

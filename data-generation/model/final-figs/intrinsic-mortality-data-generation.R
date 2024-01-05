@@ -43,7 +43,7 @@ dilution_gen_comp <- expand.grid(dilution_gen = dilution_gen)%>%
   do(
     {
       ode(func=generalLV_comp_R,y=start_density,times=time,
-          parms=c(beta1 = 0.9, beta2 = 0.9, rate_e = 0.5, rate_s = 0.5,
+          parms=c(beta1 = 1, beta2 = 1, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
                   dilution_E = dilution, dilution_S = dilution, dilution_gen = .$dilution_gen, dilution_sp = dilution, R = 2)) %>%

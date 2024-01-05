@@ -14,6 +14,11 @@ time = seq(from = 0.1, to = 1e4, by = 10)
 start_density <- c(E = 0.1, S = 0.1, gen = 0.1, sp = 0.1)
 maxcost = 5
 
+beta_comp = 1
+
+R_coop = 1
+R_comp = 2
+
 #PART A
 #specialist gamma only - cooperation
 gamma_sp = seq(from = 0, to = parameters_coop_R['gamma_sp'] * maxcost, by = parameters_coop_R['gamma_sp'] / 20)
@@ -27,7 +32,7 @@ specialist_gamma_coop <- expand.grid(gamma_sp = gamma_sp)%>%
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, k_e = 1, k_s = 1, R = 1)) %>%
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1, R = R_coop)) %>%
         as.data.frame()
     }
   )
@@ -44,7 +49,7 @@ specialist_c_coop <- expand.grid(c_sp = c_sp)%>%
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = R_coop)) %>%
         as.data.frame()
     }
   )
@@ -57,11 +62,11 @@ specialist_gamma_comp <- expand.grid(gamma_sp = gamma_sp)%>%
   do(
     {
       ode(func=generalLV_comp_R,y=start_density,times=time,
-          parms=c(beta1 = 0.9, beta2 = 0.9, rate_e = 0.5, rate_s = 0.5,
+          parms=c(beta1 = beta_comp, beta2 = beta_comp, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, R = 2)) %>%
+                  dilution_sp = 3e-2, R = R_comp)) %>%
         as.data.frame()
     }
   )
@@ -74,11 +79,11 @@ specialist_c_comp <- expand.grid(c_sp = c_sp)%>%
   do(
     {
       ode(func=generalLV_comp_R,y=start_density,times=time,
-          parms=c(beta1 = 0.9, beta2 = 0.9, rate_e = 0.5, rate_s = 0.5,
+          parms=c(beta1 = beta_comp, beta2 = beta_comp, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, R = 2)) %>%
+                  dilution_sp = 3e-2, R = R_comp)) %>%
         as.data.frame()
     }
   )
@@ -97,7 +102,7 @@ gamma_and_rate_coop <- expand.grid(rate_e = rate_e, gamma_sp = gamma_sp) %>%
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = R_coop )) %>%
         as.data.frame()
     }
   )
@@ -115,7 +120,7 @@ c_and_rate_coop <- expand.grid(rate_e = rate_e, c_sp = c_sp) %>%
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, k_e = 1, k_s = 1, R = 1)) %>%
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1, R = R_coop )) %>%
         as.data.frame()
     }
   )
@@ -133,7 +138,7 @@ gamma_and_alpha_coop <- expand.grid(alpha2 = s_alpha2, gamma_sp = gamma_sp) %>%
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = R_coop )) %>%
         as.data.frame()
     }
   )
@@ -151,7 +156,7 @@ c_and_alpha_coop <- expand.grid(alpha2 = s_alpha2, c_sp = c_sp) %>%
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = 1)) %>%
+                  dilution_sp = 3e-2, k_e = 1, k_s = 1,R = R_coop )) %>%
         as.data.frame()
     }
   )
@@ -166,11 +171,11 @@ gamma_and_rate_comp <- expand.grid(rate_e = rate_e, gamma_sp = gamma_sp) %>%
   do(
     {
       ode(func=generalLV_comp_R,y=start_density,times=time,
-          parms=c(beta1 = 0.9, beta2 = 0.9, rate_e = .$rate_e, rate_s = 0.5,
+          parms=c(beta1 = beta_comp, beta2 = beta_comp, rate_e = .$rate_e, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, R = 2)) %>%
+                  dilution_sp = 3e-2, R = R_comp)) %>%
         as.data.frame()
     }
   )
@@ -184,11 +189,11 @@ c_and_rate_comp <- expand.grid(rate_e = rate_e, c_sp = c_sp) %>%
   do(
     {
       ode(func=generalLV_comp_R,y=start_density,times=time,
-          parms=c(beta1 = 0.9, beta2 = 0.9, rate_e = .$rate_e, rate_s = 0.5,
+          parms=c(beta1 = beta_comp, beta2 = beta_comp, rate_e = .$rate_e, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, R = 2)) %>%
+                  dilution_sp = 3e-2, R = R_comp)) %>%
         as.data.frame()
     }
   )
@@ -202,11 +207,11 @@ gamma_and_beta_comp <- expand.grid(beta2 = s_beta2, gamma_sp = gamma_sp) %>%
   do(
     {
       ode(func=generalLV_comp_R,y=start_density,times=time,
-          parms=c(beta1 = 0.9, beta2 = .$beta2, rate_e = 0.5, rate_s = 0.5,
+          parms=c(beta1 = beta_comp, beta2 = .$beta2, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = .$gamma_sp, c_genE = 1e-3, c_genS = 1e-3, c_sp = 1e-3,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, R = 2)) %>%
+                  dilution_sp = 3e-2, R = R_comp)) %>%
         as.data.frame()
     }
   )
@@ -220,11 +225,11 @@ c_and_beta_comp <- expand.grid(beta2 = s_beta2, c_sp = c_sp) %>%
   do(
     {
       ode(func=generalLV_comp_R,y=start_density,times=time,
-          parms=c(beta1 = 0.9, beta2 = .$beta2, rate_e = 0.5, rate_s = 0.5,
+          parms=c(beta1 = beta_comp, beta2 = .$beta2, rate_e = 0.5, rate_s = 0.5,
                   gamma_genE = 20, gamma_genS = 20,
                   gamma_sp = 20, c_genE = 1e-3, c_genS = 1e-3, c_sp = .$c_sp,
                   dilution_E = 3e-2, dilution_S = 3e-2, dilution_gen = 3e-2,
-                  dilution_sp = 3e-2, R = 2)) %>%
+                  dilution_sp = 3e-2, R = R_comp)) %>%
         as.data.frame()
     }
   )
