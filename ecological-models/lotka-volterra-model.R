@@ -38,8 +38,8 @@ parameters_coop_R <- c(
 #Competition parameters
 parameters_comp_R <- c(
   #competition coefficients
-  beta1 = .9,
-  beta2 = .9,
+  beta1 = 1,
+  beta2 = 1,
   
   #intrinsic growth rate
   rate_e = 0.5,
